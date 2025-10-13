@@ -24,12 +24,12 @@ const social: Social = [
   {
     name: "GitHub",
     icon: "github",
-    link: "https://github.com/once-ui-system",
+    link: "https://github.com/Erickgooo",
   },
   {
     name: "LinkedIn",
     icon: "linkedin",
-    link: "https://www.linkedin.com/company/once-ui/",
+    link: "https://www.linkedin.com/in/santiago-mahecha/",
   },
   {
     name: "Threads",
@@ -49,7 +49,7 @@ const home: Home = {
   label: "Home",
   title: `${person.name}'s Portfolio`,
   description: `Portfolio website showcasing my work as a ${person.role}`,
-  headline: <>Building bridges between design and code</>,
+  headline: <>Driving Growth Through Intelligent Automation</>,
   featured: {
     display: true,
     title: (
@@ -65,7 +65,7 @@ const home: Home = {
   },
   subline: (
     <>
-      I'm Selene, a design engineer at{" "}
+      I'm Erick, a Digital Marketing Specialist at{" "}
       <Logo
         dark
         icon="/trademarks/wordmark-dark.svg"
@@ -98,9 +98,10 @@ const about: About = {
     title: "Introduction",
     description: (
       <>
-        Selene is a Jakarta-based design engineer with a passion for transforming complex challenges
-        into simple, elegant design solutions. Her work spans digital interfaces, interactive
-        experiences, and the convergence of design and technology.
+        A data-driven Digital Marketing Specialist with deep expertise in marketing automation,
+        CRM strategies, and enhancing the customer experience. I leverage AI and analytics to
+        create scalable workflows that personalize the entire customer journey, boosting 
+        efficiency while delivering meaningful interactions.
       </>
     ),
   },
@@ -109,13 +110,13 @@ const about: About = {
     title: "Work Experience",
     experiences: [
       {
-        company: "FLY",
-        timeframe: "2022 - Present",
-        role: "Senior Design Engineer",
+        company: "La Artesa",
+        timeframe: "2025 - Present",
+        role: "Digital Growth Strategist",
         achievements: [
           <>
-            Redesigned the UI/UX for the FLY platform, resulting in a 20% increase in user
-            engagement and 30% faster load times.
+            Automated Lead Prospecting at La Artesa by designing and implementing a chatbot,
+            significantly improving process efficiency for the team.
           </>,
           <>
             Spearheaded the integration of AI tools into design workflows, enabling designers to
@@ -133,13 +134,13 @@ const about: About = {
         ],
       },
       {
-        company: "Creativ3",
-        timeframe: "2018 - 2022",
-        role: "Lead Designer",
+        company: "Concentrix",
+        timeframe: "2022 - 2024",
+        role: "Customer Service Representative",
         achievements: [
           <>
-            Developed a design system that unified the brand across multiple platforms, improving
-            design consistency by 40%.
+            Top Performer Recognition (2023) at Concentrix for excellence in service quality and
+            customer experience.
           </>,
           <>
             Led a cross-functional team to launch a new product line, contributing to a 15% increase
@@ -155,11 +156,11 @@ const about: About = {
     title: "Studies",
     institutions: [
       {
-        name: "University of Jakarta",
-        description: <>Studied software engineering.</>,
+        name: "Piloto University of Colombia",
+        description: <>Studied Marketing.</>,
       },
       {
-        name: "Build the Future",
+        name: "Coursera",
         description: <>Studied online marketing and personal branding.</>,
       },
     ],
