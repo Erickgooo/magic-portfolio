@@ -91,7 +91,7 @@ const about: About = {
   },
   calendar: {
     display: true,
-    link: "https://cal.com",
+    link: "https://calendly.com/santiagomahecha2328/30min",
   },
   intro: {
     display: true,
