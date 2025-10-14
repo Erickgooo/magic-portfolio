@@ -32,11 +32,6 @@ const social: Social = [
     link: "https://www.linkedin.com/in/santiago-mahecha/",
   },
   {
-    name: "Threads",
-    icon: "threads",
-    link: "https://www.threads.com/@once_ui",
-  },
-  {
     name: "Email",
     icon: "email",
     link: `mailto:${person.email}`,
@@ -54,7 +49,7 @@ const home: Home = {
     display: true,
     title: (
       <Row gap="12" vertical="center">
-        <strong className="ml-4">Once UI</strong>{" "}
+        <strong className="ml-4">LeadBot AI</strong>{" "}
         <Line background="brand-alpha-strong" vert height="20" />
         <Text marginRight="4" onBackground="brand-medium">
           Featured work
@@ -65,14 +60,9 @@ const home: Home = {
   },
   subline: (
     <>
-      I'm Erick, a Digital Marketing Specialist at{" "}
-      <Logo
-        dark
-        icon="/trademarks/wordmark-dark.svg"
-        style={{ display: "inline-flex", top: "0.25em", marginLeft: "-0.25em" }}
-      />
-      , where I craft intuitive
-      <br /> user experiences. After hours, I build my own projects.
+      I'm Erick, a Digital Marketing Specialist passionate about
+      using AI-driven automation to create seamless customer
+      <br /> experiences and accelerate growth.
     </>
   ),
 };
@@ -139,7 +129,7 @@ const about: About = {
         role: "Customer Service Representative",
         achievements: [
           <>
-            Top Performer Recognition (2023) at Concentrix for excellence in service quality and
+            Top Performer Recognition (2023) for excellence in service quality and
             customer experience.
           </>,
           <>
