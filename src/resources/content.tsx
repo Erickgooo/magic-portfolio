@@ -68,7 +68,7 @@ const home: Home = {
 };
 
 const about: About = {
-  path: "/about",
+path: "/about",
   label: "About",
   title: `About – ${person.name}`,
   description: `Meet ${person.name}, ${person.role} from ${person.location}`,
@@ -96,16 +96,16 @@ const about: About = {
     ),
   },
   work: {
-    display: true, // set to false to hide this section
+    display: true,
     title: "Work Experience",
     experiences: [
       {
         company: "La Artesa",
-        timeframe: "2025 - Present",
+        timeframe: "Jan 2025 - Present",
         role: "Digital Growth Strategist",
         achievements: [
           <>
-            Automated Lead Prospecting at La Artesa by designing and implementing a chatbot,
+            Automated Lead Prospecting by designing and implementing a chatbot,
             significantly improving process efficiency for the team.
           </>,
           <>
@@ -113,19 +113,28 @@ const about: About = {
             iterate 50% faster.
           </>,
         ],
-        images: [
-          // optional: leave the array empty if you don't want to display images
-          {
-            src: "/images/projects/project-01/cover-01.jpg",
-            alt: "Once UI Project",
-            width: 16,
-            height: 9,
-          },
+        images: [],
+      },
+      {
+        company: "Aseneg",
+        timeframe: "July 2024 - Jan 2025",
+        role: "Commercial and Marketing Intern",
+        achievements: [
+          <>
+            Grew digital community engagement by creating and managing high-value content for social media platforms.
+          </>,
+          <>
+            Conducted market analysis to inform the development of commercial and marketing strategies.
+          </>,
+          <>
+            Generated business opportunities through direct contact and telemarketing campaigns.
+          </>
         ],
+        images: [],
       },
       {
         company: "Concentrix",
-        timeframe: "2022 - 2024",
+        timeframe: "July 2022 - Oct 2024",
         role: "Customer Service Representative",
         achievements: [
           <>
@@ -142,78 +151,61 @@ const about: About = {
     ],
   },
   studies: {
-    display: true, // set to false to hide this section
+    display: true,
     title: "Studies",
     institutions: [
       {
         name: "Piloto University of Colombia",
-        description: <>Studied Marketing.</>,
+        description: <>Bachelor's Degree in Marketing.</>,
       },
       {
-        name: "Coursera",
-        description: <>Studied online marketing and personal branding.</>,
+        name: "SENA",
+        description: <>Technician in Administrative Assistance.</>,
       },
     ],
   },
+  // NUEVA SECCIÓN DE CERTIFICACIONES
+  certifications: {
+    display: true,
+    title: "Certifications",
+    items: [
+      {
+        name: "Generative AI for Digital Marketing Specialization",
+        institution: "IBM, via Coursera",
+        // Pega aquí el link real de tu certificado cuando lo tengas
+        link: "https://www.coursera.org/account/accomplishments/specialization/F0ZEO3C8BQU7", 
+      }
+    ]
+  },
   technical: {
-    display: true, // set to false to hide this section
+    display: true,
     title: "Technical skills",
     skills: [
       {
-        title: "Figma",
+        title: "Automation & AI",
         description: (
-          <>Able to prototype in Figma with Once UI with unnatural speed.</>
+          <>Building automated workflows using Make, Zapier, and AI Agents.</>
         ),
         tags: [
           {
             name: "Figma",
             icon: "figma",
           },
-        ],
-        // optional: leave the array empty if you don't want to display images
-        images: [
-          {
-            src: "/images/projects/project-01/cover-02.jpg",
-            alt: "Project image",
-            width: 16,
-            height: 9,
-          },
-          {
-            src: "/images/projects/project-01/cover-03.jpg",
-            alt: "Project image",
-            width: 16,
-            height: 9,
-          },
-        ],
+        ], 
+        images: [],
       },
       {
-        title: "Next.js",
+        title: "CRM & Analytics",
         description: (
-          <>Building next gen apps with Next.js + Once UI + Supabase.</>
+          <>Expert management of customer data and tracking via HubSpot and GA4.</>
         ),
         tags: [
-          {
-            name: "JavaScript",
-            icon: "javascript",
-          },
           {
             name: "Next.js",
             icon: "nextjs",
           },
-          {
-            name: "Supabase",
-            icon: "supabase",
-          },
         ],
-        // optional: leave the array empty if you don't want to display images
-        images: [
-          {
-            src: "/images/projects/project-01/cover-04.jpg",
-            alt: "Project image",
-            width: 16,
-            height: 9,
-          },
-        ],
+        images: [],
       },  
     ],
   },
