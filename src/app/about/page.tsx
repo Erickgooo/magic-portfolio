@@ -304,7 +304,7 @@ export default function About() {
                     {/* Link en azul */}
                     <SmartLink href={item.link}>
                         <Text variant="label-default-m" style={{ color: '#3B82F6' }}>
-                          Show credential
+                          View credential
                         </Text>
                     </SmartLink>
                   </Column>
