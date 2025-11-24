@@ -11,6 +11,7 @@ import {
   Meta,
   Schema,
   Row,
+  SmartLink,
 } from "@once-ui-system/core";
 import { baseURL, about, person, social } from "@/resources";
 import TableOfContents from "@/components/about/TableOfContents";
