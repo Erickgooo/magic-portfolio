@@ -45,6 +45,11 @@ export default function About() {
       items: about.studies.institutions.map((institution) => institution.name),
     },
     {
+      title: about.certifications.title,
+      display: about.certifications.display,
+      items: about.certifications.items.map((item) => item.name),
+    },
+    {
       title: about.technical.title,
       display: about.technical.display,
       items: about.technical.skills.map((skill) => skill.title),
@@ -279,6 +284,34 @@ export default function About() {
             </>
           )}
 
+          {about.certifications.display && (
+            <>
+              <Heading as="h2" id={about.certifications.title} variant="display-strong-s" marginBottom="m">
+                {about.certifications.title}
+              </Heading>
+              <Column fillWidth gap="l" marginBottom="40">
+                {about.certifications.items.map((item, index) => (
+                  <Column key={`${item.name}-${index}`} fillWidth gap="4">
+                    {/* Título en blanco */}
+                    <Text id={item.name} variant="heading-strong-l">
+                      {item.name}
+                    </Text>
+                    {/* Subtítulo en gris */}
+                    <Text variant="heading-default-xs" onBackground="neutral-weak">
+                      {item.institution}
+                    </Text>
+                    {/* Link en azul */}
+                    <SmartLink href={item.link}>
+                        <Text variant="label-default-m" style={{ color: '#3B82F6' }}>
+                          Show credential
+                        </Text>
+                    </SmartLink>
+                  </Column>
+                ))}
+              </Column>
+            </>
+          )}
+          
           {about.technical.display && (
             <>
               <Heading
