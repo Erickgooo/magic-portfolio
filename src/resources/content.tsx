@@ -278,6 +278,7 @@ technical: {
       },
     ],
   },
+ }; 
 
 const blog: Blog = {
   path: "/blog",
