@@ -83,15 +83,39 @@ path: "/about",
     display: true,
     link: "https://calendly.com/santiagomahecha2328/30min",
   },
-  intro: {
+intro: {
     display: true,
     title: "Introduction",
     description: (
       <>
-        A data-driven Digital Marketing Specialist with deep expertise in marketing automation,
-        CRM strategies, and enhancing the customer experience. I leverage AI and analytics to
-        create scalable workflows that personalize the entire customer journey, boosting 
-        efficiency while delivering meaningful interactions.
+        {/* Sección 1 */}
+        <strong>The Foundation — Customer-Centered Thinking</strong>
+        <br />
+        My professional foundation was built in customer support at Concentrix, where I handled high-risk cases involving security, fraud, and technical incidents for Mercado Pago users.
+        <br /><br />
+        Working directly with frustrated users taught me how to listen deeply, think critically under pressure, and resolve problems with precision and empathy.
+        <br /><br />
+        This experience shaped my customer-first mindset and sharpened my ability to identify friction points in digital experiences.
+        <br /><br />
+
+        {/* Sección 2 */}
+        <strong>The Pivot — From Support to Strategy</strong>
+        <br />
+        Over time, I realized that many recurring issues weren’t people problems — they were process problems.
+        <br /><br />
+        That insight led me into marketing, where I discovered the power of automation, data, and scalable systems.
+        <br /><br />
+        I transitioned into digital marketing roles, focusing on lead generation, content strategy, and CRM workflows, always with one question in mind: How can this be done smarter, faster, and with less manual effort?
+        <br /><br />
+
+        {/* Sección 3 */}
+        <strong>The Acceleration — Automation, AI & Real Business Impact</strong>
+        <br />
+        Currently, I work as a Marketing & Customer Experience Analyst at Artesa, where I design and implement AI-driven solutions to solve operational bottlenecks.
+        <br /><br />
+        I’ve built and deployed an AI-powered chatbot integrated with Bitrix24, enabling 24/7 lead qualification, faster response times, and improved conversion flow.
+        <br /><br />
+        By combining marketing strategy, automation logic, and emerging AI tools — including Python-based workflows — I focus on building systems that don’t just look good, but actually perform.
       </>
     ),
   },
