@@ -111,9 +111,9 @@ intro: {
         {/* Sección 3 */}
         <strong>The Acceleration — Automation, AI & Real Business Impact</strong>
         <br />
-        Currently, I work as a Marketing & Customer Experience Analyst at Artesa, where I design and implement AI-driven solutions to solve operational bottlenecks.
+        Most recently, I led the design and implementation of an AI-powered chatbot integrated with Bitrix24, built to automate lead qualification and improve response times in a real commercial environment.
         <br /><br />
-        I’ve built and deployed an AI-powered chatbot integrated with Bitrix24, enabling 24/7 lead qualification, faster response times, and improved conversion flow.
+        Today, I focus on refining and expanding this skill set — building AI-driven workflows, experimenting with automation logic, and developing scalable growth systems that connect marketing, data, and customer experience.
         <br /><br />
         By combining marketing strategy, automation logic, and emerging AI tools — including Python-based workflows — I focus on building systems that don’t just look good, but actually perform.
       </>
