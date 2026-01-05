@@ -119,22 +119,32 @@ intro: {
       </>
     ),
   },
-  work: {
+work: {
     display: true,
     title: "Work Experience",
     experiences: [
       {
         company: "Artesa Panadería",
         timeframe: "Jan 2025 - Dec 2025",
-        role: "Marketing and Customer Experience Analyst",
+        role: "Marketing & Customer Experience Analyst",
         achievements: [
           <>
-            Automated Lead Prospecting by designing and implementing a chatbot,
-            significantly improving process efficiency for the team.
+            At Artesa, I worked at the intersection of marketing, automation, and customer experience, helping the business scale lead management without increasing operational overhead.
           </>,
           <>
-            Spearheaded the integration of AI tools into design workflows, enabling designers to
-            iterate 50% faster.
+            Designed and deployed an AI-powered chatbot integrated with Bitrix24 CRM to automate lead qualification and initial customer interactions.
+          </>,
+          <>
+            Translated business needs into automated workflows that reduced response times and improved lead routing efficiency.
+          </>,
+          <>
+            Built digital assets and visual content using Canva, Affinity, and generative AI to support paid campaigns and organic growth initiatives.
+          </>,
+          <>
+            Led product photography and visual optimization for delivery platforms, improving product presentation and click-through performance.
+          </>,
+          <>
+            Acted as a bridge between marketing, sales, and customer experience to ensure automation aligned with real operational needs.
           </>,
         ],
         images: [],
@@ -145,14 +155,20 @@ intro: {
         role: "Commercial and Marketing Intern",
         achievements: [
           <>
-            Grew digital community engagement by creating and managing high-value content for social media platforms.
+            In this role, I supported both commercial outreach and brand positioning efforts, focusing on generating demand and strengthening digital presence.
           </>,
           <>
-            Conducted market analysis to inform the development of commercial and marketing strategies.
+            Executed outbound marketing initiatives by researching prospects, identifying opportunities, and supporting direct outreach strategies.
           </>,
           <>
-            Generated business opportunities through direct contact and telemarketing campaigns.
-          </>
+            Created value-driven content for social media, increasing visibility and engagement across digital channels.
+          </>,
+          <>
+            Managed content calendars, coordinated posting schedules, and maintained website updates to ensure brand consistency.
+          </>,
+          <>
+            Supported early-stage funnel optimization by aligning messaging with commercial objectives.
+          </>,
         ],
         images: [],
       },
@@ -162,12 +178,19 @@ intro: {
         role: "Customer Service Representative",
         achievements: [
           <>
-            Top Performer Recognition (2023) for excellence in service quality and
-            customer experience.
+            This role built the foundation of my customer-centric approach and problem-solving mindset.
           </>,
           <>
-            Led a cross-functional team to launch a new product line, contributing to a 15% increase
-            in overall company revenue.
+            Handled complex and sensitive cases involving security, fraud, and account transfers in a high-volume support environment.
+          </>,
+          <>
+            Diagnosed technical issues and application bugs, escalating incidents to internal teams to ensure timely resolution.
+          </>,
+          <>
+            Documented recurring product issues to support platform improvements and better user experiences.
+          </>,
+          <>
+            Recognized as a Top Performer (2023) for service quality, accuracy, and customer satisfaction.
           </>,
         ],
         images: [],
@@ -219,39 +242,42 @@ certifications: {
       },
     ],
   },
-  technical: {
+technical: {
     display: true,
-    title: "Technical skills",
+    title: "Technical Skills",
     skills: [
       {
-        title: "Automation & AI",
+        title: "Automation, AI & Systems",
         description: (
-          <>Building automated workflows using Make, Zapier, and AI Agents.</>
+          <>
+            AI Chatbot Design & Deployment • Lead Qualification Automation • CRM Workflow Design • Process Optimization & Automation Logic • API Integrations • Prompt Engineering & AI-Assisted Workflows
+          </>
         ),
-        tags: [
-          {
-            name: "Figma",
-            icon: "figma",
-          },
-        ], 
         images: [],
       },
       {
-        title: "CRM & Analytics",
+        title: "Marketing & Growth",
         description: (
-          <>Expert management of customer data and tracking via HubSpot and GA4.</>
+          <>
+            Digital Marketing Strategy • Lead Generation & Funnel Optimization • Content Strategy & Execution • Paid Traffic Support & Asset Creation • Customer Experience Optimization
+          </>
         ),
-        tags: [
-          {
-            name: "Next.js",
-            icon: "nextjs",
-          },
-        ],
         images: [],
-      },  
+      },
+      {
+        title: "Platforms & Tools",
+        description: (
+          <>
+            <strong>CRMs:</strong> Bitrix24, Kommo<br />
+            <strong>Web & Deployment:</strong> Vercel, WordPress<br />
+            <strong>Design & Media:</strong> Canva, Affinity, DaVinci Resolve, CapCut<br />
+            <strong>AI & Tech:</strong> Generative AI Tools, Python (automation-focused use cases)
+          </>
+        ),
+        images: [],
+      },
     ],
   },
-};
 
 const blog: Blog = {
   path: "/blog",
