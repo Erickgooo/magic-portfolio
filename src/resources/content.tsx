@@ -29,7 +29,7 @@ const social: Social = [
   {
     name: "LinkedIn",
     icon: "linkedin",
-    link: "https://www.linkedin.com/in/santiago-mahecha/",
+    link: "https://www.linkedin.com/in/erick-mahecha/",
   },
   {
     name: "Email",
