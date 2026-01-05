@@ -100,9 +100,9 @@ path: "/about",
     title: "Work Experience",
     experiences: [
       {
-        company: "La Artesa",
-        timeframe: "Jan 2025 - Present",
-        role: "Digital Growth Strategist",
+        company: "Artesa Panadería",
+        timeframe: "Jan 2025 - Dec 2025",
+        role: "Marketing and Customer Experience Analyst",
         achievements: [
           <>
             Automated Lead Prospecting by designing and implementing a chatbot,
@@ -155,27 +155,45 @@ path: "/about",
     title: "Studies",
     institutions: [
       {
-        name: "Piloto University of Colombia",
+        name: "Universidad Piloto de Colombia",
         description: <>Bachelor's Degree in Marketing.</>,
       },
       {
         name: "SENA",
-        description: <>Technician in Administrative Assistance.</>,
+        description: <>Technical Degree in Administrative Assistance.</>,
       },
     ],
   },
-  // NUEVA SECCIÓN DE CERTIFICACIONES
-  certifications: {
+certifications: {
     display: true,
     title: "Certifications",
     items: [
       {
         name: "Generative AI for Digital Marketing Specialization",
-        institution: "IBM, via Coursera",
-        // Pega aquí el link real de tu certificado cuando lo tengas
-        link: "https://www.coursera.org/account/accomplishments/specialization/F0ZEO3C8BQU7", 
-      }
-    ]
+        institution: "IBM",
+        link: "https://www.coursera.org/account/accomplishments/specialization/F0ZEO3C8BQU7",
+      },
+      {
+        name: "Google AI Essentials",
+        institution: "Google",
+        link: "https://www.coursera.org/account/accomplishments/specialization/QHHIU6T3KOR1",
+      },
+      {
+        name: "AI For Marketing",
+        institution: "Emory University",
+        link: "https://www.coursera.org/account/accomplishments/specialization/PVAPT7SC6B4G",
+      },
+      {
+        name: "Fundamentals of Digital Marketing and E-Commerce",
+        institution: "Google",
+        link: "https://www.coursera.org/account/accomplishments/verify/1NVKCLGDQ9LI",
+      },
+      {
+        name: "IBM Data Science Professional Certificate (In Progress)",
+        institution: "IBM",
+        link: "https://www.coursera.org/professional-certificates/ibm-data-science",
+      },
+    ],
   },
   technical: {
     display: true,
