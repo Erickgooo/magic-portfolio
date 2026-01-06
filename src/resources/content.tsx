@@ -193,7 +193,14 @@ work: {
             Recognized as a Top Performer (2023) for service quality, accuracy, and customer satisfaction.
           </>,
         ],
-        images: [],
+        images: [
+          {
+            src: "/images/Top Performer.jpg",
+            alt: "Diploma Top Performer 2023 - Concentrix",
+            width: 1280,
+            height: 1000, 
+          },
+        ],,
       },
     ],
   },
