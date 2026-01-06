@@ -349,12 +349,12 @@ const gallery: Gallery = {
    
     {
       src: "/images/gallery/vertical-5.jpg",
-      alt: "Descripción de la foto 5",
+      alt: "image",
       orientation: "vertical",
     },
     {
       src: "/images/gallery/vertical-6.jpg",
-      alt: "Descripción de la foto 6",
+      alt: "image",
       orientation: "vertical",
     },
   ],
