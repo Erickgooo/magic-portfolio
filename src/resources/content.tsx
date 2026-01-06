@@ -343,7 +343,18 @@ const gallery: Gallery = {
     },
     {
       src: "/images/gallery/vertical-3.jpg",
-      alt: "image",
+      alt: "Foto vertical 3",
+      orientation: "vertical",
+    },
+   
+    {
+      src: "/images/gallery/vertical-5.jpg",
+      alt: "Descripción de la foto 5",
+      orientation: "vertical",
+    },
+    {
+      src: "/images/gallery/vertical-6.jpg",
+      alt: "Descripción de la foto 6",
       orientation: "vertical",
     },
   ],
