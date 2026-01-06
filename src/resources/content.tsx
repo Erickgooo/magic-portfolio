@@ -197,8 +197,8 @@ work: {
           {
             src: "/images/Top Performer.jpg",
             alt: "Diploma Top Performer 2023 - Concentrix",
-            width: 60,
-            height: 60, 
+            width: 80,
+            height: 10, 
           },
         ],
       },
