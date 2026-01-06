@@ -13,7 +13,7 @@ export default function GalleryView() {
           sizes="(max-width: 560px) 100vw, 50vw"
           key={index}
           radius="m"
-          aspectRatio={image.orientation === "horizontal" ? "16 / 9" : "9 / 16"}
+          aspectRatio={image.orientation === "horizontal" ? "16 / 9" : "3 / 4"}
           src={image.src}
           alt={image.alt}
         />
