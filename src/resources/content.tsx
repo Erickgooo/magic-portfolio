@@ -197,12 +197,14 @@ work: {
           {
             src: "/images/Top Performer.jpg",
             alt: "Diploma Top Performer 2023 - Concentrix",
-            width: 64,
-            height: 40, 
+            width: 1280, 
+            height: 1000,
+            style: { 
+              width: '300px',
+              borderRadius: '8px', 
+            },
           },
         ],
-      },
-    ],
   },
   studies: {
     display: true,
