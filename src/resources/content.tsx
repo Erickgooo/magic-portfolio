@@ -317,13 +317,13 @@ const gallery: Gallery = {
       orientation: "vertical",
     },
     {
-      src: "/images/gallery/horizontal-3.jpg",
-      alt: "image",
-      orientation: "horizontal",
+      src: "https://www.youtube.com/watch?v=5hcoQ5J9occ",
+      alt: "Artesa - Recorrido Tiendas",
+      orientation: "vertical",
     },
     {
       src: "/images/gallery/vertical-1.jpg",
-      alt: "image",
+      alt: "Artesa - Recorrido Tiendas",
       orientation: "vertical",
     },
     {
@@ -332,14 +332,14 @@ const gallery: Gallery = {
       orientation: "vertical",
     },
     {
-      src: "/images/gallery/horizontal-2.jpg",
-      alt: "image",
-      orientation: "horizontal",
+      src: "https://www.youtube.com/watch?v=c8CcTBk6sV4",
+      alt: "Aseneg - Short Diciembre",
+      orientation: "vertical",
     },
     {
-      src: "/images/gallery/horizontal-4.jpg",
-      alt: "image",
-      orientation: "horizontal",
+      src: "https://www.youtube.com/watch?v=0EvVcg9uSk8",
+      alt: "Aseneg - Burnout",
+      orientation: "vertical",
     },
     {
       src: "/images/gallery/vertical-3.jpg",
