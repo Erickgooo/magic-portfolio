@@ -127,10 +127,12 @@ work: {
         company: "Artesa Panadería",
         timeframe: "Jan 2025 - Dec 2025",
         role: "Marketing & Customer Experience Analyst",
-        achievements: [
+        description: (
           <>
             At Artesa, I worked at the intersection of marketing, automation, and customer experience, helping the business scale lead management without increasing operational overhead.
-          </>,
+          </>
+        ),
+        achievements: [
           <>
             Designed and deployed an AI-powered chatbot integrated with Bitrix24 CRM to automate lead qualification and initial customer interactions.
           </>,
@@ -153,10 +155,12 @@ work: {
         company: "Aseneg",
         timeframe: "July 2024 - Jan 2025",
         role: "Commercial and Marketing Intern",
-        achievements: [
+        description: (
           <>
             In this role, I supported both commercial outreach and brand positioning efforts, focusing on generating demand and strengthening digital presence.
-          </>,
+          </>
+        ),
+        achievements: [
           <>
             Executed outbound marketing initiatives by researching prospects, identifying opportunities, and supporting direct outreach strategies.
           </>,
@@ -176,10 +180,12 @@ work: {
         company: "Concentrix",
         timeframe: "July 2022 - Oct 2024",
         role: "Customer Service Representative",
-        achievements: [
+        description: (
           <>
             This role built the foundation of my customer-centric approach and problem-solving mindset.
-          </>,
+          </>
+        ),
+        achievements: [
           <>
             Handled complex and sensitive cases involving security, fraud, and account transfers in a high-volume support environment.
           </>,
