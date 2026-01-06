@@ -205,7 +205,9 @@ work: {
             },
           },
         ],
-  },
+      },
+    ], 
+  },   
   studies: {
     display: true,
     title: "Studies",
