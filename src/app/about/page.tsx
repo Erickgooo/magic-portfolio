@@ -225,6 +225,15 @@ export default function About() {
                     <Text variant="body-default-s" onBackground="brand-weak" marginBottom="m">
                       {experience.role}
                     </Text>
+                    {/* --- INICIO DEL CÓDIGO NUEVO --- */}
+                    {experience.description && (
+                      <Column fillWidth marginBottom="m">
+                        <Text variant="body-default-m">
+                          {experience.description}
+                        </Text>
+                      </Column>
+                    )}
+                    {/* --- FIN DEL CÓDIGO NUEVO --- */}
                     <Column as="ul" gap="16">
                       {experience.achievements.map(
                         (achievement: React.ReactNode, index: number) => (
