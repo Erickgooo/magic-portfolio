@@ -1,1 +1,91 @@
+---
+title: "LeadBot AI"
+publishedAt: "2026-01-06"
+summary: "AI-Powered WhatsApp Chatbot for B2B Lead Qualification"
+images:
+  - "/images/projects/project-01/cover-01.jpg"
+team:
+  - name: "Erick Mahecha"
+    role: "Digital Marketing & Automation Specialist"
+    avatar: "/images/avatar.jpg"
+    linkedIn: "https://www.linkedin.com/in/erick-mahecha/"
+---
 
+## Overview
+
+**LeadBot AI** is an AI-driven chatbot designed to automate B2B lead qualification and customer service conversations through WhatsApp.
+The system was built to support high-volume inbound traffic from paid campaigns while ensuring the sales team received fully qualified leads with actionable context.
+
+## The Challenge
+
+Artesa’s commercial team was receiving a growing number of inbound leads from paid media campaigns, but manual handling created delays, context loss, and operational overload.
+
+Key challenges included:
+- **Limited human capacity** to respond quickly to inbound WhatsApp leads.
+- **Data gaps** where sales reps started conversations without essential qualification data.
+- **Complex business model** (B2B and B2C) requiring different rules, messaging, and information boundaries.
+- **No dedicated support**, lacking a customer service department to handle general inquiries.
+
+The business needed a solution that could qualify B2B leads automatically, handle general B2C questions, and route only high-quality opportunities to the sales team.
+
+## The Solution
+
+I designed and implemented **LeadBot AI**, an AI-powered chatbot operating through WhatsApp Business, fully integrated into Bitrix24.
+
+### Architecture & Integrations
+Since Bitrix24 does not offer native WhatsApp integration, I first connected the WhatsApp Business API through an external provider.
+- **BotSL IA**: A Bitrix24 Marketplace application used to create the AI-driven chatbot and connect open channels.
+- **Meta Business**: The WhatsApp number was linked to Artesa’s Meta Business account, ensuring compliance and operational stability.
+
+### AI Model Strategy
+The chatbot is powered by **ChatGPT (GPT-4o mini)**, selected for its balance of:
+- High conversational accuracy.
+- Cost efficiency per token.
+- Strong performance in customer service use cases.
+
+This model choice allowed the system to scale without excessive operational costs.
+
+### Conversational Intelligence & Training
+Unlike traditional decision-tree chatbots, LeadBot AI operates using natural language understanding, allowing it to respond dynamically to a wide range of user inputs.
+
+### Knowledge Design
+To control accuracy and prevent hallucinations, I structured the chatbot’s knowledge base using custom documentation:
+- **Artesa Communication Guidelines**
+- **B2B Sales Manual**
+- **B2C Sales Manual**
+
+Each document defined the tone of voice, allowed/restricted information, and step-by-step conversation flows. These documents were created and refined using **Gemini 3 Pro** to maintain consistency across complex instructions.
+
+### System Instructions & Control
+Using **OpenAI’s Assistant Playground**, I designed detailed system instructions that defined:
+- The chatbot’s role and personality.
+- Response style and language rules.
+- Information boundaries (e.g., no pricing for B2B leads).
+- Data extraction logic for lead qualification.
+
+The temperature was set to `0.10`, prioritizing accuracy and reliability over creativity — a critical decision for customer service and sales automation.
+
+## The Impact
+
+- **85% of customer conversations automated**, including initial prospecting and customer service inquiries.
+- **24/7 lead qualification** without additional staff.
+- **Enriched B2B leads** delivered to sales with product of interest, estimated volume, and location.
+- **Reduced response times** and eliminated manual first-contact bottlenecks.
+- **Scalable customer service** established despite having no dedicated support team.
+
+LeadBot AI became a core operational system, improving efficiency, consistency, and conversion readiness across the commercial process.
+
+## Key Takeaway
+
+LeadBot AI demonstrates how AI, CRM integration, and thoughtful system design can replace manual workflows while preserving — and even improving — customer experience.
+
+This project reflects my approach to automation: **build systems that understand users, respect business rules, and deliver real operational impact.**
+
+## Tech Stack
+
+- Bitrix24
+- WhatsApp Business API
+- BotSL IA
+- GPT-4o mini
+- OpenAI Assistant Playground
+- Gemini 3 Pro
