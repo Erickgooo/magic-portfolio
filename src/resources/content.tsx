@@ -246,6 +246,11 @@ certifications: {
         institution: "IBM",
         link: "https://www.coursera.org/professional-certificates/ibm-data-science",
       },
+      {
+        name: "Microsoft Excel Professional Certificate",
+        institution: "Microsoft",
+        link: "https://www.coursera.org/account/accomplishments/specialization/7ZDOGCXO2WBG",
+      },
     ],
   },
 technical: {
