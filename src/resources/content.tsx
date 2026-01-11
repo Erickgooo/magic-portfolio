@@ -88,34 +88,11 @@ intro: {
     title: "Introduction",
     description: (
       <>
-        {/* Sección 1 */}
-        <strong>The Foundation — Customer-Centered Thinking</strong>
-        <br />
-        My professional foundation was built in customer support at Concentrix, where I handled high-risk cases involving security, fraud, and technical incidents for Mercado Pago users.
+        My professional background is rooted in customer support at Concentrix, where I handled high-risk cases related to security, fraud, and technical incidents for Mercado Pago users. Working directly with users in critical situations strengthened my ability to listen carefully, think clearly under pressure, and resolve problems with precision and empathy. This experience shaped a strong customer-first mindset and sharpened my ability to identify friction points within digital systems and processes.
         <br /><br />
-        Working directly with frustrated users taught me how to listen deeply, think critically under pressure, and resolve problems with precision and empathy.
+        Over time, I recognized that many recurring issues were not caused by people, but by inefficient processes. This realization led me into digital marketing, where I discovered the value of automation, data, and scalable systems. I transitioned into marketing-focused roles centered on lead generation, content strategy, and CRM workflows, consistently asking how processes could be executed smarter, faster, and with less manual effort.
         <br /><br />
-        This experience shaped my customer-first mindset and sharpened my ability to identify friction points in digital experiences.
-        <br /><br />
-
-        {/* Sección 2 */}
-        <strong>The Pivot — From Support to Strategy</strong>
-        <br />
-        Over time, I realized that many recurring issues weren’t people problems — they were process problems.
-        <br /><br />
-        That insight led me into marketing, where I discovered the power of automation, data, and scalable systems.
-        <br /><br />
-        I transitioned into digital marketing roles, focusing on lead generation, content strategy, and CRM workflows, always with one question in mind: How can this be done smarter, faster, and with less manual effort?
-        <br /><br />
-
-        {/* Sección 3 */}
-        <strong>The Acceleration — Automation, AI & Real Business Impact</strong>
-        <br />
-        Most recently, I led the design and implementation of an AI-powered chatbot integrated with Bitrix24, built to automate lead qualification and improve response times in a real commercial environment.
-        <br /><br />
-        Today, I focus on refining and expanding this skill set — building AI-driven workflows, experimenting with automation logic, and developing scalable growth systems that connect marketing, data, and customer experience.
-        <br /><br />
-        By combining marketing strategy, automation logic, and emerging AI tools — including Python-based workflows — I focus on building systems that don’t just look good, but actually perform.
+        More recently, I designed and implemented an AI-powered chatbot integrated with Bitrix24 to automate lead qualification and improve response times in a real commercial environment. Today, I continue to refine this skill set by building AI-driven workflows, experimenting with automation logic, and developing scalable systems that connect marketing, data, and customer experience. By combining marketing strategy with automation and emerging AI tools—including Python-based workflows—I focus on creating solutions that are not only well-designed, but operationally effective and measurable.
       </>
     ),
   },
