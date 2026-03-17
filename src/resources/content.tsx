@@ -101,6 +101,43 @@ work: {
     title: "Work Experience",
     experiences: [
       {
+        company: "Quick Metal Shop",
+        timeframe: "Jan 2026 - Present",
+        role: "Growth Marketing Specialist",
+        description: (
+          <>
+            Lead digital growth initiatives by combining data-driven marketing strategies with AI-powered tools to scale performance and optimize customer acquisition.
+          </>
+        ),
+        achievements: [
+          <>
+            Manage and optimize the company website, ensuring strong UX, performance, and SEO best practices.
+          </>,
+          <>
+            Plan and execute SEM campaigns (Google Ads) focused on lead generation and ROI optimization.
+          </>,
+          <>
+            Leverage AI tools to create high-converting content, automate workflows, and accelerate marketing execution.
+          </>,
+          <>
+            Monitor and analyze performance using Google Analytics and other tracking platforms to drive continuous improvement.
+          </>,
+          <>
+            Design and optimize customer journeys through A/B testing and conversion rate optimization (CRO).
+          </>,
+          <>
+            Oversee multi-platform presence (social media, website, e-commerce) ensuring brand consistency and growth.
+          </>,
+          <>
+            Implement SEO strategies to increase organic traffic and search visibility.
+          </>,
+          <>
+            Conduct market research and identify growth opportunities supported by data and AI insights.
+          </>,
+        ],
+        images: [],
+      },
+      {
         company: "Artesa Panadería",
         timeframe: "Jan 2025 - Dec 2025",
         role: "Marketing & Customer Experience Analyst",
