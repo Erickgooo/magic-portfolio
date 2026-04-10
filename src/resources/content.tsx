@@ -5,7 +5,7 @@ const person: Person = {
   firstName: "Erick Santiago",
   lastName: "Mahecha Tafur",
   name: `Erick Mahecha`,
-  role: "Digital Marketing & Automation Specialist",
+  role: "Growth Marketing & AI Automation Specialist",
   avatar: "/images/avatar.jpg",
   email: "santiagomahecha2328@gmail.com",
   location: "America/Bogota", // Expecting the IANA time zone identifier, e.g., 'Europe/Vienna'
@@ -44,7 +44,7 @@ const home: Home = {
   label: "Home",
   title: `${person.name}'s Portfolio`,
   description: `Portfolio website showcasing my work as a ${person.role}`,
-  headline: <>Building AI-Powered Systems That Scale Marketing and Customer Experience</>,
+  headline: <>Designing AI Systems That Turn Marketing Into a Scalable Growth Engine</>,
   featured: {
     display: true,
     title: (
@@ -60,9 +60,7 @@ const home: Home = {
   },
   subline: (
     <>
-      I'm Erick, a Digital Marketing Specialist passionate about
-      using AI-driven automation to create seamless customer
-      <br /> experiences and accelerate growth.
+      I'm Erick — I design AI-powered workflows and marketing systems that reduce manual work, qualify leads automatically, and drive measurable growth.
     </>
   ),
 };
@@ -88,11 +86,13 @@ intro: {
     title: "Introduction",
     description: (
       <>
-        My professional background is rooted in customer support at Concentrix, where I handled high-risk cases related to security, fraud, and technical incidents for Mercado Pago users. Working directly with users in critical situations strengthened my ability to listen carefully, think clearly under pressure, and resolve problems with precision and empathy. This experience shaped a strong customer-first mindset and sharpened my ability to identify friction points within digital systems and processes.
+        My foundation is in high-stakes customer support at Concentrix, where I managed security, fraud, and technical incidents for Mercado Pago users. That experience built something most marketers lack: a deep understanding of where systems break down and how users behave under pressure.
         <br /><br />
-        Over time, I recognized that many recurring issues were not caused by people, but by inefficient processes. This realization led me into digital marketing, where I discovered the value of automation, data, and scalable systems. I transitioned into marketing-focused roles centered on lead generation, content strategy, and CRM workflows, consistently asking how processes could be executed smarter, faster, and with less manual effort.
+        That operational lens pushed me into digital marketing — not to run ads, but to redesign how businesses attract, qualify, and convert customers. I became obsessed with the question: what can be automated, and what's the cost of not automating it?
         <br /><br />
-        More recently, I designed and implemented an AI-powered chatbot integrated with Bitrix24 to automate lead qualification and improve response times in a real commercial environment. Today, I continue to refine this skill set by building AI-driven workflows, experimenting with automation logic, and developing scalable systems that connect marketing, data, and customer experience. By combining marketing strategy with automation and emerging AI tools—including Python-based workflows—I focus on creating solutions that are not only well-designed, but operationally effective and measurable.
+        The answer became LeadBot AI — an AI-powered WhatsApp chatbot I designed and deployed for Artesa, automating 85% of customer conversations, qualifying B2B leads without human intervention, and operating 24/7 without additional headcount.
+        <br /><br />
+        Today I work at the intersection of marketing strategy, CRM systems, and AI tooling. I build workflows that don't just save time — they create compounding advantages: faster response times, cleaner data, and conversion systems that scale without scaling the team.
       </>
     ),
   },
@@ -106,7 +106,7 @@ work: {
         role: "Growth Marketing Specialist",
         description: (
           <>
-            Lead digital growth initiatives by combining data-driven marketing strategies with AI-powered tools to scale performance and optimize customer acquisition.
+            Driving digital growth strategy for a metal fabrication company, combining paid media, SEO, and AI-powered content systems to increase lead volume and improve online visibility in a competitive B2B market.
           </>
         ),
         achievements: [
@@ -143,7 +143,7 @@ work: {
         role: "Marketing & Customer Experience Analyst",
         description: (
           <>
-            At Artesa, I worked at the intersection of marketing, automation, and customer experience, helping the business scale lead management without increasing operational overhead.
+            Led the full design and implementation of an AI automation stack for Artesa's commercial operation — reducing manual workload, accelerating lead response times, and establishing a scalable customer service system without adding headcount.
           </>
         ),
         achievements: [
@@ -210,7 +210,7 @@ work: {
             Documented recurring product issues to support platform improvements and better user experiences.
           </>,
           <>
-            Recognized as a Top Performer (2023) for service quality, accuracy, and customer satisfaction.
+            Awarded Top Performer (2023) — ranked among the highest in service quality, case resolution accuracy, and customer satisfaction scores across the support team.
           </>,
      ],
         images: [],
@@ -265,6 +265,16 @@ certifications: {
         institution: "Microsoft",
         link: "https://www.coursera.org/account/accomplishments/specialization/7ZDOGCXO2WBG",
       },
+      {
+        name: "Google Data-Driven Decision Making",
+        institution: "Google",
+        link: "https://www.coursera.org/account/accomplishments/specialization/KVIF2SS3WP5M",
+      },
+      {
+        name: "Claude Code in Action",
+        institution: "Anthropic",
+        link: "https://www.coursera.org/account/accomplishments/verify/97FY4JDEMEMQ",
+      },
     ],
   },
 technical: {
@@ -296,7 +306,26 @@ technical: {
             <strong>CRMs:</strong> Bitrix24, Kommo<br />
             <strong>Web & Deployment:</strong> Vercel, WordPress<br />
             <strong>Design & Media:</strong> Canva, Affinity, DaVinci Resolve, CapCut<br />
+            <strong>Voice & Audio:</strong> ElevenLabs<br />
             <strong>AI & Tech:</strong> Generative AI Tools, Python (automation-focused use cases)
+          </>
+        ),
+        images: [],
+      },
+      {
+        title: "AI Video & Creative Production",
+        description: (
+          <>
+            I produce high-impact visual content using frontier AI generation
+            models alongside traditional production tools — enabling
+            studio-quality output at a fraction of the conventional time and cost.
+            <br /><br />
+            <strong>AI Video Generation:</strong> Higgsfield, Kling 3.0, Google Veo 3<br />
+            <strong>AI Creative Tools:</strong> TikTok Symphony Creative Studio,
+            Generative AI image tools<br />
+            <strong>Production:</strong> DaVinci Resolve, CapCut, ElevenLabs<br />
+            <strong>Use cases:</strong> Paid ad creatives, short-form video,
+            AI-generated brand content, social media performance assets
           </>
         ),
         images: [],
@@ -318,7 +347,7 @@ const work: Work = {
   path: "/work",
   label: "Projects",
   title: `Projects – ${person.name}`,
-  description: `Design and dev projects by ${person.name}`,
+  description: `AI systems, automation workflows, and marketing infrastructure built by Erick Mahecha`,
   // Create new project pages by adding a new .mdx file to app/blog/posts
   // All projects will be listed on the /home and /work routes
 };
