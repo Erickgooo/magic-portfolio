@@ -361,6 +361,26 @@ const gallery: Gallery = {
   // These are placeholder images, replace with your own
   images: [
     {
+      src: "https://www.youtube.com/watch?v=qXv6XMOy1N4",
+      alt: "PR Collection",
+      orientation: "vertical",
+    },
+    {
+      src: "https://www.youtube.com/watch?v=KSerIhwaknE",
+      alt: "Custom Metal Signs",
+      orientation: "vertical",
+    },
+    {
+      src: "https://www.youtube.com/watch?v=c_oQBTyLB0M",
+      alt: "Pieza Taino",
+      orientation: "vertical",
+    },
+    {
+      src: "https://www.youtube.com/watch?v=J1EtEBNQ2mE",
+      alt: "Piezas Decorativas",
+      orientation: "vertical",
+    },
+    {
       src: "/images/gallery/horizontal-1.jpg",
       alt: "image",
       orientation: "horizontal",
@@ -400,7 +420,7 @@ const gallery: Gallery = {
       alt: "Foto vertical 3",
       orientation: "vertical",
     },
-   
+
     {
       src: "/images/gallery/vertical-5.jpg",
       alt: "image",
