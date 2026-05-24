@@ -98,6 +98,16 @@ export default function Home() {
               </Row>
             </Button>
           </RevealFx>
+          <RevealFx translateY="12" delay={0.5} fillWidth horizontal="center" paddingTop="32">
+            <video 
+              src="/videohome.mp4" 
+              autoPlay 
+              loop 
+              muted 
+              playsInline
+              style={{ maxWidth: '100%', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)' }}
+            />
+          </RevealFx>
         </Column>
       </Column>
       <RevealFx translateY="16" delay={0.6}>

@@ -275,6 +275,16 @@ certifications: {
         institution: "Anthropic",
         link: "https://www.coursera.org/account/accomplishments/verify/97FY4JDEMEMQ",
       },
+      {
+        name: "Real-World AI for Everyone",
+        institution: "Anthropic",
+        link: "https://www.coursera.org/account/accomplishments/specialization/4GQ8PGQ9ZT2K",
+      },
+      {
+        name: "Vibe Coding for Developers",
+        institution: "Edureka",
+        link: "https://www.coursera.org/account/accomplishments/specialization/ONNNZYW84VR5",
+      },
     ],
   },
 technical: {
