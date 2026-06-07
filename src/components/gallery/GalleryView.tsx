@@ -17,6 +17,8 @@ export default function GalleryView() {
           // Si es VIDEO vertical -> 9/16 (Formato Reel/TikTok)
           // Si es FOTO vertical  -> 3/4 (Formato Retrato clásico)
           aspectRatio = isYouTube ? "9 / 16" : "3 / 4";
+        } else if (image.orientation === "square") {
+          aspectRatio = "1 / 1";
         }
 
         // CASO A: Es un Video de YouTube
