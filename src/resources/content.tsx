@@ -141,6 +141,60 @@ work: {
         images: [],
       },
       {
+        company: "Dakoma Roofing",
+        timeframe: "May 2026",
+        role: "Growth Marketing Consultant (Freelance)",
+        description: (
+          <>
+            Subcontracted to modernize the digital presence and marketing infrastructure of a roofing and construction services company whose brand identity and content operation had not kept pace with the quality of service they delivered.
+            <br />
+            <strong>Stack:</strong> Soro AI · Higgsfield (Kling 3.0 · Nano Banana Pro) · Meta Business Suite
+          </>
+        ),
+        achievements: [
+          <>
+            Executed a full rebranding initiative — delivering a Brand Manual that redefined the color palette, typography system, and logo usage guidelines, then operationalized it across the company's website, social media profiles, and advertising assets.
+          </>,
+          <>
+            Integrated Soro AI to establish an autonomous SEO blog pipeline, enabling consistent keyword-targeted content publishing with zero ongoing manual effort.
+          </>,
+          <>
+            Developed a suite of high-production video ad creatives using Higgsfield's Kling 3.0 for cinematic footage and Nano Banana Pro for AI avatar-driven spokesperson content — achieving output quality that matched the elevated brand standard at a one-person cost and timeline.
+          </>,
+        ],
+        images: [],
+      },
+      {
+        company: "Cuatrimotos ATV Riders",
+        timeframe: "Feb 2026",
+        role: "CRM & Automation Consultant (Freelance)",
+        description: (
+          <>
+            Designed and deployed an end-to-end lead qualification system for a Bogotá-based ATV retailer managing 200+ inbound WhatsApp leads per day with no CRM infrastructure in place.
+            <br />
+            <strong>Stack:</strong> WhatsApp Business API · Kommo CRM · Meta Business Suite · Gemini 2.0 Pro
+          </>
+        ),
+        achievements: [
+          <>
+            Built on Kommo CRM, the solution included a structured chatbot architecture with intent-based routing at first touchpoint — segmenting every incoming conversation into three paths (catalog browsing, FAQ, or high-intent purchase) before any human involvement.
+          </>,
+          <>
+            Configured automated re-engagement and pipeline closure logic to eliminate ghost leads and keep the funnel clean.
+          </>,
+          <>
+            Designed the full sales pipeline inside Kommo, mapping each stage to the team's actual commercial process identified during discovery sessions.
+          </>,
+          <>
+            Post-handoff, the commercial team operates the system independently — no technical dependency. Every lead that enters via WhatsApp is automatically created, classified, and placed at the correct pipeline stage.
+          </>,
+          <>
+            Sales advisors start their day with a prioritized queue of high-intent contacts, not 200 unsorted messages.
+          </>,
+        ],
+        images: [],
+      },
+      {
         company: "Artesa Panadería",
         timeframe: "Jan 2025 - Dec 2025",
         role: "Marketing & Customer Experience Analyst",
