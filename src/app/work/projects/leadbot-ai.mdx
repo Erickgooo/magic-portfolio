@@ -15,75 +15,44 @@ team:
 
 ## Overview
 
-**LeadBot AI** is an AI-driven conversational system built to solve a real operational problem: a growing inbound pipeline that a small team couldn't handle manually.
+Artesa's commercial team was generating inbound leads through paid campaigns — but the pipeline had outgrown the team's capacity to handle it manually. Response times were slow, salespeople were starting conversations without context about the prospect's needs or intent, and with no customer service department, every general inquiry landed on the same people responsible for closing deals.
 
-Deployed via WhatsApp Business and integrated with Bitrix24 CRM, the system automated first-contact interactions for both B2B lead qualification and B2C customer service — freeing the sales team to focus exclusively on high-intent opportunities.
+The mandate: build a system that qualifies B2B leads, handles B2C inquiries, and delivers only sales-ready opportunities to the team.
 
-**Result: 85% of conversations handled autonomously. Zero additional headcount required.**
+**Result: 85% of conversations handled autonomously, 24/7, with zero additional headcount.**
 
-## The Problem
+## The Build
 
-Artesa's commercial team was generating inbound leads through paid campaigns, but manual handling created three compounding issues:
+### Integration Architecture
 
-- **Slow response times** that reduced conversion rates on warm leads
-- **Data gaps** — salespeople started conversations without knowing the prospect's needs, volume, or location
-- **Operational overload** — no customer service department existed, so the sales team absorbed every general inquiry
-
-The business needed a system that could qualify B2B leads, handle B2C questions, and deliver only sales-ready opportunities to the team.
-
-## The Solution
-
-I designed and deployed LeadBot AI as a full automation layer between inbound traffic and the sales team.
-
-### Infrastructure & Integrations
-
-Bitrix24 doesn't support native WhatsApp connectivity, so I built the integration stack from the ground up:
-
-- **BotSL IA** — Bitrix24 Marketplace app used to create the AI chatbot and connect open communication channels
-- **Meta Business** — WhatsApp Business number linked directly to Artesa's Meta account for compliance and operational control
+Bitrix24 has no native WhatsApp connectivity, so I built the integration stack from scratch. The solution used BotSL IA — a Bitrix24 Marketplace application — to create the chatbot layer and connect open communication channels, with the WhatsApp Business number linked directly to Artesa's Meta account for compliance and operational control.
 
 ### AI Model Selection
 
-The chatbot runs on **GPT-4o mini**, chosen for three specific reasons: high conversational accuracy, strong performance in customer service contexts, and cost efficiency at scale. This kept operational costs low without sacrificing quality.
+The chatbot runs on GPT-4o mini — chosen deliberately. High conversational accuracy, strong performance in customer service contexts, and cost efficiency at scale. Keeping operational costs low without sacrificing response quality was a real constraint, not an afterthought.
+
+Temperature was set to 0.10. In sales and customer service automation, precision matters more than creativity — a chatbot that improvises in a qualification flow is a liability.
 
 ### Knowledge Architecture
 
-Instead of a rigid decision-tree flow, LeadBot AI uses natural language understanding — allowing it to handle unpredictable user inputs. To maintain accuracy and prevent hallucinations, I built a structured knowledge base using custom documentation:
+Rather than a rigid decision-tree, the system uses natural language understanding — which means it handles unpredictable user inputs without breaking. To maintain accuracy and prevent hallucinations, I built a structured knowledge base from three custom documents:
 
 - **Artesa Communication Guidelines** — tone of voice and brand rules
-- **B2B Sales Manual** — qualification logic, information boundaries, conversation flow
-- **B2C Sales Manual** — product FAQs, service scope, escalation criteria
+- **B2B Sales Manual** — qualification logic, information boundaries, and conversation flow
+- **B2C Sales Manual** — product FAQs, service scope, and escalation criteria
 
-Each document was developed and refined using **Gemini Pro** to ensure consistency across complex instruction sets.
-
-### System Control
-
-Using **OpenAI's Assistant Playground**, I configured detailed system instructions covering role definition, language rules, and data extraction logic for lead qualification. Temperature was set to `0.10` — prioritizing precision over creativity, which is critical in sales and customer service automation.
+Each document was developed and refined using Gemini Pro to ensure consistency across complex instruction sets. System instructions were configured through OpenAI's Assistant Playground, covering role definition, language rules, and the data extraction logic required to qualify leads with context — product interest, volume, and location — before a human ever enters the conversation.
 
 ## Results
 
-| Metric | Outcome |
-|---|---|
-| Conversations automated | 85% |
-| Lead qualification speed | Instant (24/7) |
-| Additional headcount needed | 0 |
-| B2B leads delivered with context | Product interest, volume, location |
-| Response time improvement | From hours to seconds |
+LeadBot AI became a permanent operational system — not a pilot. It reduced friction in the commercial process, delivered B2B leads to the sales team with full qualification context, established B2C customer service coverage the business didn't previously have, and compressed response times from hours to seconds.
 
-LeadBot AI became a permanent operational system — not a pilot. It reduced friction in the commercial process, improved data quality for the sales team, and established customer service coverage the business didn't previously have.
+85% of conversations handled autonomously. The team's attention went where it should have been the whole time: closing.
 
 ## What This Demonstrates
 
-This project reflects how I approach automation: start with the operational problem, design around real business rules, and measure success by what the team no longer has to do manually.
+Every decision in this project — tool selection, model choice, temperature configuration, knowledge base design — traces back to one question: what does the team need to stop doing manually, and what does the system need to do reliably in its place?
 
-**AI doesn't replace people. It removes the work that prevents people from doing their best work.**
+That's the only lens that matters when building automation for real commercial operations.
 
-## Tech Stack
-
-- WhatsApp Business API
-- Bitrix24 CRM
-- BotSL IA
-- GPT-4o mini (OpenAI)
-- OpenAI Assistant Playground
-- Gemini Pro
-- Meta Business Suite
+**Stack:** WhatsApp Business API · Bitrix24 CRM · BotSL IA · GPT-4o mini · OpenAI Assistant Playground · Gemini Pro · Meta Business Suite
