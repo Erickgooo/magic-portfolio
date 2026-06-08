@@ -104,7 +104,7 @@ export default function Home() {
               loop 
               muted 
               playsInline
-              preload="auto"
+              preload="metadata"
               poster="/images/videohome-poster.jpg"
               style={{ maxWidth: '100%', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)' }}
             >
@@ -136,7 +136,20 @@ export default function Home() {
           </Row>
         </Column>
       )}
-      <Projects range={[2]} />
+      <RevealFx translateY="16" delay={0.6}>
+        <Row fillWidth horizontal="center" paddingBottom="24">
+          <Button
+            id="all-projects"
+            data-border="rounded"
+            href="/work"
+            variant="secondary"
+            size="m"
+            arrowIcon
+          >
+            View all projects
+          </Button>
+        </Row>
+      </RevealFx>
       <Mailchimp />
     </Column>
   );

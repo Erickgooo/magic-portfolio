@@ -1,5 +1,5 @@
 ---
-title: "This Portfolio — Built Without Writing a Single Line of Code"
+title: "Building This Portfolio — AI-Assisted Development in Practice"
 publishedAt: "2026-01-05"
 summary: "How I designed, built, and deployed a production-grade Next.js portfolio using AI agents as my development team — and what that says about the future of technical work."
 images:
@@ -13,60 +13,41 @@ team:
 
 ## Overview
 
-This portfolio is more than a presentation layer — it's a proof of concept.
+This portfolio is itself a case study.
+It demonstrates something I believe is increasingly true: the boundary between "technical" and "non-technical" work is dissolving. Professionals who combine systems thinking, precise communication, and AI tooling can now build production-grade software without writing code from scratch — and the output is indistinguishable from developer-built work.
+This site is evidence of that.
 
-It demonstrates that the boundary between "technical" and "non-technical" work is dissolving, and that professionals who understand **systems thinking, clear communication, and AI tooling** can build production-grade software without writing code from scratch.
+## The Constraint
 
-I built this site using a methodology I call **Vibe Coding**: treating AI agents as a junior development team, and positioning myself as the product manager, architect, and QA lead.
+I needed a portfolio that could compete visually and technically with sites built by engineers. The standard options — Wix, Squarespace, Webflow — trade real flexibility for ease of use. I wanted neither the limitations nor the generic aesthetic that comes with them.
+The constraint: no deep coding background, high visual and technical standards, and zero tolerance for drag-and-drop ceilings.
+The solution: reframe what "building" means.
 
-## The Constraint That Forced Creativity
+## The Methodology — AI as a Development Team
 
-I needed a high-performance portfolio that could compete visually and technically with developer-built sites. The standard options — Wix, Squarespace, Webflow — trade flexibility for ease. I wanted neither the limitations nor the generic aesthetic.
+Rather than learning React and TypeScript from scratch, I structured the process as an AI-assisted product workflow — positioning myself as the product manager, architect, and QA lead, and treating AI agents as the execution layer.
 
-The constraint: **no deep coding knowledge, high standards, zero tolerance for drag-and-drop limitations.**
+### 1. Foundation Selection
+I started with Magic Portfolio — a production-grade open-source template built on Next.js. Beginning with a solid architectural base meant AI agents were modifying existing, well-structured patterns rather than generating from nothing. This dramatically reduced error rates and kept the codebase coherent.
 
-The solution: reframe the problem entirely.
+### 2. Prompt Engineering as Specification Writing
+Every modification was driven by precise, context-rich prompts. Vague instructions produce vague code. I learned to communicate requirements the way a product manager communicates to engineers: specific inputs, defined outputs, and clear success criteria. The quality of the prompt determined the quality of the result.
 
-## The Vibe Coding Methodology
+### 3. Iterative Debugging
+When errors occurred, I fed complete error logs back to the AI with full context about the intended behavior. This created a tight debugging loop that resolved issues faster than traditional research — and in the process, taught me the underlying logic of the system I was building.
 
-Instead of learning React and TypeScript from scratch, I structured the development process as an **AI-assisted product workflow**:
+### 4. Continuous Deployment
+The site runs on Vercel, connected directly to a GitHub repository. Every approved change deploys automatically — no manual uploads, no build commands. Updates go live in under two minutes. The domain erickmahecha.com is custom-purchased and configured end-to-end.
 
-**1. Foundation Selection**
-I chose Magic Portfolio — a high-quality open-source template built on Next.js — as the architectural base. Starting with a solid foundation meant AI agents were modifying existing patterns rather than generating from nothing, which dramatically reduced error rates.
+## What Was Built
 
-**2. Prompt Engineering as Project Management**
-Every modification was driven by precise, context-rich prompts. Vague instructions produce vague code. I learned to communicate system requirements the way a product manager communicates to engineers: specific inputs, expected outputs, and clear success criteria.
+This isn't a template with swapped text and placeholder images. The build includes custom routing and content architecture, modified component layouts across multiple sections, gallery logic that handles both images and embedded YouTube video with dynamic aspect ratio, SEO metadata and Open Graph image generation, password-protected routes for selective content visibility, and integrated newsletter infrastructure.
 
-**3. Iterative Debugging Loops**
-When errors occurred, I fed the complete error logs back to the AI with context about what I was trying to achieve. This created a debugging loop that resolved issues faster than traditional Stack Overflow research — and taught me the underlying logic of the system in the process.
+**The stack:** Next.js 15 + TypeScript · Once UI · MDX · Vercel + GitHub CI/CD
 
-**4. Continuous Deployment**
-The site runs on **Vercel**, connected directly to GitHub. Every approved change deploys automatically — no manual upload, no FTP, no build commands. This CI/CD pipeline means updates go live in under two minutes.
-
-## What Was Actually Built
-
-This isn't a template with swapped text. The customizations include:
-
-- Custom routing and content architecture using MDX
-- Modified component layouts for work experience, certifications, and skills sections
-- Custom gallery logic supporting both images and YouTube video embeds with dynamic aspect ratio handling
-- SEO metadata and Open Graph image generation
-- Password-protected routes for selective content visibility
-- Integrated newsletter and social sharing infrastructure
+**AI tools used in development:** Google Gemini 3 Pro · Claude
 
 ## The Broader Point
 
-This project is evidence of a shift in what technical competency means.
-
-Syntax is increasingly abstracted away. What remains — and what becomes more valuable — is the ability to **define problems precisely, design systems logically, and communicate requirements clearly enough for an AI to execute them.**
-
+Syntax is increasingly abstracted away. What becomes more valuable in its place — and what this project required — is the ability to define problems precisely, design systems logically, and communicate requirements clearly enough for an AI to execute them reliably.
 That's not a lesser form of technical work. It's the direction technical work is heading.
-
-## Stack
-
-- **Framework:** Next.js 15 + TypeScript
-- **UI System:** Once UI
-- **Content:** MDX (Markdown)
-- **Deployment:** Vercel + GitHub CI/CD
-- **Development Method:** AI-Assisted (Vibe Coding)
-- **AI Tools:** Claude, GPT-4o
