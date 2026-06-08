@@ -100,13 +100,16 @@ export default function Home() {
           </RevealFx>
           <RevealFx translateY="12" delay={0.5} fillWidth horizontal="center" paddingTop="32">
             <video 
-              src="/videohome.mp4" 
               autoPlay 
               loop 
               muted 
               playsInline
+              preload="auto"
+              poster="/images/videohome-poster.jpg"
               style={{ maxWidth: '100%', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)' }}
-            />
+            >
+              <source src="/videohome.mp4" type="video/mp4" />
+            </video>
           </RevealFx>
         </Column>
       </Column>
