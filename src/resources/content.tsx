@@ -81,18 +81,24 @@ path: "/about",
     display: true,
     link: "https://calendly.com/santiagomahecha2328/30min",
   },
-intro: {
+  intro: {
     display: true,
     title: "Introduction",
     description: (
       <>
-        My foundation is in high-stakes customer support at Concentrix, where I managed security, fraud, and technical incidents for Mercado Pago users. That experience built something most marketers lack: a deep understanding of where systems break down and how users actually behave under pressure.
+        My entry point into marketing wasn't a campaign — it was a crisis line.
         <br /><br />
-        That operational lens pushed me into digital marketing — not just to run campaigns, but to redesign how businesses attract, qualify, and convert customers. I became obsessed with one question: what can be automated, and what's the cost of not automating it?
+        I spent two years at Concentrix managing security incidents, fraud cases, and technical failures for Mercado Pago users. That environment taught me something most marketers never learn firsthand: where systems break down, how users behave under pressure, and what it actually costs a business when processes fail at scale. It's an uncomfortable place to start. It's also an unusually useful one.
         <br /><br />
-        The answer became LeadBot AI — an AI-powered WhatsApp chatbot I designed and deployed for Artesa, automating 85% of customer conversations, qualifying B2B leads without human intervention, and operating 24/7 without additional headcount.
+        That operational foundation pushed me toward a different kind of marketing — not just running campaigns, but redesigning how businesses attract, qualify, and convert customers. I became focused on one question: what can be automated, and what's the cost of not automating it?
         <br /><br />
-        Today I work at the intersection of marketing strategy, CRM systems, and AI tooling. I build workflows that don't just save time — they create compounding advantages: faster response times, cleaner data, and conversion systems that scale without scaling the team.
+        The answer has taken different shapes across different projects. An AI-powered WhatsApp chatbot that handled 85% of inbound conversations autonomously for Artesa. A full marketing department built from scratch for Quick Metal Shop — brand identity, paid media, SEO automation, CRM integration, and a custom-built trade show application deployed in 48 hours. A complete rebranding and content automation system for Dakoma Roofing, delivered as a one-person freelance engagement.
+        <br /><br />
+        What connects all of it is the same approach: start with the operational reality, identify where human time is being consumed by work a system could handle, and build the infrastructure that removes that friction permanently.
+        <br /><br />
+        Today I work at the intersection of marketing strategy, AI tooling, and systems design. I don't run campaigns in isolation — I build the ecosystems that make campaigns compound over time: automated content pipelines, real-time lead qualification, full-funnel tracking, and creative production workflows that let a one-person operation output at agency scale.
+        <br /><br />
+        The work I find most interesting lives at the edge of what's currently possible with AI — which in 2026 is moving faster than most businesses realize.
       </>
     ),
   },
