@@ -49,14 +49,14 @@ const home: Home = {
     display: true,
     title: (
       <Row gap="12" vertical="center">
-        <strong className="ml-4">LeadBot AI</strong>{" "}
+        <strong className="ml-4">QMS ArquiExpo App</strong>{" "}
         <Line background="brand-alpha-strong" vert height="20" />
         <Text marginRight="4" onBackground="brand-medium">
           Featured work
         </Text>
       </Row>
     ),
-    href: "/work/leadbot-ai",
+    href: "/work/quick-metal-shop-arquiexpo",
   },
   subline: (
     <>
