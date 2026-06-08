@@ -86,9 +86,9 @@ intro: {
     title: "Introduction",
     description: (
       <>
-        My foundation is in high-stakes customer support at Concentrix, where I managed security, fraud, and technical incidents for Mercado Pago users. That experience built something most marketers lack: a deep understanding of where systems break down and how users behave under pressure.
+        My foundation is in high-stakes customer support at Concentrix, where I managed security, fraud, and technical incidents for Mercado Pago users. That experience built something most marketers lack: a deep understanding of where systems break down and how users actually behave under pressure.
         <br /><br />
-        That operational lens pushed me into digital marketing — not to run ads, but to redesign how businesses attract, qualify, and convert customers. I became obsessed with the question: what can be automated, and what's the cost of not automating it?
+        That operational lens pushed me into digital marketing — not just to run campaigns, but to redesign how businesses attract, qualify, and convert customers. I became obsessed with one question: what can be automated, and what's the cost of not automating it?
         <br /><br />
         The answer became LeadBot AI — an AI-powered WhatsApp chatbot I designed and deployed for Artesa, automating 85% of customer conversations, qualifying B2B leads without human intervention, and operating 24/7 without additional headcount.
         <br /><br />
@@ -106,33 +106,36 @@ work: {
         role: "Growth Marketing Specialist",
         description: (
           <>
-            Driving digital growth strategy for a metal fabrication company, combining paid media, SEO, and AI-powered content systems to increase lead volume and improve online visibility in a competitive B2B market.
+            Joined as the company's first and sole marketing hire, with no brand identity, no analytics infrastructure, and no digital strategy in place. Built everything from scratch — and kept it running.
           </>
         ),
         achievements: [
           <>
-            Manage and optimize the company website, ensuring strong UX, performance, and SEO best practices.
+            Created the company's Brand Manual in the first week, defining the full visual identity (color palette, typography, tone of voice) that became the operational standard across the entire organization — including the ArquiExpo 2026 trade show stand, recognized as one of the strongest presences at the event.
           </>,
           <>
-            Plan and execute SEM campaigns (Google Ads) focused on lead generation and ROI optimization.
+            Deployed and configured Soro AI for automated SEO blog publishing across both the B2B site (Odoo CMS) and the B2C Shopify store, including custom code integration into each CMS — establishing a compounding organic search engine requiring zero ongoing manual effort.
           </>,
           <>
-            Leverage AI tools to create high-converting content, automate workflows, and accelerate marketing execution.
+            Set up Google Analytics and Google Search Console from scratch, then linked Search Console directly to Soro AI to enable keyword-informed automated publishing.
           </>,
           <>
-            Monitor and analyze performance using Google Analytics and other tracking platforms to drive continuous improvement.
+            Launched and managed the company's LinkedIn presence; deployed Holo AI to automate brand-aligned thought leadership content at scale.
           </>,
           <>
-            Design and optimize customer journeys through A/B testing and conversion rate optimization (CRO).
+            Managed Instagram and Facebook content daily across B2B and B2C narratives.
           </>,
           <>
-            Oversee multi-platform presence (social media, website, e-commerce) ensuring brand consistency and growth.
+            Deployed the Meta Pixel across both storefronts and independently built, configured, and launched Meta Ads campaigns — from creative concept to audience targeting to budget management — across separate B2B and B2C campaign structures.
           </>,
           <>
-            Implement SEO strategies to increase organic traffic and search visibility.
+            Built a Zapier-to-Odoo CRM automation to route B2B leads from Meta Instant Forms directly into the CRM in real time, eliminating manual data entry and closing a critical gap in the lead pipeline.
           </>,
           <>
-            Conduct market research and identify growth opportunities supported by data and AI insights.
+            Operated a high-velocity AI-augmented creative production workflow using Higgsfield (Kling 3.0, Seedance 2.0), ElevenLabs, Claude, CapCut, and DaVinci Resolve.
+          </>,
+          <>
+            Designed, developed, and deployed a custom full-stack interactive gallery web application in under 48 hours for ArquiExpo 2026 — built with Next.js, deployed on Netlify, optimized for a vertical touchscreen interface, and fully responsive across all devices including iOS Safari.
           </>,
         ],
         images: [],
@@ -148,10 +151,10 @@ work: {
         ),
         achievements: [
           <>
-            Designed and deployed an AI-powered chatbot integrated with Bitrix24 CRM to automate lead qualification and initial customer interactions.
+            Designed and deployed an AI-powered WhatsApp chatbot integrated with Bitrix24 CRM to automate lead qualification and initial customer interactions, handling 85% of conversations without human intervention.
           </>,
           <>
-            Translated business needs into automated workflows that reduced response times and improved lead routing efficiency.
+            Translated business requirements into automated workflows that reduced response times and improved lead routing efficiency.
           </>,
           <>
             Built digital assets and visual content using Canva, Affinity, and generative AI to support paid campaigns and organic growth initiatives.
@@ -160,7 +163,7 @@ work: {
             Led product photography and visual optimization for delivery platforms, improving product presentation and click-through performance.
           </>,
           <>
-            Acted as a bridge between marketing, sales, and customer experience to ensure automation aligned with real operational needs.
+            Acted as the bridge between marketing, sales, and customer experience to ensure automation aligned with real operational needs.
           </>,
         ],
         images: [],
@@ -295,7 +298,7 @@ technical: {
         title: "Automation, AI & Systems",
         description: (
           <>
-            AI Chatbot Design & Deployment • Lead Qualification Automation • CRM Workflow Design • Process Optimization & Automation Logic • API Integrations • Prompt Engineering & AI-Assisted Workflows
+            AI Chatbot Design & Deployment · Lead Qualification Automation · CRM Workflow Design (Bitrix24, Kommo) · Process Optimization & Automation Logic · API Integrations · Zapier Automation · Prompt Engineering & AI-Assisted Workflows
           </>
         ),
         images: [],
@@ -304,7 +307,7 @@ technical: {
         title: "Marketing & Growth",
         description: (
           <>
-            Digital Marketing Strategy • Lead Generation & Funnel Optimization • Content Strategy & Execution • Paid Traffic Support & Asset Creation • Customer Experience Optimization
+            Digital Marketing Strategy · Lead Generation & Funnel Optimization · Content Strategy & Execution · Meta Ads (B2B & B2C) · SEO Strategy & Implementation · Customer Experience Optimization · Brand Identity & Manual Development
           </>
         ),
         images: [],
@@ -313,11 +316,12 @@ technical: {
         title: "Platforms & Tools",
         description: (
           <>
-            <strong>CRMs:</strong> Bitrix24, Kommo<br />
-            <strong>Web & Deployment:</strong> Vercel, WordPress<br />
+            <strong>Web & Deployment:</strong> Vercel, WordPress, Netlify, Odoo (CMS), Shopify<br />
+            <strong>Analytics:</strong> Google Analytics, Google Search Console<br />
             <strong>Design & Media:</strong> Canva, Affinity, DaVinci Resolve, CapCut<br />
             <strong>Voice & Audio:</strong> ElevenLabs<br />
-            <strong>AI & Tech:</strong> Generative AI Tools, Python (automation-focused use cases)
+            <strong>AI & SEO Automation:</strong> Soro AI, Holo AI<br />
+            <strong>AI & Tech:</strong> Generative AI Tools, Python (automation-focused)
           </>
         ),
         images: [],
@@ -326,16 +330,21 @@ technical: {
         title: "AI Video & Creative Production",
         description: (
           <>
-            I produce high-impact visual content using frontier AI generation
-            models alongside traditional production tools — enabling
-            studio-quality output at a fraction of the conventional time and cost.
+            I produce high-impact visual content using frontier AI generation models alongside traditional production tools — enabling studio-quality output at a fraction of the conventional time and cost.
             <br /><br />
-            <strong>AI Video Generation:</strong> Higgsfield, Kling 3.0, Google Veo 3<br />
-            <strong>AI Creative Tools:</strong> TikTok Symphony Creative Studio,
-            Generative AI image tools<br />
+            <strong>AI Video Generation:</strong> Higgsfield, Kling 3.0, Seedance 2.0, Google Veo 3<br />
+            <strong>AI Creative Tools:</strong> TikTok Symphony Creative Studio, Nano Banana Pro, Generative AI image tools<br />
             <strong>Production:</strong> DaVinci Resolve, CapCut, ElevenLabs<br />
-            <strong>Use cases:</strong> Paid ad creatives, short-form video,
-            AI-generated brand content, social media performance assets
+            <strong>Use cases:</strong> Paid ad creatives, short-form video, AI-generated brand content, social media performance assets
+          </>
+        ),
+        images: [],
+      },
+      {
+        title: "Development",
+        description: (
+          <>
+            Next.js · CSS · JavaScript · Responsive UI Development · Cross-browser Debugging (iOS Safari)
           </>
         ),
         images: [],
