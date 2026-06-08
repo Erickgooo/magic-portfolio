@@ -1,0 +1,77 @@
+---
+title: "Quick Metal Shop — ArquiExpo 2026 Interactive Gallery Application"
+publishedAt: "2026-06-07"
+summary: "Custom-built, vertically-oriented interactive touchscreen web application showcasing 285 architectural panel variants, designed, developed, and deployed in 48 hours for ArquiExpo 2026."
+images:
+  - "/images/projects/APP - Quick Metal Shop/qmsapp.png"
+  - "/images/projects/APP - Quick Metal Shop/qmsapp2.png"
+  - "/images/projects/APP - Quick Metal Shop/qmsapp3.png"
+team:
+  - name: "Erick Mahecha"
+    role: "Full-Stack Developer & Creative Technologist"
+    avatar: "/images/avatar.jpg"
+    linkedIn: "https://www.linkedin.com/in/erick-mahecha/"
+---
+
+## Overview
+
+For **ArquiExpo 2026** — Puerto Rico's premier annual convention for the architecture and construction sector — Quick Metal Shop needed a high-impact digital experience for their stand. 
+
+I designed, developed, and deployed a custom-built, vertically-oriented interactive touchscreen web application in **under 48 hours**. The system allowed attendees to explore the company's full catalog of 285 architectural panel variants and real-world project portfolio in a tactile, visually impressive way on a large vertical touchscreen display.
+
+## The Challenge
+
+The constraints were significant:
+- **No existing application** or base code to build on.
+- A hard deadline of **48 hours** before the convention.
+- A substantial catalog containing **285 product images** (all at 1080×1080 resolution).
+- A vertical touch interface context that had to perform flawlessly under heavy usage, including on mobile browsers.
+
+Any lag or layout failure would be a public-facing brand embarrassment at the industry's flagship event.
+
+## Strategic Solution
+
+### Ideation & Architecture
+I began by using **Gemini 3.1 Pro** to rapidly structure the application's conceptual architecture — defining the user experience flows, content hierarchy, and interaction model before writing a single line of code.
+
+### Development Stack
+To compress the timeline and achieve high performance, I chose:
+- **Google Antigravity** (with Claude Sonnet 4.6 as the AI coding agent) — leveraged for accelerated full-stack scaffolding and intelligent code generation.
+- **Next.js** — framework for fast rendering and clean component architecture.
+- **CSS + JavaScript** — custom styling and vertical interaction logic.
+- **Netlify** — deployment platform, enabling instant continuous deployment.
+
+<img src="/images/projects/APP - Quick Metal Shop/qmsapp2.png" alt="Quick Metal Shop Interactive Gallery UI" />
+
+## Core Application Features
+
+The gallery was engineered with two distinct viewing modes for the architectural panel catalog:
+1. **Single-image mode** — full-screen, one-at-a-time navigation for focused product exploration.
+2. **Grid gallery mode** — multi-panel overview for browsing and comparison.
+
+Both modes were built to accommodate the full 285-image catalog without performance degradation, maintaining smooth 60fps interaction on the vertical touchscreen interface.
+
+## Critical Technical Problem-Solving: iOS Safari Rendering
+
+One of the most significant engineering challenges emerged during QA: the application was rendering incorrectly on iPhone (Safari browser) — a critical failure point given that attendees would be accessing the experience on mobile devices throughout the event. 
+
+I diagnosed and resolved the iOS Safari-specific layout and rendering conflicts (such as vertical height adjustments and touch event handling quirks), ensuring full visual fidelity and interaction parity across all device contexts. The final application is fully responsive regardless of device, orientation, or browser engine.
+
+<img src="/images/projects/APP - Quick Metal Shop/qmsapp3.png" alt="Responsive Design and iOS Optimization" />
+
+## Results & Impact
+
+| Metric | Outcome |
+|---|---|
+| **Development Timeline** | Under 48 Hours |
+| **Catalog Size** | 285 Architectural Panel Variants |
+| **Cross-Platform Compatibility** | 100% (iOS Safari Resolved) |
+| **Interactive Modes** | Single-image & Grid Gallery |
+| **Infrastructure Overhead** | Zero (Netlify Serverless) |
+
+- **Delivered a production-ready application in under 48 hours** from concept to live deployment, with no external development support.
+- **Showcased 285 architectural panel variants** in a polished, dual-mode gallery experience optimized for vertical touchscreen interaction.
+- **Contributed directly to ArquiExpo 2026 stand recognition** as one of the strongest presences at the event.
+- **Demonstrated full-stack agility**: ideation with Gemini, accelerated development with Claude as a coding agent, clean deployment on Netlify — an end-to-end modern development workflow executed under real event pressure.
+
+**Live Application:** [arquiexpoqms.netlify.app](https://arquiexpoqms.netlify.app)
