@@ -36,19 +36,15 @@ export default function Gallery() {
         </Heading>
         
         <Text variant="body-default-l" onBackground="neutral-weak">
-          This section showcases visual assets created for real campaigns — spanning paid ad creatives, short-form video, and AI-generated content designed to perform across modern distribution channels.
+          Cinematic video production used to require a crew, a budget, and days of shooting. These assets were built by one person, usually in hours.
         </Text>
 
         <Text variant="body-default-l" onBackground="neutral-weak">
-          Each piece is built around a specific objective: capture attention in the first two seconds, communicate value without friction, and drive measurable action. Aesthetics serve strategy, not the other way around.
+          This section collects paid ad creatives, short-form video, and AI-generated content produced for real campaigns — each built around a specific platform context and commercial objective.
         </Text>
 
         <Text variant="body-default-l" onBackground="neutral-weak">
-          My current creative stack combines traditional production tools with frontier AI video generation models — including Higgsfield, Kling 3.0, and Google Veo 3 — alongside Affinity, CapCut, DaVinci Resolve, and ElevenLabs for voice-over production. This combination allows me to produce high-impact visual content at a speed and quality level that wasn’t accessible outside major production studios until very recently.
-        </Text>
-
-        <Text variant="body-default-l" onBackground="neutral-weak">
-          The result: campaign-ready assets that balance creative quality, platform relevance, and execution speed.
+          <strong>Stack:</strong> Higgsfield · Kling 3.0 · Google Veo 3 · DaVinci Resolve · CapCut · ElevenLabs · Affinity.
         </Text>
       </Column>
 

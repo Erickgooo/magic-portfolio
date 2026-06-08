@@ -44,7 +44,7 @@ const home: Home = {
   label: "Home",
   title: `${person.name}'s Portfolio`,
   description: `Portfolio website showcasing my work as a ${person.role}`,
-  headline: <>Designing AI Systems That Turn Marketing Into a Scalable Growth Engine</>,
+  headline: <>I Build Marketing Infrastructure From Zero.</>,
   featured: {
     display: true,
     title: (
@@ -60,7 +60,7 @@ const home: Home = {
   },
   subline: (
     <>
-      I'm Erick — I design AI-powered workflows and marketing systems that reduce manual work, qualify leads automatically, and drive measurable growth.
+      I'm Erick — a growth marketer who architects full-stack marketing systems: brand identity, paid media, SEO automation, AI creative pipelines, and even the software when nothing exists yet. One person. Full-department output.
     </>
   ),
 };
@@ -375,7 +375,7 @@ const gallery: Gallery = {
   path: "/gallery",
   label: "Visual Work",
   title: `Visual Work – ${person.name}`,
-  description: "A curated selection of visual assets created for digital advertising and social media performance.",
+  description: "Cinematic video production used to require a crew, a budget, and days of shooting. These assets were built by one person, usually in hours. This section collects paid ad creatives, short-form video, and AI-generated content produced for real campaigns.",
   // Images by https://lorant.one
   // These are placeholder images, replace with your own
   images: [
