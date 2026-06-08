@@ -172,7 +172,7 @@ work: {
           <>
             Designed and deployed an end-to-end lead qualification system for a Bogotá-based ATV retailer managing 200+ inbound WhatsApp leads per day with no CRM infrastructure in place.
             <br />
-            <strong>Stack:</strong> WhatsApp Business API · Kommo CRM · Meta Business Suite · Gemini 2.0 Pro
+            <strong>Stack:</strong> WhatsApp Business API · Kommo CRM · Meta Business Suite · Gemini 3.1 Pro
           </>
         ),
         achievements: [
