@@ -434,28 +434,28 @@ const gallery: Gallery = {
   // These are placeholder images, replace with your own
   images: [
     {
-      src: "/images/gallery/1.png",
-      alt: "Visual Work 1",
+      src: "/images/gallery/dakoma1.png",
+      alt: "Dakoma Roofing Rebranding 1",
       orientation: "square",
     },
     {
-      src: "/images/gallery/2.png",
-      alt: "Visual Work 2",
+      src: "/images/gallery/dakoma2.png",
+      alt: "Dakoma Roofing Rebranding 2",
       orientation: "square",
     },
     {
-      src: "/images/gallery/3.png",
-      alt: "Visual Work 3",
+      src: "/images/gallery/dakoma3.png",
+      alt: "Dakoma Roofing Rebranding 3",
       orientation: "square",
     },
     {
-      src: "/images/gallery/4.png",
-      alt: "Visual Work 4",
+      src: "/images/gallery/dakoma4.png",
+      alt: "Dakoma Roofing Rebranding 4",
       orientation: "square",
     },
     {
-      src: "/images/gallery/5.png",
-      alt: "Visual Work 5",
+      src: "/images/gallery/dakoma5.png",
+      alt: "Dakoma Roofing Rebranding 5",
       orientation: "square",
     },
     {
