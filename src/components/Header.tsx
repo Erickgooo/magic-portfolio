@@ -21,14 +21,32 @@ const TimeDisplay: React.FC<TimeDisplayProps> = ({ timeZone, locale = "en-GB" })
     const updateTime = () => {
       const now = new Date();
       const options: Intl.DateTimeFormatOptions = {
-        timeZone,
         hour: "2-digit",
         minute: "2-digit",
         second: "2-digit",
         hour12: false,
       };
-      const timeString = new Intl.DateTimeFormat(locale, options).format(now);
-      setCurrentTime(timeString);
+
+      let resolvedTimeZone = timeZone;
+      if (timeZone === "America/Medellin") {
+        resolvedTimeZone = "America/Bogota";
+      }
+
+      try {
+        const timeString = new Intl.DateTimeFormat(locale, {
+          ...options,
+          timeZone: resolvedTimeZone,
+        }).format(now);
+        setCurrentTime(timeString);
+      } catch (error) {
+        console.error("Invalid timezone:", resolvedTimeZone, error);
+        try {
+          const timeString = new Intl.DateTimeFormat(locale, options).format(now);
+          setCurrentTime(timeString);
+        } catch (e) {
+          setCurrentTime("");
+        }
+      }
     };
 
     updateTime();

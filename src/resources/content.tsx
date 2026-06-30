@@ -8,7 +8,7 @@ const person: Person = {
   role: "Growth Marketing & AI Automation Specialist",
   avatar: "/images/avatar.jpg",
   email: "santiagomahecha2328@gmail.com",
-  location: "America/Bogota", // Expecting the IANA time zone identifier, e.g., 'Europe/Vienna'
+  location: "America/Medellin", // Expecting the IANA time zone identifier, e.g., 'Europe/Vienna'
   languages: ["Spanish", "English"], // optional: Leave the array empty if you don't want to display languages
 };
 
