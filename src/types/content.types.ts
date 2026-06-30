@@ -5,7 +5,7 @@ import { zones } from "tzdata";
  * IANA time zone string (e.g., 'Asia/Calcutta', 'Europe/Vienna').
  * See: https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
  */
-export type IANATimeZone = Extract<keyof typeof zones, string> | "America/Medellin"; // Narrow to string keys for React usage, adding Medellin manually
+export type IANATimeZone = Extract<keyof typeof zones, string>; // Narrow to string keys for React usage
 
 /**
  * Represents a person featured in the portfolio.
@@ -23,8 +23,10 @@ export type Person = {
   avatar: string;
   /** Email address */
   email: string;
-  /** IANA time zone location */
-  location: IANATimeZone;
+  /** Display location of the person */
+  location: string;
+  /** IANA time zone identifier for the clock */
+  timeZone: IANATimeZone;
   /** Languages spoken */
   languages?: string[];
 };
