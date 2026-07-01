@@ -315,9 +315,9 @@ certifications: {
         link: "https://www.coursera.org/account/accomplishments/specialization/PVAPT7SC6B4G",
       },
       {
-        name: "Fundamentals of Digital Marketing and E-Commerce",
+        name: "Google Digital Marketing & E-commerce Professional Certificate",
         institution: "Google",
-        link: "https://www.coursera.org/account/accomplishments/verify/1NVKCLGDQ9LI",
+        link: "https://www.coursera.org/account/accomplishments/specialization/FHAT2KULOBL1",
       },
       {
         name: "IBM Data Science Professional Certificate (In Progress)",
