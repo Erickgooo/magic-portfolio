@@ -320,9 +320,9 @@ certifications: {
         link: "https://www.coursera.org/account/accomplishments/specialization/FHAT2KULOBL1",
       },
       {
-        name: "IBM Data Science Professional Certificate (In Progress)",
+        name: "Python for Data Science, AI & Development",
         institution: "IBM",
-        link: "https://www.coursera.org/professional-certificates/ibm-data-science",
+        link: "https://www.coursera.org/account/accomplishments/verify/KZ20RFRJ1MAU",
       },
       {
         name: "Microsoft Excel Professional Certificate",
