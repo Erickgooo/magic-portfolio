@@ -29,7 +29,7 @@ export default function GalleryView() {
           } else if (image.src.includes("v=")) {
             videoId = image.src.split("v=")[1].split("&")[0];
           }
-          
+
           const embedUrl = `https://www.youtube.com/embed/${videoId}`;
 
           return (

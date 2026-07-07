@@ -83,7 +83,7 @@ export default function About() {
           <TableOfContents structure={structure} about={about} />
         </Column>
       )}
-      <Row fillWidth s={{ direction: "column"}} horizontal="center">
+      <Row fillWidth s={{ direction: "column" }} horizontal="center">
         {about.avatar.display && (
           <Column
             className={styles.avatar}
@@ -228,9 +228,7 @@ export default function About() {
                     {/* --- INICIO DEL CÓDIGO NUEVO --- */}
                     {experience.description && (
                       <Column fillWidth marginBottom="m">
-                        <Text variant="body-default-m">
-                          {experience.description}
-                        </Text>
+                        <Text variant="body-default-m">{experience.description}</Text>
                       </Column>
                     )}
                     {/* --- FIN DEL CÓDIGO NUEVO --- */}
@@ -296,7 +294,12 @@ export default function About() {
 
           {about.certifications.display && (
             <>
-              <Heading as="h2" id={about.certifications.title} variant="display-strong-s" marginBottom="m">
+              <Heading
+                as="h2"
+                id={about.certifications.title}
+                variant="display-strong-s"
+                marginBottom="m"
+              >
                 {about.certifications.title}
               </Heading>
               <Column fillWidth gap="l" marginBottom="40">
@@ -312,16 +315,16 @@ export default function About() {
                     </Text>
                     {/* Link en azul */}
                     <SmartLink href={item.link}>
-                        <Text variant="label-default-m" style={{ color: '#3B82F6' }}>
-                          View credential
-                        </Text>
+                      <Text variant="label-default-m" style={{ color: "#3B82F6" }}>
+                        View credential
+                      </Text>
                     </SmartLink>
                   </Column>
                 ))}
               </Column>
             </>
           )}
-          
+
           {about.technical.display && (
             <>
               <Heading

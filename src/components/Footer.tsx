@@ -24,8 +24,12 @@ export const Footer = () => {
           <Text onBackground="neutral-weak">© {currentYear} /</Text>
           <Text paddingX="4">{person.name}</Text>
           <Text onBackground="neutral-weak">
-  &nbsp;/ Based on <SmartLink href="https://once-ui.com/">Once UI</SmartLink> (adapted). Licensed under <SmartLink href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0.</SmartLink>
-</Text>
+            &nbsp;/ Based on <SmartLink href="https://once-ui.com/">Once UI</SmartLink> (adapted).
+            Licensed under{" "}
+            <SmartLink href="https://creativecommons.org/licenses/by-nc/4.0/">
+              CC BY-NC 4.0.
+            </SmartLink>
+          </Text>
         </Text>
         <Row gap="16">
           {social.map(
