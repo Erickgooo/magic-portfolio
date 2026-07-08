@@ -1,10 +1,17 @@
 @use "./breakpoints.scss" as breakpoints;
 
-.floatingButton {
+.chatbotWrapper {
   position: fixed;
   bottom: 2rem;
   right: 2rem;
   z-index: 99;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+
+.floatingButton {
   cursor: pointer;
   transition: transform 0.2s ease, opacity 0.2s ease;
   
@@ -14,14 +21,13 @@
 }
 
 .chatbotContainer {
-  position: fixed;
-  bottom: 5.5rem;
-  right: 2rem;
+  position: absolute;
+  bottom: calc(100% + 12px);
+  right: 0;
   width: 380px;
   max-width: 90vw;
   height: 500px;
   max-height: 70vh;
-  z-index: 100;
   display: flex;
   flex-direction: column;
   box-shadow: var(--shadow-l);
@@ -116,14 +122,12 @@
 }
 
 @media (max-width: breakpoints.$s) {
-  .floatingButton {
+  .chatbotWrapper {
     bottom: 5.5rem;
     right: 1.5rem;
   }
   
   .chatbotContainer {
-    bottom: 9rem;
-    right: 1.5rem;
     width: calc(100vw - 3rem);
     height: 420px;
     max-height: 60vh;

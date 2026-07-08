@@ -49,7 +49,6 @@ export const faqData: FAQItem[] = [
   },
 ];
 
-export const initialGreeting =
-  "Hi! I'm Erick's virtual assistant. Ask me anything about his background, skills, and projects.";
+export const initialGreeting = "Hi, I'm Erick Chatbot! Ask me anything about Erick's background.";
 export const backButtonLabel = "Back to questions";
-export const chatbotTitle = "FAQ Chatbot";
+export const chatbotTitle = "Erick Chatbot";

@@ -24,12 +24,13 @@ export const FaqChatbot: React.FC = () => {
 
   const containerRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLDivElement>(null);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
 
-  // Auto scroll to bottom of messages log
+  // Auto scroll to bottom of messages log inside the container only
   useEffect(() => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    if (messagesContainerRef.current) {
+      messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
     }
   }, [messages, isOpen]);
 
@@ -129,18 +130,7 @@ export const FaqChatbot: React.FC = () => {
   };
 
   return (
-    <>
-      {/* Floating Toggle Button */}
-      <div ref={triggerRef} className={styles.floatingButton}>
-        <IconButton
-          icon={isOpen ? "x" : "message"}
-          variant="secondary"
-          size="l"
-          onClick={() => setIsOpen(!isOpen)}
-          aria-label="Toggle FAQ Chatbot"
-        />
-      </div>
-
+    <div ref={wrapperRef} className={styles.chatbotWrapper}>
       {/* Chatbot Panel */}
       {isOpen && (
         <Column
@@ -168,7 +158,7 @@ export const FaqChatbot: React.FC = () => {
           </Row>
 
           {/* Messages Log */}
-          <div className={styles.messagesContainer}>
+          <div ref={messagesContainerRef} className={styles.messagesContainer}>
             {messages.map((msg, index) => (
               <div
                 key={index}
@@ -179,7 +169,6 @@ export const FaqChatbot: React.FC = () => {
                 {msg.sender === "bot" ? parseAnswerText(msg.text) : msg.text}
               </div>
             ))}
-            <div ref={messagesEndRef} />
           </div>
 
           {/* Suggested Interactive Option Buttons */}
@@ -210,6 +199,17 @@ export const FaqChatbot: React.FC = () => {
           </Column>
         </Column>
       )}
-    </>
+
+      {/* Floating Toggle Button */}
+      <div ref={triggerRef} className={styles.floatingButton}>
+        <IconButton
+          icon={isOpen ? "x" : "message"}
+          variant="secondary"
+          size="l"
+          onClick={() => setIsOpen(!isOpen)}
+          aria-label="Toggle Erick Chatbot"
+        />
+      </div>
+    </div>
   );
 };
