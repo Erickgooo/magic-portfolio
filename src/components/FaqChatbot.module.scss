@@ -28,7 +28,7 @@
   right: 0 !important;
   width: 380px !important;
   max-width: 90vw !important;
-  height: 500px !important;
+  height: auto !important;
   max-height: calc(100dvh - 6rem) !important;
   display: flex !important;
   flex-direction: column !important;
@@ -50,7 +50,8 @@
 }
 
 .messagesContainer {
-  flex: 1;
+  flex: 1 1 auto;
+  min-height: 0;
   overflow-y: auto;
   padding: var(--static-space-12) 0;
   display: flex;
@@ -145,7 +146,7 @@
   
   .chatbotContainer {
     width: calc(100vw - 3rem) !important;
-    height: 400px !important;
+    height: auto !important;
     max-height: calc(100dvh - 9.5rem) !important;
   }
 }
