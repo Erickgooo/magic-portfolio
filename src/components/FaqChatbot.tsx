@@ -129,8 +129,8 @@ export const FaqChatbot: React.FC = () => {
               <Image
                 src="/images/chatbot/chatbot-icon.png"
                 alt="Erick Chatbot"
-                width={24}
-                height={24}
+                width={32}
+                height={32}
                 className={styles.headerIcon}
                 priority
               />
@@ -269,13 +269,13 @@ export const FaqChatbot: React.FC = () => {
           aria-label="Toggle Erick Chatbot"
         >
           {isOpen ? (
-            <Icon name="x" size="s" />
+            <Icon name="x" size="m" />
           ) : (
             <Image
               src="/images/chatbot/chatbot-icon.png"
               alt="Erick Chatbot"
-              width={48}
-              height={48}
+              width={64}
+              height={64}
               className={styles.avatarIcon}
               priority
             />
