@@ -22,6 +22,43 @@
   }
 }
 
+.toggleButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid var(--neutral-alpha-weak);
+  background: var(--neutral-background-medium);
+  box-shadow: var(--shadow-l);
+  cursor: pointer;
+  padding: 0;
+  overflow: hidden;
+  transition: background-color 0.2s ease;
+  color: var(--neutral-on-background-strong);
+
+  &:hover {
+    background: var(--neutral-alpha-weak);
+  }
+}
+
+.avatarIcon {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+
+.headerIcon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+
 .chatbotContainer {
   position: absolute !important;
   bottom: calc(100% + 12px) !important;

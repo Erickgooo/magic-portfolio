@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import Image from "next/image";
 import { Flex, Column, Row, Text, Heading, IconButton, Icon, Button } from "@once-ui-system/core";
 import {
   faqData,
@@ -125,7 +126,14 @@ export const FaqChatbot: React.FC = () => {
           {/* Header */}
           <Row fillWidth vertical="center" horizontal="between" className={styles.header}>
             <Row gap="8" vertical="center">
-              <Icon name="message" size="s" onBackground="neutral-weak" />
+              <Image
+                src="/images/chatbot/chatbot-icon.png"
+                alt="Erick Chatbot"
+                width={24}
+                height={24}
+                className={styles.headerIcon}
+                priority
+              />
               <Heading as="h4" variant="heading-strong-s">
                 {chatbotTitle}
               </Heading>
@@ -254,13 +262,25 @@ export const FaqChatbot: React.FC = () => {
 
       {/* Floating Toggle Button */}
       <div ref={triggerRef} className={styles.floatingButton}>
-        <IconButton
-          icon={isOpen ? "x" : "message"}
-          variant="secondary"
-          size="l"
+        <button
+          type="button"
+          className={styles.toggleButton}
           onClick={() => setIsOpen(!isOpen)}
           aria-label="Toggle Erick Chatbot"
-        />
+        >
+          {isOpen ? (
+            <Icon name="x" size="s" />
+          ) : (
+            <Image
+              src="/images/chatbot/chatbot-icon.png"
+              alt="Erick Chatbot"
+              width={48}
+              height={48}
+              className={styles.avatarIcon}
+              priority
+            />
+          )}
+        </button>
       </div>
     </div>
   );
