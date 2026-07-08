@@ -20,6 +20,7 @@ import {
   PiGridFourDuotone,
   PiBookBookmarkDuotone,
   PiImageDuotone,
+  PiChatCircleTextDuotone,
 } from "react-icons/pi";
 
 import { SiJavascript, SiNextdotjs, SiFigma, SiSupabase } from "react-icons/si";
@@ -50,6 +51,7 @@ export const iconLibrary: Record<string, IconType> = {
   calendar: HiCalendarDays,
   home: PiHouseDuotone,
   gallery: PiImageDuotone,
+  message: PiChatCircleTextDuotone,
   discord: FaDiscord,
   eye: HiOutlineEye,
   eyeOff: HiOutlineEyeSlash,

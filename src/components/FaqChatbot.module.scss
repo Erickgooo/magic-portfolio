@@ -1,0 +1,131 @@
+@use "./breakpoints.scss" as breakpoints;
+
+.floatingButton {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 99;
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+.chatbotContainer {
+  position: fixed;
+  bottom: 5.5rem;
+  right: 2rem;
+  width: 380px;
+  max-width: 90vw;
+  height: 500px;
+  max-height: 70vh;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-l);
+  overflow: hidden;
+  backdrop-filter: blur(16px);
+  background: var(--neutral-background-translucent);
+  border: 1px solid var(--neutral-alpha-weak);
+  border-radius: var(--radius-l);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.header {
+  border-bottom: 1px solid var(--neutral-alpha-weak);
+  padding-bottom: var(--static-space-12);
+}
+
+.messagesContainer {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--static-space-12) 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--static-space-12);
+  
+  /* Custom scrollbar */
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: var(--neutral-alpha-weak);
+    border-radius: 2px;
+  }
+}
+
+.bubble {
+  max-width: 85%;
+  padding: var(--static-space-12) var(--static-space-16);
+  border-radius: var(--radius-m);
+  font-size: var(--body-font-size-default-m);
+  line-height: 1.5;
+}
+
+.botBubble {
+  background: var(--neutral-alpha-weak);
+  color: var(--neutral-on-background-strong);
+  align-self: flex-start;
+  border-bottom-left-radius: var(--radius-xs);
+}
+
+.userBubble {
+  background: var(--brand-solid);
+  color: var(--brand-on-solid-strong);
+  align-self: flex-end;
+  border-bottom-right-radius: var(--radius-xs);
+}
+
+.questionsList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--static-space-8);
+  padding: var(--static-space-12) 0;
+}
+
+.questionButton {
+  text-align: left;
+  width: 100%;
+  padding: var(--static-space-12) var(--static-space-16);
+  background: var(--neutral-alpha-weak);
+  border: 1px solid var(--neutral-alpha-weak);
+  border-radius: var(--radius-m);
+  color: var(--neutral-on-background-strong);
+  font-size: var(--body-font-size-default-s);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  line-height: 1.4;
+
+  &:hover {
+    background: var(--neutral-alpha-medium);
+    border-color: var(--neutral-alpha-medium);
+    transform: translateX(2px);
+  }
+}
+
+.backButton {
+  align-self: center;
+  margin-top: var(--static-space-8);
+  font-size: var(--body-font-size-default-s);
+  cursor: pointer;
+}
+
+@media (max-width: breakpoints.$s) {
+  .floatingButton {
+    bottom: 5.5rem;
+    right: 1.5rem;
+  }
+  
+  .chatbotContainer {
+    bottom: 9rem;
+    right: 1.5rem;
+    width: calc(100vw - 3rem);
+    height: 420px;
+    max-height: 60vh;
+  }
+}

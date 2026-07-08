@@ -13,7 +13,7 @@ import {
   RevealFx,
   SpacingToken,
 } from "@once-ui-system/core";
-import { Footer, Header, RouteGuard, Providers } from "@/components";
+import { Footer, Header, RouteGuard, Providers, FaqChatbot } from "@/components";
 import { baseURL, effects, fonts, style, dataStyle, home } from "@/resources";
 import { Analytics } from "@vercel/analytics/next";
 
@@ -165,6 +165,7 @@ export default async function RootLayout({
           </Flex>
           <Footer />
           <Analytics />
+          <FaqChatbot />
         </Column>
       </Providers>
     </Flex>
