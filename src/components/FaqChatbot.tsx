@@ -2,38 +2,49 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import { Flex, Column, Row, Text, Heading, IconButton, Icon, Button } from "@once-ui-system/core";
-import {
-  faqData,
-  FAQItem,
-  initialGreeting,
-  backButtonLabel,
-  chatbotTitle,
-} from "@/resources/faqChatbot";
+import { Flex, Column, Row, Text, Heading, IconButton, Icon } from "@once-ui-system/core";
+import { faqData, initialGreeting, chatbotTitle } from "@/resources/faqChatbot";
 import styles from "./FaqChatbot.module.scss";
 
-interface Message {
-  sender: "bot" | "user";
-  text: string;
+const SESSION_LIMIT = 8;
+const MSG_MAX_CHARS = 300;
+
+const LINKEDIN_URL = "https://www.linkedin.com/in/erick-mahecha/";
+const EMAIL = "santiagomahecha2328@gmail.com";
+
+interface ActiveView {
+  question: string;
+  answer: string;
 }
 
 export const FaqChatbot: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [activeQuestionId, setActiveQuestionId] = useState<string | null>(null);
+  const [activeView, setActiveView] = useState<ActiveView | null>(null);
+  const [inputText, setInputText] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [msgCount, setMsgCount] = useState<number>(() => {
+    if (typeof window !== "undefined") {
+      return Number(sessionStorage.getItem("chatbot_msg_count") ?? "0");
+    }
+    return 0;
+  });
 
   const containerRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLDivElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
-  // Auto scroll to top of messages container when active question changes or panel opens
+  const isLimited = msgCount >= SESSION_LIMIT;
+
+  // Auto scroll to top on view change
   useEffect(() => {
     if (messagesContainerRef.current) {
       messagesContainerRef.current.scrollTop = 0;
     }
-  }, [activeQuestionId, isOpen]);
+  }, [activeView, isOpen]);
 
-  // Click outside to close chatbot panel
+  // Click outside to close
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -47,24 +58,85 @@ export const FaqChatbot: React.FC = () => {
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isOpen]);
 
-  const handleQuestionSelect = (id: string) => {
-    setActiveQuestionId(id);
+  // ── API call ─────────────────────────────────────────────────────────────
+
+  const askGemini = async (question: string) => {
+    if (isLimited || isLoading || !question.trim()) return;
+
+    setIsLoading(true);
+    setActiveView({ question, answer: "" });
+
+    try {
+      const res = await fetch("/api/chatbot", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: question }),
+      });
+
+      if (res.status === 429) {
+        setActiveView({
+          question,
+          answer:
+            `You've reached the message limit for this session — feel free to reach out directly!\n\n` +
+            `• [Email](mailto:${EMAIL})\n• [LinkedIn](${LINKEDIN_URL})`,
+        });
+        setMsgCount(SESSION_LIMIT);
+        sessionStorage.setItem("chatbot_msg_count", String(SESSION_LIMIT));
+        return;
+      }
+
+      const data = await res.json();
+
+      if (data.error || !data.reply) {
+        setActiveView({
+          question,
+          answer:
+            `Something went wrong on my end. You can reach Erick directly at:\n\n` +
+            `• [Email](mailto:${EMAIL})\n• [LinkedIn](${LINKEDIN_URL})`,
+        });
+        return;
+      }
+
+      const newCount = msgCount + 1;
+      setMsgCount(newCount);
+      sessionStorage.setItem("chatbot_msg_count", String(newCount));
+      setActiveView({ question, answer: data.reply });
+    } catch {
+      setActiveView({
+        question,
+        answer:
+          `Something went wrong on my end. You can reach Erick directly at:\n\n` +
+          `• [Email](mailto:${EMAIL})\n• [LinkedIn](${LINKEDIN_URL})`,
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleReset = () => {
-    setActiveQuestionId(null);
+  const handleQuestionSelect = (question: string) => {
+    askGemini(question);
   };
 
-  // Helper to parse simple markdown formatting (bold and links)
+  const handleSubmitInput = () => {
+    const q = inputText.trim();
+    if (!q) return;
+    setInputText("");
+    askGemini(q);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") handleSubmitInput();
+  };
+
+  // ── Markdown parser ───────────────────────────────────────────────────────
+
   const parseAnswerText = (text: string) => {
     const lines = text.split("\n");
     return lines.map((line, lIdx) => {
-      const lineParts = [];
+      const lineParts: React.ReactNode[] = [];
       let idx = 0;
       const regex = /(\*\*.*?\*\*|\[.*?\]\(.*?\))/g;
       let match;
@@ -72,10 +144,7 @@ export const FaqChatbot: React.FC = () => {
       while ((match = regex.exec(line)) !== null) {
         const matchText = match[0];
         const matchIdx = match.index;
-
-        if (matchIdx > idx) {
-          lineParts.push(line.substring(idx, matchIdx));
-        }
+        if (matchIdx > idx) lineParts.push(line.substring(idx, matchIdx));
 
         if (matchText.startsWith("**") && matchText.endsWith("**")) {
           lineParts.push(<strong key={matchIdx}>{matchText.slice(2, -2)}</strong>);
@@ -97,9 +166,7 @@ export const FaqChatbot: React.FC = () => {
         idx = regex.lastIndex;
       }
 
-      if (idx < line.length) {
-        lineParts.push(line.substring(idx));
-      }
+      if (idx < line.length) lineParts.push(line.substring(idx));
 
       return (
         <span
@@ -112,17 +179,95 @@ export const FaqChatbot: React.FC = () => {
     });
   };
 
+  // ── Bubble styles ─────────────────────────────────────────────────────────
+
+  const userBubbleStyle: React.CSSProperties = {
+    background: "var(--brand-solid)",
+    maxWidth: "85%",
+    borderBottomRightRadius: "var(--radius-xs)",
+    whiteSpace: "normal",
+    wordBreak: "break-word",
+  };
+
+  const botBubbleStyle: React.CSSProperties = {
+    background: "var(--neutral-alpha-weak)",
+    maxWidth: "85%",
+    borderBottomLeftRadius: "var(--radius-xs)",
+    whiteSpace: "normal",
+    wordBreak: "break-word",
+  };
+
+  // ── Remaining questions list ──────────────────────────────────────────────
+
+  const SuggestedQuestions = ({ exclude }: { exclude?: string }) => (
+    <Column fillWidth gap="8" className={styles.questionsList} style={{ marginTop: "8px" }}>
+      {faqData
+        .filter((faq) => faq.question !== exclude)
+        .map((faq) => (
+          <button
+            key={faq.id}
+            type="button"
+            className={styles.questionButton}
+            onClick={() => handleQuestionSelect(faq.question)}
+            disabled={isLimited || isLoading}
+          >
+            {faq.question}
+          </button>
+        ))}
+    </Column>
+  );
+
+  // ── Input area ────────────────────────────────────────────────────────────
+
+  const InputArea = () => (
+    <div className={styles.inputArea}>
+      {isLimited ? (
+        <Text variant="body-default-s" onBackground="neutral-weak" style={{ textAlign: "center" }}>
+          You&apos;ve reached the message limit for this session —{" "}
+          <a
+            href={LINKEDIN_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ textDecoration: "underline", color: "var(--brand-solid)" }}
+          >
+            reach out directly!
+          </a>
+        </Text>
+      ) : (
+        <Row gap="8" fillWidth vertical="center">
+          <input
+            ref={inputRef}
+            className={styles.textInput}
+            type="text"
+            placeholder="Ask me anything about Erick..."
+            value={inputText}
+            onChange={(e) => setInputText(e.target.value.slice(0, MSG_MAX_CHARS))}
+            onKeyDown={handleKeyDown}
+            disabled={isLoading}
+            maxLength={MSG_MAX_CHARS}
+            aria-label="Type your question"
+          />
+          <button
+            type="button"
+            className={styles.sendButton}
+            onClick={handleSubmitInput}
+            disabled={isLoading || !inputText.trim()}
+            aria-label="Send message"
+          >
+            <Icon name="arrowRight" size="s" />
+          </button>
+        </Row>
+      )}
+    </div>
+  );
+
+  // ── Render ────────────────────────────────────────────────────────────────
+
   return (
     <div ref={wrapperRef} className={styles.chatbotWrapper}>
       {/* Chatbot Panel */}
       {isOpen && (
-        <Column
-          ref={containerRef}
-          className={styles.chatbotContainer}
-          padding="16"
-          radius="l"
-          gap="16"
-        >
+        <Column ref={containerRef} className={styles.chatbotContainer} padding="16" radius="l" gap="16">
           {/* Header */}
           <Row fillWidth vertical="center" horizontal="between" className={styles.header}>
             <Row gap="8" vertical="center">
@@ -149,114 +294,59 @@ export const FaqChatbot: React.FC = () => {
 
           {/* Content Area */}
           <div ref={messagesContainerRef} className={styles.messagesContainer}>
-            {activeQuestionId === null ? (
+            {activeView === null ? (
+              /* ── Home screen ── */
               <Column gap="12" fillWidth>
-                {/* Greeting Bubble */}
                 <Flex fillWidth horizontal="start">
-                  <Flex
-                    paddingY="s"
-                    paddingX="m"
-                    radius="m"
-                    style={{
-                      background: "var(--neutral-alpha-weak)",
-                      maxWidth: "85%",
-                      borderBottomLeftRadius: "var(--radius-xs)",
-                      whiteSpace: "normal",
-                      wordBreak: "break-word",
-                    }}
-                  >
+                  <Flex paddingY="s" paddingX="m" radius="m" style={botBubbleStyle}>
                     <Text variant="body-default-m" onBackground="neutral-strong">
                       {initialGreeting}
                     </Text>
                   </Flex>
                 </Flex>
-
-                {/* Initial Suggested Questions List */}
-                <Column fillWidth gap="8" className={styles.questionsList}>
-                  {faqData.map((faq) => (
-                    <button
-                      key={faq.id}
-                      type="button"
-                      className={styles.questionButton}
-                      onClick={() => handleQuestionSelect(faq.id)}
-                    >
-                      {faq.question}
-                    </button>
-                  ))}
-                </Column>
+                <SuggestedQuestions />
               </Column>
             ) : (
-              (() => {
-                const activeFAQ = faqData.find((item) => item.id === activeQuestionId);
-                if (!activeFAQ) return null;
+              /* ── Active Q&A screen ── */
+              <Column gap="12" fillWidth>
+                {/* User question */}
+                <Flex fillWidth horizontal="end">
+                  <Flex paddingY="s" paddingX="m" radius="m" style={userBubbleStyle}>
+                    <Text variant="body-default-m" onBackground="brand-strong">
+                      {activeView.question}
+                    </Text>
+                  </Flex>
+                </Flex>
 
-                const remainingQuestions = faqData.filter((item) => item.id !== activeQuestionId);
-
-                return (
-                  <Column gap="12" fillWidth>
-                    {/* User Question Bubble */}
-                    <Flex fillWidth horizontal="end">
-                      <Flex
-                        paddingY="s"
-                        paddingX="m"
-                        radius="m"
-                        style={{
-                          background: "var(--brand-solid)",
-                          maxWidth: "85%",
-                          borderBottomRightRadius: "var(--radius-xs)",
-                          whiteSpace: "normal",
-                          wordBreak: "break-word",
-                        }}
+                {/* Bot answer / loading */}
+                <Flex fillWidth horizontal="start">
+                  <Flex paddingY="s" paddingX="m" radius="m" style={botBubbleStyle}>
+                    {isLoading ? (
+                      <Text
+                        variant="body-default-m"
+                        onBackground="neutral-weak"
+                        style={{ fontStyle: "italic" }}
                       >
-                        <Text variant="body-default-m" onBackground="brand-strong">
-                          {activeFAQ.question}
-                        </Text>
-                      </Flex>
-                    </Flex>
+                        Erick Chatbot is typing…
+                      </Text>
+                    ) : (
+                      <Text variant="body-default-m" onBackground="neutral-strong">
+                        {parseAnswerText(activeView.answer)}
+                      </Text>
+                    )}
+                  </Flex>
+                </Flex>
 
-                    {/* Bot Answer Bubble */}
-                    <Flex fillWidth horizontal="start">
-                      <Flex
-                        paddingY="s"
-                        paddingX="m"
-                        radius="m"
-                        style={{
-                          background: "var(--neutral-alpha-weak)",
-                          maxWidth: "85%",
-                          borderBottomLeftRadius: "var(--radius-xs)",
-                          whiteSpace: "normal",
-                          wordBreak: "break-word",
-                        }}
-                      >
-                        <Text variant="body-default-m" onBackground="neutral-strong">
-                          {parseAnswerText(activeFAQ.answer)}
-                        </Text>
-                      </Flex>
-                    </Flex>
-
-                    {/* Remaining Questions List */}
-                    <Column
-                      fillWidth
-                      gap="8"
-                      className={styles.questionsList}
-                      style={{ marginTop: "8px" }}
-                    >
-                      {remainingQuestions.map((faq) => (
-                        <button
-                          key={faq.id}
-                          type="button"
-                          className={styles.questionButton}
-                          onClick={() => handleQuestionSelect(faq.id)}
-                        >
-                          {faq.question}
-                        </button>
-                      ))}
-                    </Column>
-                  </Column>
-                );
-              })()
+                {/* Suggested questions (only when not loading) */}
+                {!isLoading && (
+                  <SuggestedQuestions exclude={activeView.question} />
+                )}
+              </Column>
             )}
           </div>
+
+          {/* Input area */}
+          <InputArea />
         </Column>
       )}
 
