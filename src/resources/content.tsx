@@ -589,6 +589,36 @@ const gallery: Gallery = {
       orientation: "square",
     },
     {
+      src: "/images/gallery/qms1.png",
+      alt: "Quick Metal Shop 1",
+      orientation: "square",
+    },
+    {
+      src: "/images/gallery/qms2.png",
+      alt: "Quick Metal Shop 2",
+      orientation: "square",
+    },
+    {
+      src: "/images/gallery/qms3.png",
+      alt: "Quick Metal Shop 3",
+      orientation: "square",
+    },
+    {
+      src: "/images/gallery/qms4.png",
+      alt: "Quick Metal Shop 4",
+      orientation: "square",
+    },
+    {
+      src: "/images/gallery/qms5.png",
+      alt: "Quick Metal Shop 5",
+      orientation: "square",
+    },
+    {
+      src: "/images/gallery/qms6.png",
+      alt: "Quick Metal Shop 6",
+      orientation: "square",
+    },
+    {
       src: "https://www.youtube.com/watch?v=qXv6XMOy1N4",
       alt: "PR Collection",
       orientation: "vertical",
