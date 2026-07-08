@@ -18,21 +18,19 @@ interface Message {
 
 export const FaqChatbot: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([{ sender: "bot", text: initialGreeting }]);
-  const [activeOptions, setActiveOptions] = useState<FAQItem[]>(faqData);
-  const [showBackOption, setShowBackOption] = useState(false);
+  const [activeQuestionId, setActiveQuestionId] = useState<string | null>(null);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLDivElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
 
-  // Auto scroll to bottom of messages log inside the container only
+  // Auto scroll to top of messages container when active question changes or panel opens
   useEffect(() => {
     if (messagesContainerRef.current) {
-      messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+      messagesContainerRef.current.scrollTop = 0;
     }
-  }, [messages, isOpen]);
+  }, [activeQuestionId, isOpen]);
 
   // Click outside to close chatbot panel
   useEffect(() => {
@@ -53,31 +51,12 @@ export const FaqChatbot: React.FC = () => {
     };
   }, [isOpen]);
 
-  const handleQuestionSelect = (faq: FAQItem) => {
-    // Add user question message
-    setMessages((prev) => [...prev, { sender: "user", text: faq.question }]);
-
-    // Add bot answer message after a tiny delay
-    setTimeout(() => {
-      setMessages((prev) => [...prev, { sender: "bot", text: faq.answer }]);
-
-      // Compute related options
-      const related = faq.relatedIds
-        .map((rId) => faqData.find((item) => item.id === rId))
-        .filter((item): item is FAQItem => !!item);
-
-      setActiveOptions(related);
-      setShowBackOption(true);
-    }, 300);
+  const handleQuestionSelect = (id: string) => {
+    setActiveQuestionId(id);
   };
 
   const handleReset = () => {
-    setMessages((prev) => [...prev, { sender: "user", text: backButtonLabel }]);
-    setTimeout(() => {
-      setMessages((prev) => [...prev, { sender: "bot", text: initialGreeting }]);
-      setActiveOptions(faqData);
-      setShowBackOption(false);
-    }, 300);
+    setActiveQuestionId(null);
   };
 
   // Helper to parse simple markdown formatting (bold and links)
@@ -160,60 +139,130 @@ export const FaqChatbot: React.FC = () => {
             />
           </Row>
 
-          {/* Messages Log */}
+          {/* Content Area */}
           <div ref={messagesContainerRef} className={styles.messagesContainer}>
-            {messages.map((msg, index) => (
-              <Flex key={index} fillWidth horizontal={msg.sender === "bot" ? "start" : "end"}>
-                <Flex
-                  paddingY="s"
-                  paddingX="m"
-                  radius="m"
-                  style={{
-                    background: msg.sender === "bot" ? "var(--neutral-alpha-weak)" : "var(--brand-solid)",
-                    maxWidth: "85%",
-                    borderBottomLeftRadius: msg.sender === "bot" ? "var(--radius-xs)" : undefined,
-                    borderBottomRightRadius: msg.sender === "user" ? "var(--radius-xs)" : undefined,
-                    whiteSpace: "normal",
-                    wordBreak: "break-word",
-                  }}
-                >
-                  <Text
-                    variant="body-default-m"
-                    onBackground={msg.sender === "bot" ? "neutral-strong" : "brand-strong"}
+            {activeQuestionId === null ? (
+              <Column gap="12" fillWidth>
+                {/* Greeting Bubble */}
+                <Flex fillWidth horizontal="start">
+                  <Flex
+                    paddingY="s"
+                    paddingX="m"
+                    radius="m"
+                    style={{
+                      background: "var(--neutral-alpha-weak)",
+                      maxWidth: "85%",
+                      borderBottomLeftRadius: "var(--radius-xs)",
+                      whiteSpace: "normal",
+                      wordBreak: "break-word",
+                    }}
                   >
-                    {msg.sender === "bot" ? parseAnswerText(msg.text) : msg.text}
-                  </Text>
+                    <Text variant="body-default-m" onBackground="neutral-strong">
+                      {initialGreeting}
+                    </Text>
+                  </Flex>
                 </Flex>
-              </Flex>
-            ))}
-          </div>
 
-          {/* Suggested Interactive Option Buttons */}
-          <Column fillWidth>
-            <div className={styles.questionsList}>
-              {activeOptions.map((faq) => (
-                <button
-                  key={faq.id}
-                  type="button"
-                  className={styles.questionButton}
-                  onClick={() => handleQuestionSelect(faq)}
-                >
-                  {faq.question}
-                </button>
-              ))}
-            </div>
+                {/* Initial Suggested Questions List */}
+                <Column fillWidth gap="8" className={styles.questionsList}>
+                  {faqData.map((faq) => (
+                    <button
+                      key={faq.id}
+                      type="button"
+                      className={styles.questionButton}
+                      onClick={() => handleQuestionSelect(faq.id)}
+                    >
+                      {faq.question}
+                    </button>
+                  ))}
+                </Column>
+              </Column>
+            ) : (
+              (() => {
+                const activeFAQ = faqData.find((item) => item.id === activeQuestionId);
+                if (!activeFAQ) return null;
 
-            {showBackOption && (
-              <Button
-                variant="tertiary"
-                size="s"
-                className={styles.backButton}
-                onClick={handleReset}
-              >
-                {backButtonLabel}
-              </Button>
+                const relatedQuestions = activeFAQ.relatedIds
+                  .map((rId) => faqData.find((item) => item.id === rId))
+                  .filter((item): item is FAQItem => !!item);
+
+                return (
+                  <Column gap="12" fillWidth>
+                    {/* User Question Bubble */}
+                    <Flex fillWidth horizontal="end">
+                      <Flex
+                        paddingY="s"
+                        paddingX="m"
+                        radius="m"
+                        style={{
+                          background: "var(--brand-solid)",
+                          maxWidth: "85%",
+                          borderBottomRightRadius: "var(--radius-xs)",
+                          whiteSpace: "normal",
+                          wordBreak: "break-word",
+                        }}
+                      >
+                        <Text variant="body-default-m" onBackground="brand-strong">
+                          {activeFAQ.question}
+                        </Text>
+                      </Flex>
+                    </Flex>
+
+                    {/* Bot Answer Bubble */}
+                    <Flex fillWidth horizontal="start">
+                      <Flex
+                        paddingY="s"
+                        paddingX="m"
+                        radius="m"
+                        style={{
+                          background: "var(--neutral-alpha-weak)",
+                          maxWidth: "85%",
+                          borderBottomLeftRadius: "var(--radius-xs)",
+                          whiteSpace: "normal",
+                          wordBreak: "break-word",
+                        }}
+                      >
+                        <Text variant="body-default-m" onBackground="neutral-strong">
+                          {parseAnswerText(activeFAQ.answer)}
+                        </Text>
+                      </Flex>
+                    </Flex>
+
+                    {/* Related Questions List */}
+                    {relatedQuestions.length > 0 && (
+                      <Column
+                        fillWidth
+                        gap="8"
+                        className={styles.questionsList}
+                        style={{ marginTop: "8px" }}
+                      >
+                        {relatedQuestions.map((faq) => (
+                          <button
+                            key={faq.id}
+                            type="button"
+                            className={styles.questionButton}
+                            onClick={() => handleQuestionSelect(faq.id)}
+                          >
+                            {faq.question}
+                          </button>
+                        ))}
+                      </Column>
+                    )}
+
+                    {/* Back Button */}
+                    <Button
+                      variant="tertiary"
+                      size="s"
+                      className={styles.backButton}
+                      onClick={handleReset}
+                    >
+                      {backButtonLabel}
+                    </Button>
+                  </Column>
+                );
+              })()
             )}
-          </Column>
+          </div>
         </Column>
       )}
 
