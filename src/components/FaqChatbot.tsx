@@ -182,9 +182,7 @@ export const FaqChatbot: React.FC = () => {
                 const activeFAQ = faqData.find((item) => item.id === activeQuestionId);
                 if (!activeFAQ) return null;
 
-                const relatedQuestions = activeFAQ.relatedIds
-                  .map((rId) => faqData.find((item) => item.id === rId))
-                  .filter((item): item is FAQItem => !!item);
+                const remainingQuestions = faqData.filter((item) => item.id !== activeQuestionId);
 
                 return (
                   <Column gap="12" fillWidth>
@@ -228,36 +226,24 @@ export const FaqChatbot: React.FC = () => {
                       </Flex>
                     </Flex>
 
-                    {/* Related Questions List */}
-                    {relatedQuestions.length > 0 && (
-                      <Column
-                        fillWidth
-                        gap="8"
-                        className={styles.questionsList}
-                        style={{ marginTop: "8px" }}
-                      >
-                        {relatedQuestions.map((faq) => (
-                          <button
-                            key={faq.id}
-                            type="button"
-                            className={styles.questionButton}
-                            onClick={() => handleQuestionSelect(faq.id)}
-                          >
-                            {faq.question}
-                          </button>
-                        ))}
-                      </Column>
-                    )}
-
-                    {/* Back Button */}
-                    <Button
-                      variant="tertiary"
-                      size="s"
-                      className={styles.backButton}
-                      onClick={handleReset}
+                    {/* Remaining Questions List */}
+                    <Column
+                      fillWidth
+                      gap="8"
+                      className={styles.questionsList}
+                      style={{ marginTop: "8px" }}
                     >
-                      {backButtonLabel}
-                    </Button>
+                      {remainingQuestions.map((faq) => (
+                        <button
+                          key={faq.id}
+                          type="button"
+                          className={styles.questionButton}
+                          onClick={() => handleQuestionSelect(faq.id)}
+                        >
+                          {faq.question}
+                        </button>
+                      ))}
+                    </Column>
                   </Column>
                 );
               })()

@@ -29,7 +29,7 @@
   width: 380px !important;
   max-width: 90vw !important;
   height: auto !important;
-  max-height: calc(100dvh - 6rem) !important;
+  max-height: calc(100svh - 6rem) !important;
   display: flex !important;
   flex-direction: column !important;
   box-shadow: var(--shadow-l) !important;
@@ -53,6 +53,7 @@
   flex: 1 1 auto;
   min-height: 0;
   overflow-y: auto;
+  overscroll-behavior: contain;
   padding: var(--static-space-12) 0;
   display: flex;
   flex-direction: column;
@@ -104,13 +105,6 @@
   }
 }
 
-.backButton {
-  align-self: center;
-  margin-top: var(--static-space-8);
-  font-size: var(--body-font-size-default-s);
-  cursor: pointer;
-}
-
 @media (max-width: breakpoints.$s) {
   .chatbotWrapper {
     bottom: 5.5rem;
@@ -120,6 +114,6 @@
   .chatbotContainer {
     width: calc(100vw - 3rem) !important;
     height: auto !important;
-    max-height: calc(100dvh - 9.5rem) !important;
+    max-height: calc(100svh - 9.5rem) !important;
   }
 }
