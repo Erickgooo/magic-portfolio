@@ -428,6 +428,21 @@ const about: About = {
         institution: "Edureka",
         link: "https://www.coursera.org/account/accomplishments/specialization/ONNNZYW84VR5",
       },
+      {
+        name: "Advertising with Meta",
+        institution: "Meta",
+        link: "https://www.coursera.org/account/accomplishments/verify/RUGAIV86022E",
+      },
+      {
+        name: "Measure and Optimize Social Media Marketing Campaigns",
+        institution: "Meta",
+        link: "https://www.coursera.org/account/accomplishments/verify/7AHICPDYW1D2",
+      },
+      {
+        name: "Fundamentals of Social Media Advertising",
+        institution: "Meta",
+        link: "https://www.coursera.org/account/accomplishments/verify/GAJQ9GDKCAIQ",
+      },
     ],
   },
   technical: {
