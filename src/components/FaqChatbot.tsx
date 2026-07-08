@@ -122,9 +122,12 @@ export const FaqChatbot: React.FC = () => {
       }
 
       return (
-        <div key={lIdx} style={{ minHeight: line.trim() === "" ? "8px" : "unset" }}>
+        <span
+          key={lIdx}
+          style={{ display: "block", minHeight: line.trim() === "" ? "8px" : "unset" }}
+        >
           {lineParts}
-        </div>
+        </span>
       );
     });
   };
@@ -160,14 +163,28 @@ export const FaqChatbot: React.FC = () => {
           {/* Messages Log */}
           <div ref={messagesContainerRef} className={styles.messagesContainer}>
             {messages.map((msg, index) => (
-              <div
-                key={index}
-                className={`${styles.bubble} ${
-                  msg.sender === "bot" ? styles.botBubble : styles.userBubble
-                }`}
-              >
-                {msg.sender === "bot" ? parseAnswerText(msg.text) : msg.text}
-              </div>
+              <Flex key={index} fillWidth horizontal={msg.sender === "bot" ? "start" : "end"}>
+                <Flex
+                  paddingY="s"
+                  paddingX="m"
+                  radius="m"
+                  style={{
+                    background: msg.sender === "bot" ? "var(--neutral-alpha-weak)" : "var(--brand-solid)",
+                    maxWidth: "85%",
+                    borderBottomLeftRadius: msg.sender === "bot" ? "var(--radius-xs)" : undefined,
+                    borderBottomRightRadius: msg.sender === "user" ? "var(--radius-xs)" : undefined,
+                    whiteSpace: "normal",
+                    wordBreak: "break-word",
+                  }}
+                >
+                  <Text
+                    variant="body-default-m"
+                    onBackground={msg.sender === "bot" ? "neutral-strong" : "brand-strong"}
+                  >
+                    {msg.sender === "bot" ? parseAnswerText(msg.text) : msg.text}
+                  </Text>
+                </Flex>
+              </Flex>
             ))}
           </div>
 

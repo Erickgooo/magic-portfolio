@@ -35,8 +35,8 @@
   box-shadow: var(--shadow-l) !important;
   overflow: hidden !important;
   backdrop-filter: blur(16px) !important;
-  background: var(--neutral-background-translucent) !important;
-  border: 1px solid var(--neutral-alpha-weak) !important;
+  background: var(--surface-background) !important;
+  border: 1px solid var(--surface-border) !important;
   border-radius: var(--radius-l) !important;
   transition: opacity 0.2s ease, transform 0.2s ease !important;
   box-sizing: border-box !important;
@@ -70,33 +70,6 @@
     background: var(--neutral-alpha-weak);
     border-radius: 2px;
   }
-}
-
-.bubble {
-  max-width: 85%;
-  padding: var(--static-space-12) var(--static-space-16);
-  border-radius: var(--radius-m);
-  font-size: var(--body-font-size-default-m);
-  line-height: 1.5;
-  white-space: normal !important;
-  overflow-wrap: break-word !important;
-  word-wrap: break-word !important;
-  word-break: break-word !important;
-  box-sizing: border-box !important;
-}
-
-.botBubble {
-  background: var(--neutral-alpha-weak);
-  color: var(--neutral-on-background-strong);
-  align-self: flex-start;
-  border-bottom-left-radius: var(--radius-xs);
-}
-
-.userBubble {
-  background: var(--brand-solid);
-  color: var(--brand-on-solid-strong);
-  align-self: flex-end;
-  border-bottom-right-radius: var(--radius-xs);
 }
 
 .questionsList {
