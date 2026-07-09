@@ -4,48 +4,52 @@ import { useEffect, useRef, useState } from "react";
 import styles from "./ResultsStats.module.scss";
 
 interface Stat {
-  value: string | number;
+  value: string;
   label: string;
 }
 
 interface ResultsStatsProps {
-  stats: Stat[];
+  /**
+   * Pass stats as a pipe-separated string: "110K|views|2411|likes|98|comments"
+   * Each pair is value|label
+   */
+  data: string;
   title?: string;
 }
 
-// Parse a value like "110K", "338K+", "2.3M", "629.7K", "2,411"
-function parseValue(raw: string | number): {
-  numericPart: number;
-  suffix: string;
-  displayRaw: string;
-} {
-  const str = String(raw).trim();
-
-  // Try to match: optional digits/decimals, then optional K/M/B/+ suffix
-  // Handles: "110K", "2.3M", "338K+", "390.6K", "2,411", "98", "1.5K"
-  const match = str.match(/^([\d,\.]+)([KkMmBb+%]*)(.*)$/);
-  if (!match) {
-    return { numericPart: 0, suffix: "", displayRaw: str };
+// Parse a pipe-separated string: "110K|views|2411|likes|98|comments"
+function parseStats(data: string): Stat[] {
+  const parts = data.split("|").map((s) => s.trim());
+  const result: Stat[] = [];
+  for (let i = 0; i + 1 < parts.length; i += 2) {
+    result.push({ value: parts[i], label: parts[i + 1] });
   }
-
-  const rawNum = match[1].replace(/,/g, ""); // remove commas: "2,411" -> "2411"
-  const numericPart = parseFloat(rawNum) || 0;
-  const suffix = (match[2] + match[3]).trim(); // e.g. "K", "K+", "+", ""
-
-  return { numericPart, suffix, displayRaw: str };
+  return result;
 }
 
-// Format a number with commas, no locale dependency — pure JS
+// Parse a display value like "110K", "2.3M", "338K+", "2,411", "390.6K"
+function parseValue(raw: string): { numericPart: number; suffix: string } {
+  const str = raw.trim();
+  const match = str.match(/^([\d,\.]+)([KkMmBb+%]*)(.*)$/);
+  if (!match) return { numericPart: 0, suffix: str };
+  const rawNum = match[1].replace(/,/g, "");
+  const numericPart = parseFloat(rawNum) || 0;
+  const suffix = (match[2] + match[3]).trim();
+  return { numericPart, suffix };
+}
+
+// Pure JS number formatter — no locale, no SSR mismatch
 function formatNumber(n: number): string {
-  const floored = Math.floor(n);
+  const floored = Math.floor(Math.abs(n));
   return floored.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-// Format the final value with decimal support (e.g. 2.3 -> "2.3")
 function formatFinal(numericPart: number): string {
   if (numericPart % 1 !== 0) {
-    // has decimal — show one decimal place
-    return numericPart.toFixed(1).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    const fixed = numericPart.toFixed(1);
+    const [int, dec] = fixed.split(".");
+    const formatted = int.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return `${formatted}.${dec}`;
   }
   return formatNumber(numericPart);
 }
@@ -67,13 +71,31 @@ function AnimatedStat({ stat }: { stat: Stat }) {
         if (entries[0].isIntersecting && !startedRef.current) {
           startedRef.current = true;
           observer.disconnect();
-          runAnimation();
+
+          const duration = 1300;
+          const start = performance.now();
+
+          function tick(now: number) {
+            const elapsed = now - start;
+            const progress = Math.min(elapsed / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            setDisplayed(eased * numericPart);
+            if (progress < 1) {
+              rafRef.current = requestAnimationFrame(tick);
+            } else {
+              setDisplayed(numericPart);
+              setDone(true);
+              rafRef.current = null;
+            }
+          }
+
+          rafRef.current = requestAnimationFrame(tick);
         }
       },
       { threshold: 0.3 }
     );
-    observer.observe(el);
 
+    observer.observe(el);
     return () => {
       observer.disconnect();
       if (rafRef.current !== null) {
@@ -81,31 +103,6 @@ function AnimatedStat({ stat }: { stat: Stat }) {
       }
     };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
-  function runAnimation() {
-    const duration = 1300;
-    const startTime = performance.now();
-
-    function tick(now: number) {
-      const elapsed = now - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-      // Ease out cubic
-      const eased = 1 - Math.pow(1 - progress, 3);
-      const current = eased * numericPart;
-
-      setDisplayed(current);
-
-      if (progress < 1) {
-        rafRef.current = requestAnimationFrame(tick);
-      } else {
-        setDisplayed(numericPart);
-        setDone(true);
-        rafRef.current = null;
-      }
-    }
-
-    rafRef.current = requestAnimationFrame(tick);
-  }
 
   const displayStr = done ? formatFinal(numericPart) : formatNumber(displayed);
 
@@ -122,7 +119,8 @@ function AnimatedStat({ stat }: { stat: Stat }) {
   );
 }
 
-export function ResultsStats({ stats, title }: ResultsStatsProps) {
+export function ResultsStats({ data, title }: ResultsStatsProps) {
+  const stats = parseStats(data);
   const scrollRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
@@ -141,11 +139,9 @@ export function ResultsStats({ stats, title }: ResultsStatsProps) {
     checkScroll();
     const el = scrollRef.current;
     if (!el) return;
-
     el.addEventListener("scroll", checkScroll, { passive: true });
     const ro = new ResizeObserver(checkScroll);
     ro.observe(el);
-
     return () => {
       el.removeEventListener("scroll", checkScroll);
       ro.disconnect();
