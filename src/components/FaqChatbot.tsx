@@ -319,15 +319,20 @@ export const FaqChatbot: React.FC = () => {
             <Row gap="8" vertical="center">
               <Image
                 src="/images/chatbot/chatbot-icon.png"
-                alt="Erick Chatbot"
+                alt="ErickBot"
                 width={32}
                 height={32}
                 className={styles.headerIcon}
                 priority
               />
-              <Heading as="h4" variant="heading-strong-s">
-                {chatbotTitle}
-              </Heading>
+              <Column vertical="start">
+                <Heading as="h4" variant="heading-strong-s">
+                  {chatbotTitle}
+                </Heading>
+                <Text variant="body-default-xs" onBackground="neutral-weak">
+                  Powered by AI
+                </Text>
+              </Column>
             </Row>
             <IconButton
               icon="x"
@@ -379,7 +384,7 @@ export const FaqChatbot: React.FC = () => {
                         onBackground="neutral-weak"
                         style={{ fontStyle: "italic" }}
                       >
-                        Erick Chatbot is typing…
+                        ErickBot is typing…
                       </Text>
                     ) : (
                       <Text variant="body-default-m" onBackground="neutral-strong">
@@ -420,14 +425,14 @@ export const FaqChatbot: React.FC = () => {
           type="button"
           className={styles.toggleButton}
           onClick={() => setIsOpen(!isOpen)}
-          aria-label="Toggle Erick Chatbot"
+          aria-label="Toggle ErickBot"
         >
           {isOpen ? (
             <Icon name="x" size="m" />
           ) : (
             <Image
               src="/images/chatbot/chatbot-icon.png"
-              alt="Erick Chatbot"
+              alt="ErickBot"
               width={64}
               height={64}
               className={styles.avatarIcon}

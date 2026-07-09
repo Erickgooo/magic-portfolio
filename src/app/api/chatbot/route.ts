@@ -60,7 +60,7 @@ function buildSystemPrompt(): string {
 
   const featuredProject = `${jsxToText(home.featured?.title)} — ${home.featured?.href}`;
 
-  return `You are Erick Chatbot, an assistant on Erick Mahecha's portfolio website.
+  return `You are ErickBot, an assistant on Erick Mahecha's portfolio website.
 
 ## ABOUT ERICK
 Name: ${person.name}
