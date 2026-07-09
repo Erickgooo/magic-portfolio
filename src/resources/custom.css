@@ -52,3 +52,14 @@
   --scheme-neutral-600-50: rgba(137,152,159,0.5);
   /*
 }*/
+
+/* ─── Mobile bottom-nav clearance ──────────────────────────────────────────
+   On mobile (≤768px) the header switches to position:fixed at the bottom
+   (bottom: 24px). Without extra padding-bottom, the bar overlaps content.
+   The nav bar is ~56px tall + 24px offset = ~80px, so 96px gives clearance.
+──────────────────────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .main-content-wrapper {
+    padding-bottom: 96px !important;
+  }
+}
