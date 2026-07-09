@@ -205,6 +205,7 @@ export const FaqChatbot: React.FC = () => {
   const [inputText, setInputText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [suggestionsCollapsed, setSuggestionsCollapsed] = useState(true);
+  const [showBubble, setShowBubble] = useState(false);
   const [msgCount, setMsgCount] = useState<number>(() => {
     if (typeof window !== "undefined") {
       return Number(sessionStorage.getItem("chatbot_msg_count") ?? "0");
@@ -241,6 +242,45 @@ export const FaqChatbot: React.FC = () => {
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [isOpen]);
+
+  // Proactive greeting bubble logic
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const shown = sessionStorage.getItem("erickbot_greeting_shown") === "true";
+    if (shown || isOpen) return;
+
+    const delayTimer = setTimeout(() => {
+      const currentShown = sessionStorage.getItem("erickbot_greeting_shown") === "true";
+      if (!isOpen && !currentShown) {
+        setShowBubble(true);
+        sessionStorage.setItem("erickbot_greeting_shown", "true");
+      }
+    }, 2500);
+
+    return () => clearTimeout(delayTimer);
+  }, [isOpen]);
+
+  // Auto-dismiss after 8 seconds
+  useEffect(() => {
+    if (!showBubble) return;
+
+    const dismissTimer = setTimeout(() => {
+      setShowBubble(false);
+    }, 8000);
+
+    return () => clearTimeout(dismissTimer);
+  }, [showBubble]);
+
+  // Close bubble if chat opens
+  useEffect(() => {
+    if (isOpen) {
+      setShowBubble(false);
+      if (typeof window !== "undefined") {
+        sessionStorage.setItem("erickbot_greeting_shown", "true");
+      }
+    }
   }, [isOpen]);
 
   // ── API call ────────────────────────────────────────────────────────────────
@@ -417,6 +457,35 @@ export const FaqChatbot: React.FC = () => {
             isLimited={isLimited}
           />
         </Column>
+      )}
+
+      {/* Proactive Greeting Bubble */}
+      {showBubble && (
+        <div
+          className={styles.greetingBubble}
+          onClick={() => {
+            setIsOpen(true);
+            setShowBubble(false);
+          }}
+        >
+          <div className={styles.greetingContent}>
+            <Text variant="body-default-s" onBackground="neutral-strong">
+              👋 Curious about my work? Ask ErickBot!
+            </Text>
+          </div>
+          <button
+            type="button"
+            className={styles.bubbleCloseButton}
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowBubble(false);
+            }}
+            aria-label="Close greeting"
+          >
+            <Icon name="x" size="xs" />
+          </button>
+          <div className={styles.bubbleTip} />
+        </div>
       )}
 
       {/* Floating Toggle Button */}

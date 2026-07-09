@@ -250,3 +250,70 @@
     max-height: calc(100svh - 9.5rem) !important;
   }
 }
+
+.greetingBubble {
+  position: relative;
+  width: 280px;
+  max-width: calc(100vw - 3rem);
+  padding: var(--static-space-12) var(--static-space-32) var(--static-space-12) var(--static-space-16);
+  background: var(--surface-background);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-l);
+  box-shadow: var(--shadow-l);
+  backdrop-filter: blur(16px);
+  cursor: pointer;
+  margin-bottom: 12px;
+  z-index: 1000;
+  box-sizing: border-box;
+  animation: slideUpFadeIn 0.3s ease-out forwards;
+}
+
+.greetingContent {
+  width: 100%;
+}
+
+.bubbleCloseButton {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--neutral-on-background-weak);
+  padding: 4px;
+  border-radius: 50%;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  box-sizing: border-box;
+
+  &:hover {
+    background-color: var(--neutral-alpha-weak);
+    color: var(--neutral-on-background-strong);
+  }
+}
+
+.bubbleTip {
+  position: absolute;
+  bottom: -6px;
+  right: 26px;
+  width: 10px;
+  height: 10px;
+  background: var(--surface-background);
+  border-right: 1px solid var(--surface-border);
+  border-bottom: 1px solid var(--surface-border);
+  transform: rotate(45deg);
+  z-index: -1;
+}
+
+@keyframes slideUpFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
