@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./ResultsStats.module.scss";
 
 interface Stat {
@@ -13,59 +13,77 @@ interface ResultsStatsProps {
   title?: string;
 }
 
-// Parse a value like "110K", "338K+", "2.3M", "629.7K", "390.6K" into its parts
+// Parse a value like "110K", "338K+", "2.3M", "629.7K", "2,411"
 function parseValue(raw: string | number): {
-  prefix: string;
-  numeric: number;
+  numericPart: number;
   suffix: string;
+  displayRaw: string;
 } {
-  const str = String(raw);
-  // Detect leading non-numeric prefix (rare, but safe)
-  const prefixMatch = str.match(/^([^0-9]*)/);
-  const prefix = prefixMatch ? prefixMatch[1] : "";
-  const rest = str.slice(prefix.length);
+  const str = String(raw).trim();
 
-  // Detect suffix: letters and/or + at the end
-  const suffixMatch = rest.match(/([KkMmBb+%][^0-9]*)$/);
-  const suffix = suffixMatch ? suffixMatch[1] : "";
-  const numericStr = rest.slice(0, rest.length - suffix.length);
-  const numeric = parseFloat(numericStr) || 0;
+  // Try to match: optional digits/decimals, then optional K/M/B/+ suffix
+  // Handles: "110K", "2.3M", "338K+", "390.6K", "2,411", "98", "1.5K"
+  const match = str.match(/^([\d,\.]+)([KkMmBb+%]*)(.*)$/);
+  if (!match) {
+    return { numericPart: 0, suffix: "", displayRaw: str };
+  }
 
-  return { prefix, numeric, suffix };
+  const rawNum = match[1].replace(/,/g, ""); // remove commas: "2,411" -> "2411"
+  const numericPart = parseFloat(rawNum) || 0;
+  const suffix = (match[2] + match[3]).trim(); // e.g. "K", "K+", "+", ""
+
+  return { numericPart, suffix, displayRaw: str };
 }
 
-function formatAnimatedValue(
-  current: number,
-  target: number,
-  suffix: string
-): string {
-  // Once we're at target show exact display with suffix
-  if (current >= target) {
-    // Format with commas if no K/M suffix (pure numbers like 2,411)
-    if (!suffix.match(/[KkMmBb]/)) {
-      return target.toLocaleString("en-US") + suffix;
-    }
-    // For K/M values, show decimal if original had one
-    return target.toLocaleString("en-US") + suffix;
-  }
-  // During animation: whole numbers for large values
-  const rounded = Math.floor(current);
-  if (!suffix.match(/[KkMmBb]/)) {
-    return rounded.toLocaleString("en-US");
-  }
-  return rounded.toLocaleString("en-US");
+// Format a number with commas, no locale dependency — pure JS
+function formatNumber(n: number): string {
+  const floored = Math.floor(n);
+  return floored.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-function AnimatedNumber({ value }: { value: string | number }) {
-  const { prefix, numeric, suffix } = parseValue(value);
+// Format the final value with decimal support (e.g. 2.3 -> "2.3")
+function formatFinal(numericPart: number): string {
+  if (numericPart % 1 !== 0) {
+    // has decimal — show one decimal place
+    return numericPart.toFixed(1).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+  return formatNumber(numericPart);
+}
+
+function AnimatedStat({ stat }: { stat: Stat }) {
+  const { numericPart, suffix } = parseValue(stat.value);
   const [displayed, setDisplayed] = useState(0);
   const [done, setDone] = useState(false);
   const rafRef = useRef<number | null>(null);
+  const spanRef = useRef<HTMLSpanElement>(null);
+  const startedRef = useRef(false);
 
-  const startAnimation = useCallback(() => {
-    setDisplayed(0);
-    setDone(false);
-    const duration = 1300; // ms
+  useEffect(() => {
+    const el = spanRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && !startedRef.current) {
+          startedRef.current = true;
+          observer.disconnect();
+          runAnimation();
+        }
+      },
+      { threshold: 0.3 }
+    );
+    observer.observe(el);
+
+    return () => {
+      observer.disconnect();
+      if (rafRef.current !== null) {
+        cancelAnimationFrame(rafRef.current);
+      }
+    };
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  function runAnimation() {
+    const duration = 1300;
     const startTime = performance.now();
 
     function tick(now: number) {
@@ -73,82 +91,34 @@ function AnimatedNumber({ value }: { value: string | number }) {
       const progress = Math.min(elapsed / duration, 1);
       // Ease out cubic
       const eased = 1 - Math.pow(1 - progress, 3);
-      const current = eased * numeric;
+      const current = eased * numericPart;
+
       setDisplayed(current);
 
       if (progress < 1) {
         rafRef.current = requestAnimationFrame(tick);
       } else {
-        setDisplayed(numeric);
+        setDisplayed(numericPart);
         setDone(true);
+        rafRef.current = null;
       }
     }
 
     rafRef.current = requestAnimationFrame(tick);
-  }, [numeric]);
+  }
 
-  // Expose start via ref for parent to call
-  return (
-    <AnimatedNumberInner
-      prefix={prefix}
-      numeric={numeric}
-      suffix={suffix}
-      displayed={displayed}
-      done={done}
-      onStart={startAnimation}
-    />
-  );
-}
-
-interface AnimatedNumberInnerProps {
-  prefix: string;
-  numeric: number;
-  suffix: string;
-  displayed: number;
-  done: boolean;
-  onStart: () => void;
-}
-
-function AnimatedNumberInner({
-  prefix,
-  numeric,
-  suffix,
-  displayed,
-  done,
-  onStart,
-}: AnimatedNumberInnerProps) {
-  const ref = useRef<HTMLSpanElement>(null);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          onStart();
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.4 }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, [onStart]);
-
-  const displayStr = done
-    ? String(numeric % 1 !== 0
-        ? numeric.toLocaleString("en-US", { minimumFractionDigits: 1, maximumFractionDigits: 1 })
-        : numeric % 1000 === 0 || suffix.match(/[KkMmBb]/)
-          ? numeric.toLocaleString("en-US")
-          : numeric.toLocaleString("en-US"))
-    : Math.floor(displayed).toLocaleString("en-US");
+  const displayStr = done ? formatFinal(numericPart) : formatNumber(displayed);
 
   return (
-    <span ref={ref}>
-      {prefix}
-      {displayStr}
-      {done ? suffix : ""}
-    </span>
+    <div className={styles.statInner}>
+      <div className={styles.value}>
+        <span ref={spanRef} suppressHydrationWarning>
+          {displayStr}
+          {done ? suffix : ""}
+        </span>
+      </div>
+      <div className={styles.label}>{stat.label}</div>
+    </div>
   );
 }
 
@@ -158,33 +128,35 @@ export function ResultsStats({ stats, title }: ResultsStatsProps) {
   const [canScrollRight, setCanScrollRight] = useState(false);
   const [hasOverflow, setHasOverflow] = useState(false);
 
-  const checkScroll = useCallback(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    const overflow = el.scrollWidth > el.clientWidth + 2;
-    setHasOverflow(overflow);
-    setCanScrollLeft(el.scrollLeft > 2);
-    setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 2);
-  }, []);
-
   useEffect(() => {
+    function checkScroll() {
+      const el = scrollRef.current;
+      if (!el) return;
+      const overflow = el.scrollWidth > el.clientWidth + 2;
+      setHasOverflow(overflow);
+      setCanScrollLeft(el.scrollLeft > 2);
+      setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 2);
+    }
+
     checkScroll();
     const el = scrollRef.current;
     if (!el) return;
+
     el.addEventListener("scroll", checkScroll, { passive: true });
     const ro = new ResizeObserver(checkScroll);
     ro.observe(el);
+
     return () => {
       el.removeEventListener("scroll", checkScroll);
       ro.disconnect();
     };
-  }, [checkScroll]);
+  }, []);
 
-  const scrollBy = (dir: "left" | "right") => {
+  function scrollByDir(dir: "left" | "right") {
     const el = scrollRef.current;
     if (!el) return;
     el.scrollBy({ left: dir === "right" ? 220 : -220, behavior: "smooth" });
-  };
+  }
 
   return (
     <div className={styles.root}>
@@ -192,8 +164,10 @@ export function ResultsStats({ stats, title }: ResultsStatsProps) {
       <div className={styles.carouselWrapper}>
         {hasOverflow && (
           <button
-            className={`${styles.arrow} ${styles.arrowLeft} ${!canScrollLeft ? styles.arrowDisabled : ""}`}
-            onClick={() => scrollBy("left")}
+            className={`${styles.arrow} ${styles.arrowLeft} ${
+              !canScrollLeft ? styles.arrowDisabled : ""
+            }`}
+            onClick={() => scrollByDir("left")}
             aria-label="Scroll left"
             disabled={!canScrollLeft}
           >
@@ -204,19 +178,16 @@ export function ResultsStats({ stats, title }: ResultsStatsProps) {
           {stats.map((stat, i) => (
             <div key={i} className={styles.stat}>
               {i > 0 && <div className={styles.divider} />}
-              <div className={styles.statInner}>
-                <div className={styles.value}>
-                  <AnimatedNumber value={stat.value} />
-                </div>
-                <div className={styles.label}>{stat.label}</div>
-              </div>
+              <AnimatedStat stat={stat} />
             </div>
           ))}
         </div>
         {hasOverflow && (
           <button
-            className={`${styles.arrow} ${styles.arrowRight} ${!canScrollRight ? styles.arrowDisabled : ""}`}
-            onClick={() => scrollBy("right")}
+            className={`${styles.arrow} ${styles.arrowRight} ${
+              !canScrollRight ? styles.arrowDisabled : ""
+            }`}
+            onClick={() => scrollByDir("right")}
             aria-label="Scroll right"
             disabled={!canScrollRight}
           >
