@@ -50,14 +50,14 @@ const home: Home = {
     display: true,
     title: (
       <Row gap="12" vertical="center">
-        <strong className="ml-4">QMS ArquiExpo App</strong>{" "}
+        <strong className="ml-4">Quick Metal Shop — Engineering Virality with AI</strong>{" "}
         <Line background="brand-alpha-strong" vert height="20" />
         <Text marginRight="4" onBackground="brand-medium">
           Featured work
         </Text>
       </Row>
     ),
-    href: "/work/quick-metal-shop-arquiexpo",
+    href: "/work/quick-metal-shop-viral-videos",
   },
   subline: (
     <>
