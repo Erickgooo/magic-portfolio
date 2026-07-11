@@ -554,6 +554,41 @@ const gallery: Gallery = {
   // These are placeholder images, replace with your own
   images: [
     {
+      src: "https://youtube.com/shorts/E-8o73YzYh4",
+      alt: "QMS - Día del Padre Reel 2",
+      orientation: "vertical",
+    },
+    {
+      src: "/images/gallery/carru1.png",
+      alt: "Visual Work Carru 1",
+      orientation: "square",
+    },
+    {
+      src: "/images/gallery/carru2.png",
+      alt: "Visual Work Carru 2",
+      orientation: "square",
+    },
+    {
+      src: "/images/gallery/carru3.png",
+      alt: "Visual Work Carru 3",
+      orientation: "square",
+    },
+    {
+      src: "/images/gallery/carru4.png",
+      alt: "Visual Work Carru 4",
+      orientation: "square",
+    },
+    {
+      src: "/images/gallery/carru5.png",
+      alt: "Visual Work Carru 5",
+      orientation: "square",
+    },
+    {
+      src: "/images/gallery/carru6.png",
+      alt: "Visual Work Carru 6",
+      orientation: "square",
+    },
+    {
       src: "https://youtube.com/shorts/PoQ8VFQ801Q",
       alt: "QMS - Colección Día del Padre Teaser",
       orientation: "vertical",
