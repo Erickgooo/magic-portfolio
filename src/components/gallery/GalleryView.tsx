@@ -1,11 +1,11 @@
 "use client";
 
-import { Media, MasonryGrid, Flex } from "@once-ui-system/core";
+import { Media, Grid, Flex } from "@once-ui-system/core";
 import { gallery } from "@/resources";
 
 export default function GalleryView() {
   return (
-    <MasonryGrid columns={2} s={{ columns: 1 }}>
+    <Grid columns={2} s={{ columns: 1 }} gap="16" fillWidth>
       {gallery.images.map((image, index) => {
         // 1. Detectamos si es video de YouTube
         const isYouTube = image.src.includes("youtube.com") || image.src.includes("youtu.be");
@@ -69,6 +69,6 @@ export default function GalleryView() {
           />
         );
       })}
-    </MasonryGrid>
+    </Grid>
   );
 }
