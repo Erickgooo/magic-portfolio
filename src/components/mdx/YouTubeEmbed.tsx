@@ -5,15 +5,17 @@ import styles from "./YouTubeEmbed.module.scss";
 interface YouTubeEmbedProps {
   videoId: string;
   title: string;
-  isVertical?: boolean;
+  isVertical?: boolean | string;
 }
 
 export function YouTubeEmbed({ videoId, title, isVertical = true }: YouTubeEmbedProps) {
+  const isVert = isVertical === true || isVertical === "true" || isVertical === undefined;
+
   return (
     <div className={styles.wrapper}>
       <div
         className={styles.container}
-        style={!isVertical ? { maxWidth: "100%", aspectRatio: "16 / 9" } : {}}
+        style={!isVert ? { maxWidth: "100%", aspectRatio: "16 / 9" } : {}}
       >
         <iframe
           className={styles.iframe}
