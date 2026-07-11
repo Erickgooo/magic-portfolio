@@ -161,30 +161,28 @@ function ImageCell({ item }: { item: Extract<GalleryItem, { type: "image" }> }) 
           aspectRatio={aspectRatio}
           src={item.image.src}
           alt={item.image.alt}
-          // No `enlarge` — click is handled by HoverWrapper → Dialog below
         />
       </HoverWrapper>
 
-      {/* Fixed-overlay lightbox — no scroll-position dependency */}
+      {/* Lightbox — plain <img> so the image ALWAYS renders at its
+          true natural aspect ratio with zero cropping, regardless of
+          the orientation tag assigned in content.tsx */}
       <Dialog
         isOpen={open}
         onClose={() => setOpen(false)}
         title={<span />}
-        style={{ maxWidth: 860 }}
+        style={{ maxWidth: 900 }}
       >
-        {/*
-          - No `aspectRatio` here: image renders at its natural dimensions,
-            not forced to the orientation-derived ratio (which caused cropping).
-          - `fillWidth` + `objectFit="contain"` ensures the image fits the
-            dialog width without cutting anything off.
-        */}
-        <Media
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
           src={item.image.src}
           alt={item.image.alt}
-          sizes="(max-width: 860px) 100vw, 860px"
-          radius="m"
-          objectFit="contain"
-          style={{ width: "100%", height: "auto" }}
+          style={{
+            display: "block",
+            width: "100%",
+            height: "auto",
+            borderRadius: "var(--radius-m, 8px)",
+          }}
         />
       </Dialog>
     </>
