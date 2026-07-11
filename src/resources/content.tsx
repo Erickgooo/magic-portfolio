@@ -726,13 +726,13 @@ const gallery: Gallery = {
       orientation: "vertical",
     },
     {
-      src: "/images/gallery/horizontal-1.jpg",
-      alt: "image",
+      src: "/images/gallery/Artesa - Wallpaper Diciembre.jpg",
+      alt: "Artesa - Wallpaper Diciembre",
       orientation: "horizontal",
     },
     {
-      src: "/images/gallery/vertical-4.jpg",
-      alt: "image",
+      src: "/images/gallery/Artesa - Panettone 2x1.jpg",
+      alt: "Artesa - Panettone 2x1",
       orientation: "vertical",
     },
     {
@@ -741,13 +741,13 @@ const gallery: Gallery = {
       orientation: "vertical",
     },
     {
-      src: "/images/gallery/vertical-1.jpg",
-      alt: "Artesa - Recorrido Tiendas",
+      src: "/images/gallery/Artesa - Muffin ChocoMix.jpg",
+      alt: "Artesa - Muffin ChocoMix",
       orientation: "vertical",
     },
     {
-      src: "/images/gallery/vertical-2.jpg",
-      alt: "image",
+      src: "/images/gallery/Artesa - Nuevos Sabores.jpg",
+      alt: "Artesa - Nuevos Sabores",
       orientation: "vertical",
     },
     {
@@ -761,19 +761,18 @@ const gallery: Gallery = {
       orientation: "vertical",
     },
     {
-      src: "/images/gallery/vertical-3.jpg",
-      alt: "Foto vertical 3",
-      orientation: "vertical",
-    },
-
-    {
-      src: "/images/gallery/vertical-5.jpg",
-      alt: "image",
+      src: "/images/gallery/Artesa - Magia de Diciembre.jpg",
+      alt: "Artesa - Magia de Diciembre",
       orientation: "vertical",
     },
     {
-      src: "/images/gallery/vertical-6.jpg",
-      alt: "image",
+      src: "/images/gallery/Artesa - Nuevo Menú.jpg",
+      alt: "Artesa - Nuevo Menú",
+      orientation: "vertical",
+    },
+    {
+      src: "/images/gallery/Artesa - Día de la Madre.jpg",
+      alt: "Artesa - Día de la Madre",
       orientation: "vertical",
     },
   ],
