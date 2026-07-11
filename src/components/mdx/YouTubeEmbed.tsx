@@ -14,8 +14,7 @@ export function YouTubeEmbed({ videoId, title, isVertical = true }: YouTubeEmbed
   return (
     <div className={styles.wrapper}>
       <div
-        className={styles.container}
-        style={!isVert ? { maxWidth: "100%", aspectRatio: "16 / 9" } : {}}
+        className={`${styles.container} ${!isVert ? styles.widescreen : ""}`}
       >
         <iframe
           className={styles.iframe}

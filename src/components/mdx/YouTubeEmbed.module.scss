@@ -14,6 +14,11 @@
   overflow: hidden;
   border: 1px solid var(--neutral-alpha-medium);
   background: var(--neutral-background-strong);
+
+  &.widescreen {
+    max-width: 100%;
+    aspect-ratio: 16 / 9;
+  }
 }
 
 .iframe {
