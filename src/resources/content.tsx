@@ -554,6 +554,11 @@ const gallery: Gallery = {
   // These are placeholder images, replace with your own
   images: [
     {
+      src: "https://youtube.com/shorts/BzDuYfJs3Oo",
+      alt: "QMS - Video Ad",
+      orientation: "vertical",
+    },
+    {
       src: "https://youtube.com/shorts/E-8o73YzYh4",
       alt: "QMS - Día del Padre Reel 2",
       orientation: "vertical",
