@@ -169,21 +169,22 @@ function ImageCell({ item }: { item: Extract<GalleryItem, { type: "image" }> }) 
       <Dialog
         isOpen={open}
         onClose={() => setOpen(false)}
-        title={item.image.alt || "Image"}
+        title={<span />}
         style={{ maxWidth: 860 }}
       >
         {/*
-          BUG 1 FIX: image fills the dialog column naturally.
-          On mobile the dialog is full-width so the image respects its
-          own aspect-ratio without any translate animation.
+          - No `aspectRatio` here: image renders at its natural dimensions,
+            not forced to the orientation-derived ratio (which caused cropping).
+          - `fillWidth` + `objectFit="contain"` ensures the image fits the
+            dialog width without cutting anything off.
         */}
         <Media
           src={item.image.src}
           alt={item.image.alt}
-          aspectRatio={aspectRatio}
           sizes="(max-width: 860px) 100vw, 860px"
           radius="m"
-          style={{ width: "100%" }}
+          objectFit="contain"
+          style={{ width: "100%", height: "auto" }}
         />
       </Dialog>
     </>
@@ -250,7 +251,7 @@ function CarouselCell({ item }: { item: Extract<GalleryItem, { type: "carousel" 
       <Dialog
         isOpen={open}
         onClose={() => setOpen(false)}
-        title={item.coverImage.alt || "Carrusel"}
+        title={<span />}
         style={{
           maxWidth: 640,
           width: "100%",
