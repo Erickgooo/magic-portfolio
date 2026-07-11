@@ -554,6 +554,21 @@ const gallery: Gallery = {
   // These are placeholder images, replace with your own
   images: [
     {
+      src: "https://youtube.com/shorts/PoQ8VFQ801Q",
+      alt: "QMS - Colección Día del Padre Teaser",
+      orientation: "vertical",
+    },
+    {
+      src: "https://youtube.com/shorts/GXaDhzxqOpo",
+      alt: "QMS - Día del Padre Reel",
+      orientation: "vertical",
+    },
+    {
+      src: "https://youtube.com/shorts/PgvIVcyL4jg",
+      alt: "QMS - Día del Padre Story",
+      orientation: "vertical",
+    },
+    {
       src: "/images/gallery/1.png",
       alt: "Visual Work 1",
       orientation: "square",

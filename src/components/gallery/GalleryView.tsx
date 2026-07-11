@@ -26,6 +26,8 @@ export default function GalleryView() {
           let videoId = "";
           if (image.src.includes("youtu.be")) {
             videoId = image.src.split("/").pop() || "";
+          } else if (image.src.includes("shorts/")) {
+            videoId = image.src.split("shorts/")[1].split("?")[0].split("&")[0];
           } else if (image.src.includes("v=")) {
             videoId = image.src.split("v=")[1].split("&")[0];
           }
