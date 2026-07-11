@@ -562,31 +562,37 @@ const gallery: Gallery = {
       src: "/images/gallery/carru1.png",
       alt: "Visual Work Carru 1",
       orientation: "square",
+      group: "carru",
     },
     {
       src: "/images/gallery/carru2.png",
       alt: "Visual Work Carru 2",
       orientation: "square",
+      group: "carru",
     },
     {
       src: "/images/gallery/carru3.png",
       alt: "Visual Work Carru 3",
       orientation: "square",
+      group: "carru",
     },
     {
       src: "/images/gallery/carru4.png",
       alt: "Visual Work Carru 4",
       orientation: "square",
+      group: "carru",
     },
     {
       src: "/images/gallery/carru5.png",
       alt: "Visual Work Carru 5",
       orientation: "square",
+      group: "carru",
     },
     {
       src: "/images/gallery/carru6.png",
       alt: "Visual Work Carru 6",
       orientation: "square",
+      group: "carru",
     },
     {
       src: "https://youtube.com/shorts/PoQ8VFQ801Q",

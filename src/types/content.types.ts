@@ -247,5 +247,7 @@ export interface Gallery extends BasePageConfig {
     alt: string;
     /** Image orientation (horizontal/vertical) */
     orientation: string;
+    /** Optional group key — consecutive items with the same group are collapsed into a carousel */
+    group?: string;
   }>;
 }

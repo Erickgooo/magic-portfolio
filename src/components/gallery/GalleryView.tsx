@@ -1,74 +1,266 @@
 "use client";
 
-import { Media, Grid, Flex } from "@once-ui-system/core";
+import { useState } from "react";
+import { Media, MasonryGrid, Flex, Text, Icon, Dialog, Carousel } from "@once-ui-system/core";
 import { gallery } from "@/resources";
 
-export default function GalleryView() {
+// ─── Types ────────────────────────────────────────────────────────────────────
+type RawImage = (typeof gallery.images)[number];
+
+type GalleryItem =
+  | { type: "image"; image: RawImage }
+  | { type: "youtube"; image: RawImage; videoId: string; embedUrl: string }
+  | { type: "carousel"; images: RawImage[]; coverImage: RawImage };
+
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+function extractYouTubeId(src: string): string {
+  if (src.includes("youtu.be")) return src.split("/").pop() || "";
+  if (src.includes("shorts/")) return src.split("shorts/")[1].split("?")[0].split("&")[0];
+  if (src.includes("v=")) return src.split("v=")[1].split("&")[0];
+  return "";
+}
+
+function isYouTubeUrl(src: string) {
+  return src.includes("youtube.com") || src.includes("youtu.be");
+}
+
+function getAspectRatio(orientation: string, isVideo = false): string {
+  if (orientation === "vertical") return isVideo ? "9 / 16" : "3 / 4";
+  if (orientation === "square") return "1 / 1";
+  return "16 / 9";
+}
+
+// ─── Grouping pass ────────────────────────────────────────────────────────────
+function buildGalleryItems(images: RawImage[]): GalleryItem[] {
+  const items: GalleryItem[] = [];
+  let i = 0;
+
+  while (i < images.length) {
+    const img = images[i];
+
+    // Check if this item belongs to a named group
+    if (img.group) {
+      const group = img.group;
+      // Collect all consecutive items with the same group key
+      const groupImages: RawImage[] = [];
+      while (i < images.length && images[i].group === group) {
+        groupImages.push(images[i]);
+        i++;
+      }
+      items.push({ type: "carousel", images: groupImages, coverImage: groupImages[0] });
+      continue;
+    }
+
+    if (isYouTubeUrl(img.src)) {
+      const videoId = extractYouTubeId(img.src);
+      items.push({
+        type: "youtube",
+        image: img,
+        videoId,
+        embedUrl: `https://www.youtube.com/embed/${videoId}`,
+      });
+    } else {
+      items.push({ type: "image", image: img });
+    }
+
+    i++;
+  }
+
+  return items;
+}
+
+// ─── Sub-components ───────────────────────────────────────────────────────────
+
+function HoverWrapper({
+  children,
+  onClick,
+  radius = "m",
+}: {
+  children: React.ReactNode;
+  onClick?: () => void;
+  radius?: string;
+}) {
+  const [hovered, setHovered] = useState(false);
   return (
-    <Grid columns={2} s={{ columns: 1 }} gap="16" fillWidth>
-      {gallery.images.map((image, index) => {
-        // 1. Detectamos si es video de YouTube
-        const isYouTube = image.src.includes("youtube.com") || image.src.includes("youtu.be");
+    <Flex
+      fillWidth
+      position="relative"
+      radius={radius as any}
+      overflow="hidden"
+      style={{
+        cursor: onClick ? "pointer" : "default",
+        transform: hovered ? "scale(1.025)" : "scale(1)",
+        transition: "transform 0.25s ease, box-shadow 0.25s ease",
+        boxShadow: hovered
+          ? "0 8px 32px rgba(0,0,0,0.35)"
+          : "0 2px 8px rgba(0,0,0,0.12)",
+      }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      onClick={onClick}
+    >
+      {children}
+      {/* Hover shine overlay */}
+      <Flex
+        position="absolute"
+        style={{
+          inset: 0,
+          background: "rgba(255,255,255,0.04)",
+          opacity: hovered ? 1 : 0,
+          transition: "opacity 0.25s ease",
+          pointerEvents: "none",
+        }}
+      />
+    </Flex>
+  );
+}
 
-        // 2. Definimos la proporción exacta para cada caso
-        let aspectRatio = "16 / 9"; // Por defecto horizontal
+// ─── YouTube cell ─────────────────────────────────────────────────────────────
+function YouTubeCell({ item }: { item: Extract<GalleryItem, { type: "youtube" }> }) {
+  const [hovered, setHovered] = useState(false);
+  const aspectRatio = getAspectRatio(item.image.orientation, true);
+  return (
+    <Flex
+      fillWidth
+      position="relative"
+      radius="m"
+      overflow="hidden"
+      background="surface"
+      style={{
+        aspectRatio,
+        transform: hovered ? "scale(1.025)" : "scale(1)",
+        transition: "transform 0.25s ease, box-shadow 0.25s ease",
+        boxShadow: hovered
+          ? "0 8px 32px rgba(0,0,0,0.35)"
+          : "0 2px 8px rgba(0,0,0,0.12)",
+      }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <iframe
+        src={item.embedUrl}
+        title={item.image.alt}
+        style={{ width: "100%", height: "100%", border: "none" }}
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+      />
+    </Flex>
+  );
+}
 
-        if (image.orientation === "vertical") {
-          // Si es VIDEO vertical -> 9/16 (Formato Reel/TikTok)
-          // Si es FOTO vertical  -> 3/4 (Formato Retrato clásico)
-          aspectRatio = isYouTube ? "9 / 16" : "3 / 4";
-        } else if (image.orientation === "square") {
-          aspectRatio = "1 / 1";
-        }
+// ─── Single image cell ────────────────────────────────────────────────────────
+function ImageCell({ item }: { item: Extract<GalleryItem, { type: "image" }> }) {
+  const aspectRatio = getAspectRatio(item.image.orientation);
+  return (
+    <HoverWrapper>
+      <Media
+        priority
+        sizes="(max-width: 560px) 100vw, (max-width: 900px) 50vw, 33vw"
+        radius="m"
+        aspectRatio={aspectRatio}
+        src={item.image.src}
+        alt={item.image.alt}
+        enlarge
+      />
+    </HoverWrapper>
+  );
+}
 
-        // CASO A: Es un Video de YouTube
-        if (isYouTube) {
-          let videoId = "";
-          if (image.src.includes("youtu.be")) {
-            videoId = image.src.split("/").pop() || "";
-          } else if (image.src.includes("shorts/")) {
-            videoId = image.src.split("shorts/")[1].split("?")[0].split("&")[0];
-          } else if (image.src.includes("v=")) {
-            videoId = image.src.split("v=")[1].split("&")[0];
-          }
+// ─── Carousel cell (grouped images) ──────────────────────────────────────────
+function CarouselCell({ item }: { item: Extract<GalleryItem, { type: "carousel" }> }) {
+  const [open, setOpen] = useState(false);
+  const count = item.images.length;
+  const aspectRatio = getAspectRatio(item.coverImage.orientation);
 
-          const embedUrl = `https://www.youtube.com/embed/${videoId}`;
+  const carouselItems = item.images.map((img) => ({
+    slide: img.src,
+    alt: img.alt,
+  }));
 
+  return (
+    <>
+      <HoverWrapper onClick={() => setOpen(true)}>
+        {/* Cover thumbnail */}
+        <Media
+          priority
+          sizes="(max-width: 560px) 100vw, (max-width: 900px) 50vw, 33vw"
+          radius="m"
+          aspectRatio={aspectRatio}
+          src={item.coverImage.src}
+          alt={item.coverImage.alt}
+        />
+
+        {/* Badge — top-right corner */}
+        <Flex
+          position="absolute"
+          style={{
+            top: 10,
+            right: 10,
+            gap: 4,
+            padding: "4px 8px",
+            borderRadius: 20,
+            background: "rgba(0,0,0,0.65)",
+            backdropFilter: "blur(6px)",
+            alignItems: "center",
+          }}
+        >
+          <Icon name="gallery" size="xs" onBackground="neutral-strong" />
+          <Text
+            variant="label-default-xs"
+            onBackground="neutral-strong"
+            style={{ color: "#fff", fontWeight: 600, letterSpacing: "0.02em" }}
+          >
+            1/{count}
+          </Text>
+        </Flex>
+      </HoverWrapper>
+
+      {/* Lightbox Dialog */}
+      <Dialog
+        isOpen={open}
+        onClose={() => setOpen(false)}
+        title={item.coverImage.alt || "Carrusel"}
+        style={{ maxWidth: 680 }}
+      >
+        <Carousel
+          items={carouselItems}
+          aspectRatio={aspectRatio}
+          controls
+          indicator="thumbnail"
+          sizes="(max-width: 680px) 100vw, 680px"
+        />
+      </Dialog>
+    </>
+  );
+}
+
+// ─── Main gallery component ───────────────────────────────────────────────────
+export default function GalleryView() {
+  const items = buildGalleryItems(gallery.images);
+
+  return (
+    <MasonryGrid columns={3} m={{ columns: 2 }} s={{ columns: 1 }} gap="12">
+      {items.map((item, index) => {
+        if (item.type === "youtube")
           return (
-            <Flex
-              key={index}
-              fillWidth
-              position="relative"
-              radius="m"
-              overflow="hidden"
-              background="surface"
-              style={{ aspectRatio: aspectRatio }}
-            >
-              <iframe
-                src={embedUrl}
-                title={image.alt}
-                style={{ width: "100%", height: "100%", border: "none" }}
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              />
+            <Flex key={index} fillWidth style={{ breakInside: "avoid" }}>
+              <YouTubeCell item={item} />
             </Flex>
           );
-        }
 
-        // CASO B: Es una Imagen normal
+        if (item.type === "carousel")
+          return (
+            <Flex key={index} fillWidth style={{ breakInside: "avoid" }}>
+              <CarouselCell item={item} />
+            </Flex>
+          );
+
         return (
-          <Media
-            enlarge
-            priority={index < 10}
-            sizes="(max-width: 560px) 100vw, 50vw"
-            key={index}
-            radius="m"
-            aspectRatio={aspectRatio}
-            src={image.src}
-            alt={image.alt}
-          />
+          <Flex key={index} fillWidth style={{ breakInside: "avoid" }}>
+            <ImageCell item={item} />
+          </Flex>
         );
       })}
-    </Grid>
+    </MasonryGrid>
   );
 }

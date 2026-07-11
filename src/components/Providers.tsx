@@ -5,6 +5,7 @@ import {
   ChartMode,
   ChartVariant,
   DataThemeProvider,
+  DialogProvider,
   IconProvider,
   LayoutProvider,
   NeutralColor,
@@ -48,7 +49,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
           }}
         >
           <ToastProvider>
-            <IconProvider icons={iconLibrary}>{children}</IconProvider>
+            <DialogProvider>
+              <IconProvider icons={iconLibrary}>{children}</IconProvider>
+            </DialogProvider>
           </ToastProvider>
         </DataThemeProvider>
       </ThemeProvider>
