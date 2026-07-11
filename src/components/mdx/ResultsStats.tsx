@@ -27,18 +27,19 @@ function parseStats(data: string): Stat[] {
   return result;
 }
 
-// Parse a display value like "110K", "2.3M", "338K+", "2,411", "390.6K"
-function parseValue(raw: string): { numericPart: number; suffix: string } {
+// Parse a display value like "110K", "2.3M", "338K+", "2,411", "390.6K", and support leading symbol like "$"
+function parseValue(raw: string): { numericPart: number; suffix: string; prefix: string } {
   const str = raw.trim();
-  const match = str.match(/^([\d,\.]+)([KkMmBb+%]*)(.*)$/);
-  if (!match) return { numericPart: 0, suffix: str };
+  const hasDollar = str.startsWith("$");
+  const cleanStr = hasDollar ? str.slice(1) : str;
+  const match = cleanStr.match(/^([\d,\.]+)([KkMmBb+%]*)(.*)$/);
+  if (!match) return { numericPart: 0, suffix: str, prefix: "" };
   const rawNum = match[1].replace(/,/g, "");
   const numericPart = parseFloat(rawNum) || 0;
   const suffix = (match[2] + match[3]).trim();
-  return { numericPart, suffix };
+  return { numericPart, suffix, prefix: hasDollar ? "$" : "" };
 }
 
-// Pure JS number formatter — no locale, no SSR mismatch
 function formatNumber(n: number): string {
   const floored = Math.floor(Math.abs(n));
   return floored.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -46,7 +47,7 @@ function formatNumber(n: number): string {
 
 function formatFinal(numericPart: number): string {
   if (numericPart % 1 !== 0) {
-    const fixed = numericPart.toFixed(1);
+    const fixed = numericPart.toFixed(2); // Keep 2 decimal places for currencies/ratios if fractional
     const [int, dec] = fixed.split(".");
     const formatted = int.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     return `${formatted}.${dec}`;
@@ -55,7 +56,7 @@ function formatFinal(numericPart: number): string {
 }
 
 function AnimatedStat({ stat }: { stat: Stat }) {
-  const { numericPart, suffix } = parseValue(stat.value);
+  const { numericPart, suffix, prefix } = parseValue(stat.value);
   const [displayed, setDisplayed] = useState(0);
   const [done, setDone] = useState(false);
   const rafRef = useRef<number | null>(null);
@@ -110,6 +111,7 @@ function AnimatedStat({ stat }: { stat: Stat }) {
     <div className={styles.statInner}>
       <div className={styles.value}>
         <span ref={spanRef} suppressHydrationWarning>
+          {prefix}
           {displayStr}
           {done ? suffix : ""}
         </span>
