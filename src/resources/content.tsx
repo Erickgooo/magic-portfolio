@@ -842,7 +842,7 @@ const gallery: Gallery = {
     {
       src: "/images/gallery/arqui.png",
       alt: "Arqui",
-      orientation: "square",
+      orientation: "vertical",
     },
     {
       src: "/images/gallery/coqui.png",
@@ -867,12 +867,12 @@ const gallery: Gallery = {
     {
       src: "/images/gallery/pared.png",
       alt: "Pared",
-      orientation: "square",
+      orientation: "vertical",
     },
     {
       src: "/images/gallery/transform.png",
       alt: "Transform",
-      orientation: "square",
+      orientation: "vertical",
     },
   ],
 };
