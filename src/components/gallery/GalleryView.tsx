@@ -38,10 +38,8 @@ function buildGalleryItems(images: RawImage[]): GalleryItem[] {
   while (i < images.length) {
     const img = images[i];
 
-    // Check if this item belongs to a named group
     if (img.group) {
       const group = img.group;
-      // Collect all consecutive items with the same group key
       const groupImages: RawImage[] = [];
       while (i < images.length && images[i].group === group) {
         groupImages.push(images[i]);
@@ -69,23 +67,20 @@ function buildGalleryItems(images: RawImage[]): GalleryItem[] {
   return items;
 }
 
-// ─── Sub-components ───────────────────────────────────────────────────────────
-
+// ─── Hover wrapper ────────────────────────────────────────────────────────────
 function HoverWrapper({
   children,
   onClick,
-  radius = "m",
 }: {
   children: React.ReactNode;
   onClick?: () => void;
-  radius?: string;
 }) {
   const [hovered, setHovered] = useState(false);
   return (
     <Flex
       fillWidth
       position="relative"
-      radius={radius as any}
+      radius="m"
       overflow="hidden"
       style={{
         cursor: onClick ? "pointer" : "default",
@@ -100,7 +95,6 @@ function HoverWrapper({
       onClick={onClick}
     >
       {children}
-      {/* Hover shine overlay */}
       <Flex
         position="absolute"
         style={{
@@ -148,25 +142,55 @@ function YouTubeCell({ item }: { item: Extract<GalleryItem, { type: "youtube" }>
   );
 }
 
-// ─── Single image cell ────────────────────────────────────────────────────────
+// ─── Single image cell — BUG 1 FIX ───────────────────────────────────────────
+// We use our own Dialog instead of Media's `enlarge` prop.
+// `enlarge` does an in-place CSS transform from the image's page position,
+// which on mobile causes the "fly up" scroll-animation bug.
+// Our Dialog opens as a fixed full-screen overlay with no scroll dependency.
 function ImageCell({ item }: { item: Extract<GalleryItem, { type: "image" }> }) {
+  const [open, setOpen] = useState(false);
   const aspectRatio = getAspectRatio(item.image.orientation);
+
   return (
-    <HoverWrapper>
-      <Media
-        priority
-        sizes="(max-width: 560px) 100vw, (max-width: 900px) 50vw, 33vw"
-        radius="m"
-        aspectRatio={aspectRatio}
-        src={item.image.src}
-        alt={item.image.alt}
-        enlarge
-      />
-    </HoverWrapper>
+    <>
+      <HoverWrapper onClick={() => setOpen(true)}>
+        <Media
+          priority
+          sizes="(max-width: 560px) 100vw, (max-width: 900px) 50vw, 33vw"
+          radius="m"
+          aspectRatio={aspectRatio}
+          src={item.image.src}
+          alt={item.image.alt}
+          // No `enlarge` — click is handled by HoverWrapper → Dialog below
+        />
+      </HoverWrapper>
+
+      {/* Fixed-overlay lightbox — no scroll-position dependency */}
+      <Dialog
+        isOpen={open}
+        onClose={() => setOpen(false)}
+        title={item.image.alt || "Image"}
+        style={{ maxWidth: 860 }}
+      >
+        {/*
+          BUG 1 FIX: image fills the dialog column naturally.
+          On mobile the dialog is full-width so the image respects its
+          own aspect-ratio without any translate animation.
+        */}
+        <Media
+          src={item.image.src}
+          alt={item.image.alt}
+          aspectRatio={aspectRatio}
+          sizes="(max-width: 860px) 100vw, 860px"
+          radius="m"
+          style={{ width: "100%" }}
+        />
+      </Dialog>
+    </>
   );
 }
 
-// ─── Carousel cell (grouped images) ──────────────────────────────────────────
+// ─── Carousel cell — BUG 2 FIX ───────────────────────────────────────────────
 function CarouselCell({ item }: { item: Extract<GalleryItem, { type: "carousel" }> }) {
   const [open, setOpen] = useState(false);
   const count = item.images.length;
@@ -215,19 +239,29 @@ function CarouselCell({ item }: { item: Extract<GalleryItem, { type: "carousel" 
         </Flex>
       </HoverWrapper>
 
-      {/* Lightbox Dialog */}
+      {/*
+        BUG 2 FIX: Carousel aspect-ratio fix for mobile.
+        - Dialog maxWidth capped at 640px (comfortable on any phone).
+        - Carousel receives aspectRatio so it sizes itself correctly.
+        - `sizes` hints Next.js to load the right resolution per breakpoint.
+        - The Dialog's inner <section> already has overflowY:auto so tall
+          carousels scroll naturally rather than overflowing the viewport.
+      */}
       <Dialog
         isOpen={open}
         onClose={() => setOpen(false)}
         title={item.coverImage.alt || "Carrusel"}
-        style={{ maxWidth: 680 }}
+        style={{
+          maxWidth: 640,
+          width: "100%",
+        }}
       >
         <Carousel
           items={carouselItems}
           aspectRatio={aspectRatio}
           controls
           indicator="thumbnail"
-          sizes="(max-width: 680px) 100vw, 680px"
+          sizes="(max-width: 640px) 100vw, 640px"
         />
       </Dialog>
     </>
