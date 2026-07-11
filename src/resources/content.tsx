@@ -775,6 +775,105 @@ const gallery: Gallery = {
       alt: "Artesa - Día de la Madre",
       orientation: "vertical",
     },
+    // ── Nuevas imágenes detectadas ────────────────────────────────────────
+    // Carrusel: dias1–6
+    {
+      src: "/images/gallery/dias1.png",
+      alt: "Días 1",
+      orientation: "square",
+      group: "dias",
+    },
+    {
+      src: "/images/gallery/dias2.png",
+      alt: "Días 2",
+      orientation: "square",
+      group: "dias",
+    },
+    {
+      src: "/images/gallery/dias3.png",
+      alt: "Días 3",
+      orientation: "square",
+      group: "dias",
+    },
+    {
+      src: "/images/gallery/dias4.png",
+      alt: "Días 4",
+      orientation: "square",
+      group: "dias",
+    },
+    {
+      src: "/images/gallery/dias5.png",
+      alt: "Días 5",
+      orientation: "square",
+      group: "dias",
+    },
+    {
+      src: "/images/gallery/dias6.png",
+      alt: "Días 6",
+      orientation: "square",
+      group: "dias",
+    },
+    // Carrusel: idea1–4
+    {
+      src: "/images/gallery/idea1.png",
+      alt: "Idea 1",
+      orientation: "square",
+      group: "idea",
+    },
+    {
+      src: "/images/gallery/idea2.png",
+      alt: "Idea 2",
+      orientation: "square",
+      group: "idea",
+    },
+    {
+      src: "/images/gallery/idea3.png",
+      alt: "Idea 3",
+      orientation: "square",
+      group: "idea",
+    },
+    {
+      src: "/images/gallery/idea4.png",
+      alt: "Idea 4",
+      orientation: "square",
+      group: "idea",
+    },
+    // Imágenes individuales
+    {
+      src: "/images/gallery/arqui.png",
+      alt: "Arqui",
+      orientation: "square",
+    },
+    {
+      src: "/images/gallery/coqui.png",
+      alt: "Coqui",
+      orientation: "square",
+    },
+    {
+      src: "/images/gallery/diadelpadre.png",
+      alt: "Día del Padre",
+      orientation: "square",
+    },
+    {
+      src: "/images/gallery/libres.png",
+      alt: "Libres",
+      orientation: "square",
+    },
+    {
+      src: "/images/gallery/metal.png",
+      alt: "Metal",
+      orientation: "square",
+    },
+    {
+      src: "/images/gallery/pared.png",
+      alt: "Pared",
+      orientation: "square",
+    },
+    {
+      src: "/images/gallery/transform.png",
+      alt: "Transform",
+      orientation: "square",
+    },
   ],
 };
 
