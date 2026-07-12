@@ -196,23 +196,32 @@ export default function About() {
                       </React.Fragment>
                     ),
                 )}
-              </Row>
-            )}
-            {about.resume?.display && (
-              <Row
-                className={styles.blockAlign}
-                paddingTop="12"
-                horizontal="center"
-              >
-                <Button
-                  href={about.resume.link}
-                  prefixIcon="document"
-                  label="Download Resume"
-                  size="s"
-                  weight="default"
-                  variant="secondary"
-                  target="_blank"
-                />
+                {about.resume?.display && (
+                  <React.Fragment>
+                    <Row s={{ hide: true }}>
+                      <Button
+                        href={about.resume.link}
+                        prefixIcon="document"
+                        label="Download Resume"
+                        size="s"
+                        weight="default"
+                        variant="secondary"
+                        target="_blank"
+                        download
+                      />
+                    </Row>
+                    <Row hide s={{ hide: false }}>
+                      <IconButton
+                        size="l"
+                        href={about.resume.link}
+                        icon="document"
+                        variant="secondary"
+                        target="_blank"
+                        download
+                      />
+                    </Row>
+                  </React.Fragment>
+                )}
               </Row>
             )}
           </Column>
