@@ -85,6 +85,10 @@ const about: About = {
     display: true,
     link: "https://calendly.com/santiagomahecha2328/30min",
   },
+  resume: {
+    display: true,
+    link: "/resume/Erick_Mahecha_Resume.pdf",
+  },
   intro: {
     display: true,
     title: "Introduction",
