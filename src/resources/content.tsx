@@ -61,7 +61,7 @@ const home: Home = {
   },
   subline: (
     <>
-      I'm Erick — a one-person growth department. In my current role, I built a brand's marketing
+      I'm Erick — a one-person growth department. At Quick Metal Shop, I built their marketing
       function from zero and generated 338K+ organic video views with $0 ad spend, using an AI
       production pipeline I designed myself. I architect the full stack: brand identity, paid media,
       SEO automation, CRM, and the software itself when nothing exists yet.
