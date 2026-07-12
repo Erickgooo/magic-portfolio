@@ -45,7 +45,7 @@ const home: Home = {
   label: "Home",
   title: `${person.name}'s Portfolio`,
   description: `Portfolio website showcasing my work as a ${person.role}`,
-  headline: <>I Build Marketing Infrastructure From Zero.</>,
+  headline: <>I Build Marketing Infrastructure From Zero — And Make It Outperform Full Departments.</>,
   featured: {
     display: true,
     title: (
@@ -61,9 +61,10 @@ const home: Home = {
   },
   subline: (
     <>
-      I'm Erick — a growth marketer who architects full-stack marketing systems: brand identity,
-      paid media, SEO automation, AI creative pipelines, and even the software when nothing exists
-      yet. One person. Full-department output.
+      I'm Erick — a one-person growth department. In my current role, I built a brand's marketing
+      function from zero and generated 338K+ organic video views with $0 ad spend, using an AI
+      production pipeline I designed myself. I architect the full stack: brand identity, paid media,
+      SEO automation, CRM, and the software itself when nothing exists yet.
     </>
   ),
 };
@@ -89,6 +90,13 @@ const about: About = {
     title: "Introduction",
     description: (
       <>
+        I'm a one-person growth department: I've built complete marketing infrastructures — brand
+        identity, paid media, CRM automation, SEO systems, and AI content production — for companies
+        across construction, food, and retail. Most recently, I generated 338K+ organic video views
+        for Quick Metal Shop with zero ad spend, using an AI production pipeline I designed and ran
+        myself.
+        <br />
+        <br />
         My entry point into marketing wasn't a campaign — it was a crisis line.
         <br />
         <br />I spent two years at Concentrix managing security incidents, fraud cases, and
