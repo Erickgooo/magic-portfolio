@@ -15,6 +15,7 @@ import { home, about, person, baseURL, routes } from "@/resources";
 import { Mailchimp } from "@/components";
 import { Projects } from "@/components/work/Projects";
 import { Posts } from "@/components/blog/Posts";
+import { AutoplayVideo } from "@/components/home/AutoplayVideo";
 
 export async function generateMetadata() {
   return Meta.generate({
@@ -99,21 +100,15 @@ export default function Home() {
             </Button>
           </RevealFx>
           <RevealFx translateY="12" delay={0.5} fillWidth horizontal="center" paddingTop="32">
-            <video
-              autoPlay
-              loop
-              muted
-              playsInline
-              preload="metadata"
+            <AutoplayVideo
+              src="/videohome.mp4"
               poster="/images/videohome-poster.jpg"
               style={{
                 maxWidth: "100%",
                 borderRadius: "12px",
                 border: "1px solid rgba(255,255,255,0.1)",
               }}
-            >
-              <source src="/videohome.mp4" type="video/mp4" />
-            </video>
+            />
           </RevealFx>
         </Column>
       </Column>
