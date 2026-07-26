@@ -145,6 +145,19 @@ const about: About = {
     title: "Work Experience",
     experiences: [
       {
+        company: "Incentiva Group",
+        timeframe: "July 2026 - Present",
+        role: "Growth & Operations Lead",
+        achievements: [
+          <>Leading retention strategy and conversion funnel optimization through RFM models and CRM automation.</>,
+          <>Implementing and managing generative AI solutions and virtual assistants across client operations.</>,
+          <>Overseeing Meta Ads campaigns and WhatsApp Business API communications for client accounts.</>,
+          <>Monitoring KPIs and managing client accounts to ensure on-time, high-quality delivery.</>,
+          <>Leading and mentoring a 2-person operations team.</>,
+        ],
+        images: [],
+      },
+      {
         company: "Quick Metal Shop",
         timeframe: "Jan 2026 - July 2026",
         role: "Growth Marketing Specialist",
