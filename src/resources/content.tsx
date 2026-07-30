@@ -45,12 +45,12 @@ const home: Home = {
   label: "Home",
   title: `${person.name}'s Portfolio`,
   description: `Portfolio website showcasing my work as a ${person.role}`,
-  headline: <>I Build Marketing Infrastructure From Zero — And Make It Outperform Full Departments.</>,
+  headline: <>I Build Marketing Infrastructure From Zero. And Make It Outperform Full Departments.</>,
   featured: {
     display: true,
     title: (
       <Row gap="12" vertical="center">
-        <strong className="ml-4">Quick Metal Shop — Engineering Virality with AI</strong>{" "}
+        <strong className="ml-4">Quick Metal Shop: Engineering Virality with AI</strong>{" "}
         <Line background="brand-alpha-strong" vert height="20" />
         <Text marginRight="4" onBackground="brand-medium">
           Featured work
@@ -61,7 +61,7 @@ const home: Home = {
   },
   subline: (
     <>
-      I'm Erick — a one-person growth department. At Quick Metal Shop, I built their marketing
+      I'm Erick, a one-person growth department. At Quick Metal Shop, I built their marketing
       function from zero and generated 338K+ organic video views with $0 ad spend, using an AI
       production pipeline I designed myself. I architect the full stack: brand identity, paid media,
       SEO automation, CRM, and the software itself when nothing exists yet.
@@ -94,14 +94,14 @@ const about: About = {
     title: "Introduction",
     description: (
       <>
-        I'm a one-person growth department: I've built complete marketing infrastructures — brand
-        identity, paid media, CRM automation, SEO systems, and AI content production — for companies
+        I'm a one-person growth department. I've built complete marketing infrastructures: brand
+        identity, paid media, CRM automation, SEO systems, and AI content production, for companies
         across construction, food, and retail. Most recently, I generated 338K+ organic video views
         for Quick Metal Shop with zero ad spend, using an AI production pipeline I designed and ran
         myself.
         <br />
         <br />
-        My entry point into marketing wasn't a campaign — it was a crisis line.
+        My entry point into marketing wasn't a campaign. It was a crisis line.
         <br />
         <br />I spent two years at Concentrix managing security incidents, fraud cases, and
         technical failures for Mercado Pago users. That environment taught me something most
@@ -110,7 +110,7 @@ const about: About = {
         place to start. It's also an unusually useful one.
         <br />
         <br />
-        That operational foundation pushed me toward a different kind of marketing — not just
+        That operational foundation pushed me toward a different kind of marketing. Not just
         running campaigns, but redesigning how businesses attract, qualify, and convert customers. I
         became focused on one question: what can be automated, and what's the cost of not automating
         it?
@@ -118,8 +118,8 @@ const about: About = {
         <br />
         The answer has taken different shapes across different projects. An AI-powered WhatsApp
         chatbot that handled 85% of inbound conversations autonomously for Artesa. A full marketing
-        department built from scratch for Quick Metal Shop — brand identity, paid media, SEO
-        automation, CRM integration, and a custom-built trade show application deployed in 48 hours.
+        department built from scratch for Quick Metal Shop (brand identity, paid media, SEO
+        automation, CRM integration, and a custom-built trade show application deployed in 48 hours).
         A complete rebranding and content automation system for Dakoma Roofing, delivered as a
         one-person freelance engagement.
         <br />
@@ -130,12 +130,12 @@ const about: About = {
         <br />
         <br />
         Today I work at the intersection of marketing strategy, AI tooling, and systems design. I
-        don't run campaigns in isolation — I build the ecosystems that make campaigns compound over
+        don't run campaigns in isolation. I build the ecosystems that make campaigns compound over
         time: automated content pipelines, real-time lead qualification, full-funnel tracking, and
         creative production workflows that let a one-person operation output at agency scale.
         <br />
         <br />
-        The work I find most interesting lives at the edge of what's currently possible with AI —
+        The work I find most interesting lives at the edge of what's currently possible with AI,
         which in 2026 is moving faster than most businesses realize.
       </>
     ),
@@ -163,23 +163,23 @@ const about: About = {
         role: "Growth Marketing Specialist",
         description: (
           <>
-            Joined as the company's first and sole marketing hire, with no brand identity, no
-            analytics infrastructure, and no digital strategy in place. Built everything from
-            scratch — and kept it running.
+            Joined as the company's first and sole marketing hire. There was no brand identity, no
+            analytics infrastructure, and no digital strategy in place. I built everything from
+            scratch and kept it running.
           </>
         ),
         achievements: [
           <>
             Created the company's Brand Manual in the first week, defining the full visual identity
             (color palette, typography, tone of voice) that became the operational standard across
-            the entire organization — including the ArquiExpo 2026 trade show stand, recognized as
+            the entire organization, including the ArquiExpo 2026 trade show stand, recognized as
             one of the strongest presences at the event.
           </>,
           <>
             Deployed and configured Soro AI for automated SEO blog publishing across both the B2B
             site (Odoo CMS) and the B2C Shopify store, including custom code integration into each
-            CMS — establishing a compounding organic search engine requiring zero ongoing manual
-            effort.
+            CMS. This established a compounding organic search engine that requires zero ongoing
+            manual effort.
           </>,
           <>
             Set up Google Analytics and Google Search Console from scratch, then linked Search
@@ -192,8 +192,8 @@ const about: About = {
           <>Managed Instagram and Facebook content daily across B2B and B2C narratives.</>,
           <>
             Deployed the Meta Pixel across both storefronts and independently built, configured, and
-            launched Meta Ads campaigns — from creative concept to audience targeting to budget
-            management — across separate B2B and B2C campaign structures.
+            launched Meta Ads campaigns, covering everything from creative concept to audience
+            targeting and budget management, across separate B2B and B2C campaign structures.
           </>,
           <>
             Built a Zapier-to-Odoo CRM automation to route B2B leads from Meta Instant Forms
@@ -206,7 +206,7 @@ const about: About = {
           </>,
           <>
             Designed, developed, and deployed a custom full-stack interactive gallery web
-            application in under 48 hours for ArquiExpo 2026 — built with Next.js, deployed on
+            application in under 48 hours for ArquiExpo 2026. Built with Next.js, deployed on
             Netlify, optimized for a vertical touchscreen interface, and fully responsive across all
             devices including iOS Safari.
           </>,
@@ -229,9 +229,9 @@ const about: About = {
         ),
         achievements: [
           <>
-            Executed a full rebranding initiative — delivering a Brand Manual that redefined the
-            color palette, typography system, and logo usage guidelines, then operationalized it
-            across the company's website, social media profiles, and advertising assets.
+            Executed a full rebranding initiative. I delivered a Brand Manual that redefined the
+            color palette, typography system, and logo usage guidelines, then rolled it out across
+            the company's website, social media profiles, and advertising assets.
           </>,
           <>
             Integrated Soro AI to establish an autonomous SEO blog pipeline, enabling consistent
@@ -239,7 +239,7 @@ const about: About = {
           </>,
           <>
             Developed a suite of high-production video ad creatives using Higgsfield's Kling 3.0 for
-            cinematic footage and Nano Banana Pro for AI avatar-driven spokesperson content —
+            cinematic footage and Nano Banana Pro for AI avatar-driven spokesperson content,
             achieving output quality that matched the elevated brand standard at a one-person cost
             and timeline.
           </>,
@@ -263,7 +263,7 @@ const about: About = {
         achievements: [
           <>
             Built on Kommo CRM, the solution included a structured chatbot architecture with
-            intent-based routing at first touchpoint — segmenting every incoming conversation into
+            intent-based routing at first touchpoint, segmenting every incoming conversation into
             three paths (catalog browsing, FAQ, or high-intent purchase) before any human
             involvement.
           </>,
@@ -276,9 +276,9 @@ const about: About = {
             commercial process identified during discovery sessions.
           </>,
           <>
-            Post-handoff, the commercial team operates the system independently — no technical
-            dependency. Every lead that enters via WhatsApp is automatically created, classified,
-            and placed at the correct pipeline stage.
+            After the handoff, the commercial team operates the system independently with no
+            technical dependency. Every lead that enters via WhatsApp is automatically created,
+            classified, and placed at the correct pipeline stage.
           </>,
           <>
             Sales advisors start their day with a prioritized queue of high-intent contacts, not 200
@@ -294,8 +294,8 @@ const about: About = {
         description: (
           <>
             Led the full design and implementation of an AI automation stack for Artesa's commercial
-            operation — reducing manual workload, accelerating lead response times, and establishing
-            a scalable customer service system without adding headcount.
+            operation. The result: reduced manual workload, faster lead response times, and a
+            scalable customer service system built without adding a single headcount.
           </>
         ),
         achievements: [
@@ -377,7 +377,7 @@ const about: About = {
             experiences.
           </>,
           <>
-            Awarded Top Performer (2023) — ranked among the highest in service quality, case
+            Awarded Top Performer (2023), ranked among the highest in service quality, case
             resolution accuracy, and customer satisfaction scores across the support team.
           </>,
         ],
@@ -520,7 +520,7 @@ const about: About = {
         description: (
           <>
             I produce high-impact visual content using frontier AI generation models alongside
-            traditional production tools — enabling studio-quality output at a fraction of the
+            traditional production tools, enabling studio-quality output at a fraction of the
             conventional time and cost.
             <br />
             <br />
