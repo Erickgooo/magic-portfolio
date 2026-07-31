@@ -1,7 +1,7 @@
 ---
-title: "LeadBot AI — WhatsApp Automation for Lead Qualification"
+title: "LeadBot AI: WhatsApp Automation for Lead Qualification"
 publishedAt: "2026-01-06"
-summary: "AI-powered WhatsApp chatbot that automated 85% of customer conversations, delivering qualified B2B leads to sales 24/7 — without adding headcount."
+summary: "AI-powered WhatsApp chatbot that automated 85% of customer conversations, delivering qualified B2B leads to sales 24/7 without adding headcount."
 images:
   - "/images/projects/project-01/chatbot-artesa.mp4"
   - "/images/projects/project-01/whatsapp.jpg"
@@ -15,7 +15,7 @@ team:
 
 ## Overview
 
-Artesa's commercial team was generating inbound leads through paid campaigns — but the pipeline had outgrown the team's capacity to handle it manually. Response times were slow, salespeople were starting conversations without context about the prospect's needs or intent, and with no customer service department, every general inquiry landed on the same people responsible for closing deals.
+Artesa's commercial team was generating inbound leads through paid campaigns, but the pipeline had outgrown the team's capacity to handle it manually. Response times were slow, salespeople were starting conversations without context about the prospect's needs or intent, and with no customer service department, every general inquiry landed on the same people responsible for closing deals.
 
 The mandate: build a system that qualifies B2B leads, handles B2C inquiries, and delivers only sales-ready opportunities to the team.
 
@@ -25,33 +25,33 @@ The mandate: build a system that qualifies B2B leads, handles B2C inquiries, and
 
 ### Integration Architecture
 
-Bitrix24 has no native WhatsApp connectivity, so I built the integration stack from scratch. The solution used BotSL IA — a Bitrix24 Marketplace application — to create the chatbot layer and connect open communication channels, with the WhatsApp Business number linked directly to Artesa's Meta account for compliance and operational control.
+Bitrix24 has no native WhatsApp connectivity, so I built the integration stack from scratch. The solution used BotSL IA, a Bitrix24 Marketplace application, to create the chatbot layer and connect open communication channels, with the WhatsApp Business number linked directly to Artesa's Meta account for compliance and operational control.
 
 ### AI Model Selection
 
-The chatbot runs on GPT-4o mini — chosen deliberately. High conversational accuracy, strong performance in customer service contexts, and cost efficiency at scale. Keeping operational costs low without sacrificing response quality was a real constraint, not an afterthought.
+The chatbot runs on GPT-4o mini, chosen deliberately. High conversational accuracy, strong performance in customer service contexts, and cost efficiency at scale. Keeping operational costs low without sacrificing response quality was a real constraint, not an afterthought.
 
-Temperature was set to 0.10. In sales and customer service automation, precision matters more than creativity — a chatbot that improvises in a qualification flow is a liability.
+Temperature was set to 0.10. In sales and customer service automation, precision matters more than creativity. A chatbot that improvises in a qualification flow is a liability.
 
 ### Knowledge Architecture
 
-Rather than a rigid decision-tree, the system uses natural language understanding — which means it handles unpredictable user inputs without breaking. To maintain accuracy and prevent hallucinations, I built a structured knowledge base from three custom documents:
+Rather than a rigid decision-tree, the system uses natural language understanding, which means it handles unpredictable user inputs without breaking. To maintain accuracy and prevent hallucinations, I built a structured knowledge base from three custom documents:
 
-- **Artesa Communication Guidelines** — tone of voice and brand rules
-- **B2B Sales Manual** — qualification logic, information boundaries, and conversation flow
-- **B2C Sales Manual** — product FAQs, service scope, and escalation criteria
+- **Artesa Communication Guidelines:** tone of voice and brand rules
+- **B2B Sales Manual:** qualification logic, information boundaries, and conversation flow
+- **B2C Sales Manual:** product FAQs, service scope, and escalation criteria
 
-Each document was developed and refined using Gemini Pro to ensure consistency across complex instruction sets. System instructions were configured through OpenAI's Assistant Playground, covering role definition, language rules, and the data extraction logic required to qualify leads with context — product interest, volume, and location — before a human ever enters the conversation.
+Each document was developed and refined using Gemini Pro to ensure consistency across complex instruction sets. System instructions were configured through OpenAI's Assistant Playground, covering role definition, language rules, and the data extraction logic required to qualify leads with context (product interest, volume, and location) before a human ever enters the conversation.
 
 ## Results
 
-LeadBot AI became a permanent operational system — not a pilot. It reduced friction in the commercial process, delivered B2B leads to the sales team with full qualification context, established B2C customer service coverage the business didn't previously have, and compressed response times from hours to seconds.
+LeadBot AI became a permanent operational system, not a pilot. It reduced friction in the commercial process, delivered B2B leads to the sales team with full qualification context, established B2C customer service coverage the business didn't previously have, and compressed response times from hours to seconds.
 
 85% of conversations handled autonomously. The team's attention went where it should have been the whole time: closing.
 
 ## What This Demonstrates
 
-Every decision in this project — tool selection, model choice, temperature configuration, knowledge base design — traces back to one question: what does the team need to stop doing manually, and what does the system need to do reliably in its place?
+Every decision in this project, including tool selection, model choice, temperature configuration, and knowledge base design, traces back to one question: what does the team need to stop doing manually, and what does the system need to do reliably in its place?
 
 That's the only lens that matters when building automation for real commercial operations.
 

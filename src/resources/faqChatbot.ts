@@ -17,7 +17,7 @@ export const faqData: FAQItem[] = [
     id: "notable-project",
     question: "What is his most notable project?",
     answer:
-      "Erick's most notable project is the **QMS ArquiExpo App** — a custom-built, vertically-oriented interactive touchscreen web application showcasing 285 architectural panel variants. He designed, developed, and deployed it on Netlify in **under 48 hours** for ArquiExpo 2026, resolving iOS Safari rendering quirks to ensure flawless vertical touchscreen performance.",
+      "Erick's most notable project is the **QMS ArquiExpo App**, a custom-built, vertically-oriented interactive touchscreen web application showcasing 285 architectural panel variants. He designed, developed, and deployed it on Netlify in **under 48 hours** for ArquiExpo 2026, resolving iOS Safari rendering quirks to ensure flawless vertical touchscreen performance.",
     relatedIds: ["ai-tools", "chatbot-exp", "contact"],
   },
   {

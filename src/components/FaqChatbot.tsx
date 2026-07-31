@@ -93,7 +93,7 @@ const InputArea: React.FC<InputAreaProps> = ({
     <div className={styles.inputArea}>
       {isLimited ? (
         <Text variant="body-default-s" onBackground="neutral-weak" style={{ textAlign: "center" }}>
-          You&apos;ve reached the message limit for this session —{" "}
+          You&apos;ve reached the message limit for this session.{" "}
           <a
             href={LINKEDIN_URL}
             target="_blank"
@@ -304,7 +304,7 @@ export const FaqChatbot: React.FC = () => {
         setActiveView({
           question,
           answer:
-            `You've reached the message limit for this session — feel free to reach out directly!\n\n` +
+            `You've reached the message limit for this session. Feel free to reach out directly!\n\n` +
             `• [Email](mailto:${EMAIL})\n• [LinkedIn](${LINKEDIN_URL})`,
         });
         setMsgCount(SESSION_LIMIT);

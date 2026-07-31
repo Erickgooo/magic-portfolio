@@ -42,7 +42,7 @@ export default function Gallery() {
 
         <Text variant="body-default-l" onBackground="neutral-weak">
           This section collects paid ad creatives, short-form video, and AI-generated content
-          produced for real campaigns — each built around a specific platform context and commercial
+          produced for real campaigns. Each piece was built around a specific platform context and commercial
           objective.
         </Text>
 

@@ -1,7 +1,7 @@
 ---
-title: "ATV Riders — WhatsApp Lead Automation with Kommo CRM"
+title: "ATV Riders: WhatsApp Lead Automation with Kommo CRM"
 publishedAt: "2026-02-28"
-summary: "End-to-end WhatsApp automation system built for a high-volume ATV dealership — filtering 200+ daily Meta leads through an intelligent chatbot, routing only sales-ready prospects to the commercial team."
+summary: "End-to-end WhatsApp automation system built for a high-volume ATV dealership, filtering 200+ daily Meta leads through an intelligent chatbot, routing only sales-ready prospects to the commercial team."
 images:
   - "/images/projects/cuatrimotos-project/portada-chatbot.png"
   - "/images/projects/cuatrimotos-project/chatbot-video.mp4"
@@ -15,7 +15,7 @@ team:
 
 ## Overview
 
-**ATV Riders** is a Bogotá-based company specializing in the sale of ATVs and off-road vehicles. Their paid campaigns on Meta were generating significant inbound volume — but that volume had become a liability.
+**ATV Riders** is a Bogotá-based company specializing in the sale of ATVs and off-road vehicles. Their paid campaigns on Meta were generating significant inbound volume, but that volume had become a liability.
 
 With over **200 leads arriving per day** via WhatsApp and no CRM in place, the commercial team was drowning in conversations, losing qualified prospects in the noise, and spending hours on contacts that were never going to buy.
 
@@ -23,22 +23,22 @@ The mandate was clear: build a system that handles the volume automatically, fil
 
 ## Diagnosing the Problem
 
-Before writing a single automation rule, I ran a discovery process with the commercial team — mapping the entire customer journey from first message to closed sale. These sessions surfaced three critical constraints that shaped every design decision:
+Before writing a single automation rule, I ran a discovery process with the commercial team, mapping the entire customer journey from first message to closed sale. These sessions surfaced three critical constraints that shaped every design decision:
 
 **1. No existing CRM infrastructure.** The team managed everything manually via WhatsApp. Any solution had to introduce CRM capabilities without a steep adoption curve.
 
-**2. Autonomy after delivery.** The client needed to be able to edit chatbot content, update the catalog, and manage conversations independently — without relying on a developer for every change.
+**2. Autonomy after delivery.** The client needed to be able to edit chatbot content, update the catalog, and manage conversations independently, without relying on a developer for every change.
 
-**3. High daily volume with low signal.** 200+ daily conversations meant the cost of unqualified leads wasn't just lost time — it was commercial capacity actively drained from the people who should be closing deals.
+**3. High daily volume with low signal.** 200+ daily conversations meant the cost of unqualified leads wasn't just lost time. It was commercial capacity actively drained from the people who should be closing deals.
 
-## Why Kommo — A Strategic Tool Choice
+## Why Kommo: A Strategic Tool Choice
 
 With these constraints mapped, I evaluated the tooling options. The decision to build on **Kommo CRM** was deliberate:
 
-- **Native WhatsApp Business API integration** — no middleware, no workarounds, no additional connectivity layer required.
-- **Visual chatbot builder** — the commercial team could modify flows, update response text, and manage the catalog through an intuitive interface without technical knowledge.
-- **Built-in CRM pipeline** — the same platform that runs the chatbot also tracks every lead through the sales funnel, giving the team a single operational view.
-- **Low learning curve** — adoption friction is a real reason automation projects fail. Kommo made it realistic for a non-technical team to own the system after handoff.
+- **Native WhatsApp Business API integration:** no middleware, no workarounds, no additional connectivity layer required.
+- **Visual chatbot builder:** the commercial team could modify flows, update response text, and manage the catalog through an intuitive interface without technical knowledge.
+- **Built-in CRM pipeline:** the same platform that runs the chatbot also tracks every lead through the sales funnel, giving the team a single operational view.
+- **Low learning curve:** adoption friction is a real reason automation projects fail. Kommo made it realistic for a non-technical team to own the system after handoff.
 
 The alternative was repeating the integration complexity I had managed in previous projects. Kommo eliminated that layer entirely.
 
@@ -48,7 +48,7 @@ The alternative was repeating the integration complexity I had managed in previo
 
 The conversation flow was engineered around a single insight from the discovery sessions: **intent segmentation at the first touchpoint** is the difference between a productive conversation and wasted time.
 
-The chatbot initiates every new conversation with a greeting and presents three interactive WhatsApp buttons — native, tap-to-select options that require zero typing from the user:
+The chatbot initiates every new conversation with a greeting and presents three interactive WhatsApp buttons, native tap-to-select options that require zero typing from the user:
 
 - **📋 View Catalog:** Triggers an interactive WhatsApp catalog menu, letting users browse ATV models and pricing directly in the chat.
 - **❓ I Have Questions:** Routes to an FAQ-style flow covering location, business hours, financing options, and other common pre-purchase questions.
@@ -58,10 +58,10 @@ This three-path structure meant that every conversation was classified before a 
 
 ### Automated Re-engagement & Closure Logic
 
-Not every lead converts on first contact. To prevent qualified prospects from going cold — and to keep the pipeline clean — I built two automated behaviors into the system:
+Not every lead converts on first contact. To prevent qualified prospects from going cold and to keep the pipeline clean, I built two automated behaviors into the system:
 
 - **Re-engagement trigger:** If a user initiates a conversation and doesn't respond for 60 minutes, the chatbot sends a follow-up message to bring them back into the flow.
-- **Auto-closure:** If there's still no response after the re-engagement window, the conversation is automatically marked as closed and archived. This keeps the pipeline honest — no ghost leads inflating the numbers.
+- **Auto-closure:** If there's still no response after the re-engagement window, the conversation is automatically marked as closed and archived. This keeps the pipeline honest with no ghost leads inflating the numbers.
 
 ### Sales Funnel Design
 
@@ -71,11 +71,11 @@ Inside Kommo, I built a custom pipeline reflecting the actual sales stages ident
 New Lead → Catalog Viewed → Question Answered → High Intent → Advisor Assigned → Negotiation → Closed (Won / Lost)
 ```
 
-Every lead that enters via WhatsApp is automatically created as a contact in Kommo and placed at the correct stage based on the path they took through the chatbot. Sales advisors open their day with a structured, prioritized pipeline — not a list of 200 unsorted messages.
+Every lead that enters via WhatsApp is automatically created as a contact in Kommo and placed at the correct stage based on the path they took through the chatbot. Sales advisors open their day with a structured, prioritized pipeline, not a list of 200 unsorted messages.
 
 ### Content Optimization
 
-To ensure the chatbot's tone was clear, persuasive, and consistent with ATV Riders' brand voice, I used **Gemini 3.1 Pro** to refine every piece of copy in the flow — from the initial greeting to the catalog descriptions and FAQ responses. This step eliminated the common failure mode of chatbots that are technically functional but conversationally awkward.
+To ensure the chatbot's tone was clear, persuasive, and consistent with ATV Riders' brand voice, I used **Gemini 3.1 Pro** to refine every piece of copy in the flow, from the initial greeting to the catalog descriptions and FAQ responses. This step eliminated the common failure mode of chatbots that are technically functional but conversationally awkward.
 
 ## Results
 
@@ -84,7 +84,7 @@ To ensure the chatbot's tone was clear, persuasive, and consistent with ATV Ride
 - **CRM adoption:** Team operational post-handoff, no technical dependency
 - **Pipeline visibility:** Full funnel from first message to close
 - **Advisor workload:** Reduced to high-intent contacts only
-- **Follow-up coverage:** 100% — no lead dropped without a re-engagement attempt
+- **Follow-up coverage:** 100% with no lead dropped without a re-engagement attempt
 
 ## What This Project Demonstrates
 
