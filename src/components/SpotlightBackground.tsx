@@ -5,7 +5,6 @@ import styles from "./SpotlightBackground.module.scss";
 
 interface SpotlightBackgroundProps {
   radius?: number;
-  dotsColor?: string;
   dotsOpacity?: number;
   dotsSize?: string;
 }
@@ -22,55 +21,23 @@ function seededRandom(seed: number) {
   return x - Math.floor(x);
 }
 
-type RGB = [number, number, number];
+// Manual de Marca, Sección 5.3: "Neural Grid" — puntos conectados por líneas
+// finas en **Grafito**, no en el acento Cobalto (que la Sección 3.1 reserva
+// explícitamente para CTAs/métricas y prohíbe como color de fondo extenso).
+// Grafito no cambia entre temas, así que un solo color sirve para ambos.
+const GRAFITO: [number, number, number] = [110, 118, 129];
 
-// Custom properties are untyped strings — the browser returns whatever was
-// authored (hex here, per src/resources/custom.css) rather than normalizing
-// to rgb(), so this needs to parse hex explicitly instead of scanning for digits.
-function parseColorToRgb(value: string): RGB | null {
-  const hex = value.trim().match(/^#([0-9a-f]{3}|[0-9a-f]{6})$/i)?.[1];
-  if (hex) {
-    const full = hex.length === 3
-      ? hex.split("").map((c) => c + c).join("")
-      : hex;
-    const num = Number.parseInt(full, 16);
-    return [(num >> 16) & 255, (num >> 8) & 255, num & 255];
-  }
-  const rgbMatch = value.match(/rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/i);
-  if (rgbMatch) {
-    return [Number(rgbMatch[1]), Number(rgbMatch[2]), Number(rgbMatch[3])];
-  }
-  return null;
-}
-
-function resolveColor(varName: string): RGB {
-  if (typeof window === "undefined") return [45, 91, 255];
-  const value = getComputedStyle(document.documentElement).getPropertyValue(`--${varName}`).trim();
-  return parseColorToRgb(value) ?? [45, 91, 255];
-}
-
-// The same alpha reads as much bolder on a light background than on a dark
-// one (less contrast headroom), so light theme gets a lower multiplier to
-// land at a similar felt weight instead of looking like a heavy overlay.
-function themeOpacityMultiplier(): number {
-  if (typeof document === "undefined") return 1;
-  return document.documentElement.getAttribute("data-theme") === "light" ? 0.45 : 1;
-}
-
-// "Neural Grid" — Manual de Marca, Sección 5.3: puntos conectados por líneas
-// finas, evocando una red neuronal simplificada. Renderizado en canvas para
-// poder dibujar las conexiones entre nodos cercanos, no solo los puntos.
+// "radius" is a tight, literal spotlight in pixels — the pattern should stay
+// mostly hidden until the cursor is actually near a given area.
 export function SpotlightBackground({
-  radius = 100,
-  dotsColor = "brand-background-strong",
-  dotsOpacity = 55,
+  radius = 260,
+  dotsOpacity = 18,
   dotsSize = "40px",
 }: SpotlightBackgroundProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const target = useRef({ x: 0, y: 0 });
   const current = useRef({ x: 0, y: 0 });
   const nodesRef = useRef<Node[]>([]);
-  const colorRef = useRef<RGB>([45, 91, 255]);
   const frameRef = useRef<number | undefined>(undefined);
 
   useEffect(() => {
@@ -80,9 +47,9 @@ export function SpotlightBackground({
     if (!ctx) return;
 
     const spacing = Number.parseFloat(dotsSize) || 40;
+    const baseOpacity = dotsOpacity / 100;
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    const opacityRef = { current: (dotsOpacity / 100) * themeOpacityMultiplier() };
 
     const buildGrid = () => {
       const w = window.innerWidth;
@@ -110,36 +77,33 @@ export function SpotlightBackground({
     };
 
     let { cols } = buildGrid();
-    colorRef.current = resolveColor(dotsColor);
 
     const handleResize = () => {
       ({ cols } = buildGrid());
     };
     window.addEventListener("resize", handleResize);
 
-    target.current = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+    // Start off-screen so nothing is revealed until the cursor actually moves in.
+    target.current = { x: -9999, y: -9999 };
     current.current = { ...target.current };
     const handleMouseMove = (e: MouseEvent) => {
       target.current = { x: e.clientX, y: e.clientY };
     };
     window.addEventListener("mousemove", handleMouseMove, { passive: true });
 
-    const maskRadius = (radius / 100) * window.innerHeight;
-
     const draw = () => {
       const w = window.innerWidth;
       const h = window.innerHeight;
       ctx.clearRect(0, 0, w, h);
 
-      const [r, g, b] = colorRef.current;
-      const baseOpacity = opacityRef.current;
+      const [r, g, b] = GRAFITO;
       const nodes = nodesRef.current;
       const cx = current.current.x;
       const cy = current.current.y;
 
       const falloff = (x: number, y: number) => {
         const d = Math.hypot(x - cx, y - cy);
-        return Math.max(0, 1 - d / maskRadius);
+        return Math.max(0, 1 - d / radius);
       };
 
       // connections to the right and below neighbor only — every pair is visited once
@@ -154,7 +118,7 @@ export function SpotlightBackground({
         for (const neighbor of [right, below]) {
           if (!neighbor) continue;
           const alphaNb = falloff(neighbor.x, neighbor.y);
-          const lineAlpha = Math.min(alphaN, alphaNb) * baseOpacity * 0.65;
+          const lineAlpha = Math.min(alphaN, alphaNb) * baseOpacity * 0.7;
           if (lineAlpha <= 0.015) continue;
           ctx.strokeStyle = `rgba(${r},${g},${b},${lineAlpha})`;
           ctx.beginPath();
@@ -169,26 +133,20 @@ export function SpotlightBackground({
         if (alpha <= 0.02) continue;
         ctx.fillStyle = `rgba(${r},${g},${b},${alpha})`;
         ctx.beginPath();
-        ctx.arc(n.x, n.y, 1.8, 0, Math.PI * 2);
+        ctx.arc(n.x, n.y, 1.6, 0, Math.PI * 2);
         ctx.fill();
       }
     };
 
-    const themeObserver = new MutationObserver(() => {
-      colorRef.current = resolveColor(dotsColor);
-      opacityRef.current = (dotsOpacity / 100) * themeOpacityMultiplier();
-      if (reduceMotion) draw();
-    });
-    themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
-
     if (reduceMotion) {
-      // static: no cursor tracking, centered falloff so the pattern still reads
-      current.current = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+      // static: no cursor tracking — reveal a fixed patch near the top so the
+      // pattern still reads for reduced-motion users without chasing a cursor.
+      current.current = { x: window.innerWidth / 2, y: 220 };
       draw();
     } else {
       const loop = () => {
-        current.current.x += (target.current.x - current.current.x) * 0.08;
-        current.current.y += (target.current.y - current.current.y) * 0.08;
+        current.current.x += (target.current.x - current.current.x) * 0.15;
+        current.current.y += (target.current.y - current.current.y) * 0.15;
         draw();
         frameRef.current = requestAnimationFrame(loop);
       };
@@ -198,10 +156,9 @@ export function SpotlightBackground({
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("resize", handleResize);
-      themeObserver.disconnect();
       if (frameRef.current) cancelAnimationFrame(frameRef.current);
     };
-  }, [radius, dotsColor, dotsOpacity, dotsSize]);
+  }, [radius, dotsOpacity, dotsSize]);
 
   return <canvas ref={canvasRef} className={styles.spotlightBackground} />;
 }

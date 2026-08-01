@@ -15,7 +15,7 @@ import {
 } from "@once-ui-system/core";
 import { Footer, Header, RouteGuard, Providers, FaqChatbot, IntroLoader } from "@/components";
 import { SpotlightBackground } from "@/components/SpotlightBackground";
-import { baseURL, effects, fonts, style, dataStyle, home } from "@/resources";
+import { baseURL, fonts, style, dataStyle, home } from "@/resources";
 import { Analytics } from "@vercel/analytics/next";
 
 export async function generateMetadata() {
@@ -116,7 +116,7 @@ export default async function RootLayout({
           horizontal="center"
         >
           <IntroLoader />
-          <SpotlightBackground radius={effects.mask.radius} />
+          <SpotlightBackground />
           <Flex fillWidth minHeight="16" s={{ hide: true }} />
           <Header />
           <Flex zIndex={0} fillWidth padding="l" horizontal="center" flex={1} className="main-content-wrapper">
