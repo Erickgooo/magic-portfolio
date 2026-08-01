@@ -25,6 +25,8 @@ import {
 
 import { SiJavascript, SiNextdotjs, SiFigma, SiSupabase } from "react-icons/si";
 
+import { EMIcon } from "./EMIcon";
+
 import {
   FaDiscord,
   FaGithub,
@@ -50,6 +52,7 @@ export const iconLibrary: Record<string, IconType> = {
   openLink: HiOutlineLink,
   calendar: HiCalendarDays,
   home: PiHouseDuotone,
+  brand: EMIcon,
   gallery: PiImageDuotone,
   message: PiChatCircleTextDuotone,
   discord: FaDiscord,

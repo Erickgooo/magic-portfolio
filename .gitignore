@@ -31,6 +31,11 @@ yarn-error.log*
 # vercel
 .vercel
 
+# brand source files (kept locally, not needed in the repo)
+/16.9 - LOGO COMPLETO.png
+/Logo - Favicon.png
+/Manual_Marca_Personal_Erick_Mahecha_2026.pdf
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

@@ -13,7 +13,7 @@ import {
   RevealFx,
   SpacingToken,
 } from "@once-ui-system/core";
-import { Footer, Header, RouteGuard, Providers, FaqChatbot } from "@/components";
+import { Footer, Header, RouteGuard, Providers, FaqChatbot, IntroLoader } from "@/components";
 import { SpotlightBackground } from "@/components/SpotlightBackground";
 import { baseURL, effects, fonts, style, dataStyle, home } from "@/resources";
 import { Analytics } from "@vercel/analytics/next";
@@ -115,6 +115,7 @@ export default async function RootLayout({
           padding="0"
           horizontal="center"
         >
+          <IntroLoader />
           <SpotlightBackground radius={effects.mask.radius} />
           <Flex fillWidth minHeight="16" s={{ hide: true }} />
           <Header />

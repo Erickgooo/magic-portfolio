@@ -1,5 +1,6 @@
 import { Row, IconButton, SmartLink, Text } from "@once-ui-system/core";
 import { person, social } from "@/resources";
+import { EMIcon } from "@/resources/EMIcon";
 import styles from "./Footer.module.scss";
 
 export const Footer = () => {
@@ -21,6 +22,18 @@ export const Footer = () => {
         }}
       >
         <Text variant="body-default-s" onBackground="neutral-strong">
+          <span
+            aria-hidden="true"
+            style={{
+              display: "inline-flex",
+              fontSize: "1.1em",
+              verticalAlign: "-2px",
+              marginRight: "8px",
+              opacity: 0.7,
+            }}
+          >
+            <EMIcon />
+          </span>
           <Text onBackground="neutral-weak">© {currentYear} /</Text>
           <Text paddingX="4">{person.name}</Text>
           <Text onBackground="neutral-weak">

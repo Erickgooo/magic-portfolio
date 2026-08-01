@@ -1,5 +1,6 @@
 import { ImageResponse } from "next/og";
 import { baseURL, person } from "@/resources";
+import { EM_MARK_DATA_URI } from "./mark";
 
 export const runtime = "nodejs";
 
@@ -29,9 +30,20 @@ export async function GET(request: Request) {
         width: "100%",
         height: "100%",
         padding: "6rem",
-        background: "#151515",
+        background: "#0B0B0F",
       }}
     >
+      <img
+        src={EM_MARK_DATA_URI}
+        alt=""
+        style={{
+          position: "absolute",
+          top: "5rem",
+          right: "5rem",
+          width: "6rem",
+          height: "6rem",
+        }}
+      />
       <div
         style={{
           display: "flex",
