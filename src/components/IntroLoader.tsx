@@ -15,6 +15,9 @@ const wordmarkFont = Space_Grotesk({
 const SESSION_KEY = "em-intro-seen";
 const HOLD_MS = 1600;
 const FADE_MS = 500;
+// Hard backstop: whatever happens (a backgrounded tab throttling timers, a
+// slow device, etc.), never let the overlay block the page longer than this.
+const MAX_LIFETIME_MS = 4000;
 
 const readAlreadySeen = () => {
   try {
@@ -25,11 +28,17 @@ const readAlreadySeen = () => {
   }
 };
 
+// This initializer also runs during SSR, where `document` doesn't exist.
+const isTabHidden = () => typeof document !== "undefined" && document.hidden;
+
 export const IntroLoader = () => {
   // Captured once at first render (a lazy initializer is only ever a *read*,
   // so it stays consistent even under React Strict Mode's dev double-render —
   // unlike a sessionStorage write, which must not happen here).
-  const [shouldShow] = useState(() => !readAlreadySeen());
+  // Skipping outright when the tab starts hidden also matters here: if the
+  // page was opened in a background tab, there is no "catching up" on a
+  // missed intro later without it feeling broken, so we just don't show it.
+  const [shouldShow] = useState(() => !readAlreadySeen() && !isTabHidden());
   const [phase, setPhase] = useState<"pending" | "entering" | "leaving" | "done">(
     shouldShow ? "pending" : "done",
   );
@@ -42,22 +51,35 @@ export const IntroLoader = () => {
     } catch {}
 
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const holdMs = reduceMotion ? 500 : HOLD_MS;
+    const fadeMs = reduceMotion ? 150 : FADE_MS;
 
     // double rAF so the "entering" class change is picked up as a transition, not the initial state
     const raf = requestAnimationFrame(() =>
       requestAnimationFrame(() => setPhase("entering")),
     );
 
-    const holdMs = reduceMotion ? 500 : HOLD_MS;
-    const fadeMs = reduceMotion ? 150 : FADE_MS;
-
     const leaveTimer = setTimeout(() => setPhase("leaving"), holdMs);
     const doneTimer = setTimeout(() => setPhase("done"), holdMs + fadeMs);
+
+    // Background tabs throttle/pause rAF and setTimeout, so a tab switched
+    // away from mid-intro can otherwise get stuck showing the overlay
+    // (and, worse, blocking clicks on everything under it) for a long time.
+    // The moment the tab is hidden, just skip straight to the end.
+    const onVisibilityChange = () => {
+      if (document.hidden) setPhase("done");
+    };
+    document.addEventListener("visibilitychange", onVisibilityChange);
+
+    // Absolute backstop independent of the above, in case of any other edge case.
+    const maxTimer = setTimeout(() => setPhase("done"), MAX_LIFETIME_MS);
 
     return () => {
       cancelAnimationFrame(raf);
       clearTimeout(leaveTimer);
       clearTimeout(doneTimer);
+      clearTimeout(maxTimer);
+      document.removeEventListener("visibilitychange", onVisibilityChange);
     };
   }, [shouldShow]);
 

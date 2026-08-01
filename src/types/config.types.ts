@@ -47,9 +47,9 @@ export type FontsConfig = {
  */
 export type StyleConfig = {
   theme: Theme;
-  neutral: NeutralColor;
-  brand: Schemes;
-  accent: Schemes;
+  neutral: NeutralColor | "custom";
+  brand: Schemes | "custom";
+  accent: Schemes | "custom";
   solid: SolidType;
   solidStyle: SolidStyle;
   border: BorderStyle;

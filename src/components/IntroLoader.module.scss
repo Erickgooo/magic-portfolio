@@ -18,6 +18,9 @@
 .overlay.leaving {
   opacity: 0;
   visibility: hidden;
+  /* not animated, so clicks reach the page immediately once the fade-out starts
+     rather than waiting for the (animated) visibility switch to catch up */
+  pointer-events: none;
 }
 
 .mark {
