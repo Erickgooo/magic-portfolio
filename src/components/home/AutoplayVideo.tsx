@@ -1,14 +1,16 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { EMIcon } from "@/resources/EMIcon";
 
 interface AutoplayVideoProps {
   src: string;
   poster?: string;
   style?: React.CSSProperties;
+  watermark?: boolean;
 }
 
-export function AutoplayVideo({ src, poster, style }: AutoplayVideoProps) {
+export function AutoplayVideo({ src, poster, style, watermark = false }: AutoplayVideoProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
@@ -50,17 +52,36 @@ export function AutoplayVideo({ src, poster, style }: AutoplayVideoProps) {
   }, []);
 
   return (
-    <video
-      ref={videoRef}
-      autoPlay
-      loop
-      muted
-      playsInline
-      preload="auto"
-      poster={poster}
-      style={style}
-    >
-      <source src={src} type="video/mp4" />
-    </video>
+    <div style={{ position: "relative", width: style?.maxWidth ?? "100%" }}>
+      <video
+        ref={videoRef}
+        autoPlay
+        loop
+        muted
+        playsInline
+        preload="auto"
+        poster={poster}
+        style={{ ...style, display: "block", width: "100%" }}
+      >
+        <source src={src} type="video/mp4" />
+      </video>
+      {watermark && (
+        <span
+          aria-hidden="true"
+          style={{
+            position: "absolute",
+            right: "16px",
+            bottom: "16px",
+            fontSize: "22px",
+            color: "#F4F5F7",
+            opacity: 0.7,
+            filter: "drop-shadow(0 1px 3px rgba(0,0,0,0.6))",
+            lineHeight: 0,
+          }}
+        >
+          <EMIcon />
+        </span>
+      )}
+    </div>
   );
 }

@@ -61,6 +61,9 @@ export default function Home() {
                 textVariant="label-default-s"
                 arrow={false}
                 href={home.featured.href}
+                style={{
+                  boxShadow: "0 0 0 1px var(--brand-alpha-medium), 0 0 24px var(--brand-alpha-weak)",
+                }}
               >
                 <Row paddingY="2">{home.featured.title}</Row>
               </Badge>
@@ -103,6 +106,7 @@ export default function Home() {
             <AutoplayVideo
               src="/videohome.mp4"
               poster="/images/videohome-poster.jpg"
+              watermark
               style={{
                 maxWidth: "100%",
                 borderRadius: "12px",
@@ -118,7 +122,20 @@ export default function Home() {
       {routes["/blog"] && (
         <Column fillWidth gap="24" marginBottom="l">
           <Row fillWidth paddingRight="64">
-            <Line maxWidth={48} />
+            <Row position="relative" fitWidth>
+              <Line maxWidth={48} />
+              <Row
+                position="absolute"
+                style={{
+                  left: "50%",
+                  top: "50%",
+                  width: "5px",
+                  height: "5px",
+                  background: "#2D5BFF",
+                  transform: "translate(-50%, -50%) rotate(45deg)",
+                }}
+              />
+            </Row>
           </Row>
           <Row fillWidth gap="24" marginTop="40" s={{ direction: "column" }}>
             <Row flex={1} paddingLeft="l" paddingTop="24">
@@ -131,7 +148,20 @@ export default function Home() {
             </Row>
           </Row>
           <Row fillWidth paddingLeft="64" horizontal="end">
-            <Line maxWidth={48} />
+            <Row position="relative" fitWidth>
+              <Line maxWidth={48} />
+              <Row
+                position="absolute"
+                style={{
+                  left: "50%",
+                  top: "50%",
+                  width: "5px",
+                  height: "5px",
+                  background: "#2D5BFF",
+                  transform: "translate(-50%, -50%) rotate(45deg)",
+                }}
+              />
+            </Row>
           </Row>
         </Column>
       )}

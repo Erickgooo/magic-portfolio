@@ -16,6 +16,7 @@ import {
   Line,
 } from "@once-ui-system/core";
 import { baseURL, about, person, work } from "@/resources";
+import { EMIcon } from "@/resources/EMIcon";
 import { formatDate } from "@/utils/formatDate";
 import { ScrollToHash, CustomMDX } from "@/components";
 import { Metadata } from "next";
@@ -119,7 +120,24 @@ export default async function Project({
         </Row>
       </Row>
       {post.metadata.images.length > 0 && (
-        <Media priority aspectRatio="16 / 9" radius="m" alt="image" src={post.metadata.images[0]} />
+        <Row fillWidth position="relative">
+          <Media priority aspectRatio="16 / 9" radius="m" alt="image" src={post.metadata.images[0]} />
+          <span
+            aria-hidden="true"
+            style={{
+              position: "absolute",
+              right: "20px",
+              bottom: "20px",
+              fontSize: "24px",
+              color: "#F4F5F7",
+              opacity: 0.7,
+              filter: "drop-shadow(0 1px 3px rgba(0,0,0,0.6))",
+              lineHeight: 0,
+            }}
+          >
+            <EMIcon />
+          </span>
+        </Row>
       )}
       <Column style={{ margin: "auto" }} as="article" maxWidth="xs">
         <CustomMDX source={post.content} />
