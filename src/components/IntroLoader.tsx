@@ -28,8 +28,12 @@ const readAlreadySeen = () => {
   }
 };
 
-// This initializer also runs during SSR, where `document` doesn't exist.
-const isTabHidden = () => typeof document !== "undefined" && document.hidden;
+// This initializer also runs during SSR, where `document` doesn't exist. A
+// tab can be visible but the *window* unfocused (common when a link opens in
+// a background window) — rAF/timers get throttled there too, so both checks
+// matter for deciding whether it's worth even starting the intro.
+const isTabHiddenOrUnfocused = () =>
+  typeof document !== "undefined" && (document.hidden || !document.hasFocus());
 
 export const IntroLoader = () => {
   // Captured once at first render (a lazy initializer is only ever a *read*,
@@ -38,7 +42,7 @@ export const IntroLoader = () => {
   // Skipping outright when the tab starts hidden also matters here: if the
   // page was opened in a background tab, there is no "catching up" on a
   // missed intro later without it feeling broken, so we just don't show it.
-  const [shouldShow] = useState(() => !readAlreadySeen() && !isTabHidden());
+  const [shouldShow] = useState(() => !readAlreadySeen() && !isTabHiddenOrUnfocused());
   const [phase, setPhase] = useState<"pending" | "entering" | "leaving" | "done">(
     shouldShow ? "pending" : "done",
   );
@@ -62,17 +66,19 @@ export const IntroLoader = () => {
     const leaveTimer = setTimeout(() => setPhase("leaving"), holdMs);
     const doneTimer = setTimeout(() => setPhase("done"), holdMs + fadeMs);
 
-    // Background tabs throttle/pause rAF and setTimeout, so a tab switched
-    // away from mid-intro can otherwise get stuck showing the overlay
-    // (and, worse, blocking clicks on everything under it) for a long time.
-    // The moment the tab is hidden, just skip straight to the end.
+    // Background tabs (and unfocused windows) throttle/pause rAF and
+    // setTimeout, so switching away mid-intro can otherwise get it stuck
+    // showing the overlay — and, worse, blocking clicks on everything under
+    // it — for a long time. The moment that happens, just skip to the end.
+    const bail = () => setPhase("done");
     const onVisibilityChange = () => {
-      if (document.hidden) setPhase("done");
+      if (document.hidden) bail();
     };
     document.addEventListener("visibilitychange", onVisibilityChange);
+    window.addEventListener("blur", bail);
 
     // Absolute backstop independent of the above, in case of any other edge case.
-    const maxTimer = setTimeout(() => setPhase("done"), MAX_LIFETIME_MS);
+    const maxTimer = setTimeout(bail, MAX_LIFETIME_MS);
 
     return () => {
       cancelAnimationFrame(raf);
@@ -80,6 +86,7 @@ export const IntroLoader = () => {
       clearTimeout(doneTimer);
       clearTimeout(maxTimer);
       document.removeEventListener("visibilitychange", onVisibilityChange);
+      window.removeEventListener("blur", bail);
     };
   }, [shouldShow]);
 

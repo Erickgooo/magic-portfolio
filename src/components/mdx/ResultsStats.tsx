@@ -1,15 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { JetBrains_Mono } from "next/font/google";
 import styles from "./ResultsStats.module.scss";
-
-// Manual de Marca, Sección 4.2: cifras exactas siempre en tipografía monoespaciada.
-const dataFont = JetBrains_Mono({
-  weight: ["700"],
-  subsets: ["latin"],
-  display: "swap",
-});
 
 interface Stat {
   value: string;
@@ -117,7 +109,7 @@ function AnimatedStat({ stat }: { stat: Stat }) {
 
   return (
     <div className={styles.statInner}>
-      <div className={`${styles.value} ${dataFont.className}`}>
+      <div className={styles.value}>
         <span ref={spanRef} suppressHydrationWarning>
           {prefix}
           {displayStr}

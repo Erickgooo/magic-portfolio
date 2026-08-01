@@ -67,6 +67,10 @@ const home: Home = {
       SEO automation, CRM, and the software itself when nothing exists yet.
     </>
   ),
+  stats: [
+    { value: "338K+", label: "organic views" },
+    { value: "$0", label: "ad spend" },
+  ],
 };
 
 const about: About = {

@@ -79,6 +79,37 @@ export default function Home() {
               {home.subline}
             </Text>
           </RevealFx>
+          {home.stats && home.stats.length > 0 && (
+            <RevealFx translateY="8" delay={0.3} fillWidth horizontal="center" paddingBottom="24">
+              <Row gap="12" horizontal="center" wrap>
+                {home.stats.map((stat) => (
+                  <Row
+                    key={stat.label}
+                    vertical="center"
+                    gap="8"
+                    paddingX="16"
+                    paddingY="8"
+                    radius="m"
+                    style={{
+                      border: "1px solid var(--brand-alpha-medium)",
+                      background: "var(--brand-alpha-weak)",
+                    }}
+                  >
+                    <Text
+                      style={{ fontFamily: "var(--font-code)", fontWeight: 700 }}
+                      onBackground="brand-strong"
+                      variant="body-strong-m"
+                    >
+                      {stat.value}
+                    </Text>
+                    <Text onBackground="neutral-weak" variant="label-default-s">
+                      {stat.label}
+                    </Text>
+                  </Row>
+                ))}
+              </Row>
+            </RevealFx>
+          )}
           <RevealFx paddingTop="12" delay={0.4} horizontal="center" paddingLeft="12">
             <Button
               id="about"

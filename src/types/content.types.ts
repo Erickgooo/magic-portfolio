@@ -101,6 +101,8 @@ export interface Home extends BasePageConfig {
   };
   /** The sub text which appears below the headline */
   subline: React.ReactNode;
+  /** Key figures from the subline, shown as Data Callout chips */
+  stats?: { value: string; label: string }[];
 }
 
 /**
