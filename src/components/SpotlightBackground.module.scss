@@ -6,6 +6,17 @@
   height: 100vh;
   pointer-events: none;
   z-index: 0;
+  // Mobile browsers (Safari in particular) can fail to keep a fixed-position
+  // element with a live mask-image correctly composited during scroll,
+  // making it look like it detaches and sits stuck/overlapping the content
+  // scrolling underneath until the scroll gesture ends. Forcing this onto
+  // its own GPU layer up front (rather than promoting it reactively mid-
+  // scroll) is the standard fix for that class of bug.
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  will-change: transform;
 }
 
 .dots {
