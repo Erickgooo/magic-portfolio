@@ -334,7 +334,7 @@ export default function About() {
                   <Column
                     key={`${item.name}-${index}`}
                     fillWidth
-                    gap="4"
+                    fillHeight
                     padding="20"
                     radius="m"
                     style={{
@@ -342,13 +342,19 @@ export default function About() {
                         "0 0 0 1px var(--brand-alpha-medium), 0 0 24px var(--brand-alpha-weak)",
                     }}
                   >
-                    <Text id={item.name} variant="heading-strong-m">
-                      {item.name}
-                    </Text>
-                    <Text variant="heading-default-xs" onBackground="neutral-weak" marginBottom="8">
-                      {item.institution}
-                    </Text>
-                    <SmartLink suffixIcon="arrowUpRightFromSquare" href={item.link}>
+                    <Column gap="4" fillWidth>
+                      <Text id={item.name} variant="heading-strong-m">
+                        {item.name}
+                      </Text>
+                      <Text variant="heading-default-xs" onBackground="neutral-weak">
+                        {item.institution}
+                      </Text>
+                    </Column>
+                    <SmartLink
+                      suffixIcon="arrowUpRightFromSquare"
+                      href={item.link}
+                      style={{ marginTop: "auto", paddingTop: "0.75rem" }}
+                    >
                       <Text variant="label-default-m" onBackground="brand-weak">
                         View credential
                       </Text>
