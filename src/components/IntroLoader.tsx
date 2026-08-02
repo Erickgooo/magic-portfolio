@@ -28,12 +28,13 @@ const readAlreadySeen = () => {
   }
 };
 
-// This initializer also runs during SSR, where `document` doesn't exist. A
-// tab can be visible but the *window* unfocused (common when a link opens in
-// a background window) — rAF/timers get throttled there too, so both checks
-// matter for deciding whether it's worth even starting the intro.
-const isTabHiddenOrUnfocused = () =>
-  typeof document !== "undefined" && (document.hidden || !document.hasFocus());
+// This initializer also runs during SSR, where `document` doesn't exist.
+// Only `hidden` is checked here — `document.hasFocus()` can transiently
+// report false during a page's initial load even for a normal, foreground
+// visit (window focus can settle a beat after visibility does), and since
+// this decision is a one-shot read with no retry, a false negative there
+// would permanently skip the intro for the whole session.
+const isTabHidden = () => typeof document !== "undefined" && document.hidden;
 
 export const IntroLoader = () => {
   // Captured once at first render (a lazy initializer is only ever a *read*,
@@ -42,7 +43,7 @@ export const IntroLoader = () => {
   // Skipping outright when the tab starts hidden also matters here: if the
   // page was opened in a background tab, there is no "catching up" on a
   // missed intro later without it feeling broken, so we just don't show it.
-  const [shouldShow] = useState(() => !readAlreadySeen() && !isTabHiddenOrUnfocused());
+  const [shouldShow] = useState(() => !readAlreadySeen() && !isTabHidden());
   const [phase, setPhase] = useState<"pending" | "entering" | "leaving" | "done">(
     shouldShow ? "pending" : "done",
   );
