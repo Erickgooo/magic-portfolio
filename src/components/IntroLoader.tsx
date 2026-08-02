@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 import { Space_Grotesk } from "next/font/google";
 
 import styles from "./IntroLoader.module.scss";
@@ -40,10 +41,6 @@ let hasPlayedThisPageLoad = false;
 // there would permanently skip the intro for the whole session.
 const isTabHidden = () => typeof document !== "undefined" && document.hidden;
 
-// The intro is Home-specific: a fresh document load that lands directly on
-// another route (e.g. a shared /work/... link) shouldn't show it.
-const isHomeRoute = () => typeof window !== "undefined" && window.location.pathname === "/";
-
 // Same monogram geometry as src/resources/EMIcon.tsx (angular "EM" + Cobalto
 // node, per Manual de Marca Sección 2.1) but rendered with stroke+fill so the
 // intro can trace it, rather than the shared static fill-only icon used
@@ -53,13 +50,22 @@ const MARK_PATH =
 const NODE_PATH = "M 1022,960 L 960,1024 L 1024,1087 L 1086,1022 Z";
 
 export const IntroLoader = () => {
+  // usePathname() (not window.location.pathname) specifically because it
+  // resolves to the same value during the server render and the client
+  // hydration render. window.location doesn't exist on the server at all,
+  // so checking it directly made the server always render nothing while
+  // the client immediately wanted to render the overlay — a guaranteed
+  // hydration mismatch on every single load, which surfaced as a flash of
+  // the real page underneath before the intro caught up and covered it.
+  const pathname = usePathname();
+
   // Captured once at first render (a lazy initializer is only ever a *read*,
   // so it stays consistent even under React Strict Mode's dev double-render).
   // Skipping outright when the tab starts hidden also matters here: if the
   // page was opened in a background tab, there is no "catching up" on a
   // missed intro later without it feeling broken, so we just don't show it.
   const [shouldShow] = useState(
-    () => !hasPlayedThisPageLoad && isHomeRoute() && !isTabHidden(),
+    () => !hasPlayedThisPageLoad && pathname === "/" && !isTabHidden(),
   );
   const [phase, setPhase] = useState<"pending" | "entering" | "leaving" | "done">(
     shouldShow ? "pending" : "done",
