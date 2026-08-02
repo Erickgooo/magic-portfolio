@@ -8,6 +8,8 @@ interface SpotlightBackgroundProps {
   dotsColor?: string;
   dotsOpacity?: number;
   dotsSize?: string;
+  glowRadius?: number;
+  glowColor?: string;
 }
 
 // Plain CSS dot grid revealed through a cursor-following mask — deliberately
@@ -18,11 +20,17 @@ interface SpotlightBackgroundProps {
 // and only changes color (Grafito, not the Cobalto accent — Manual de
 // Marca Seccion 3.1 forbids using the accent as an extensive background)
 // and radius (a real, tight spotlight instead of one covering the page).
+// A separate glow layer (Cobalto, at the manual's own 15% alpha token)
+// gives the cursor a soft light ring independent of the dot grid, since
+// widening the dot spacing removed the incidental glow the denser grid
+// used to produce.
 export function SpotlightBackground({
   radius = 220,
   dotsColor = "scheme-neutral-500",
   dotsOpacity = 55,
   dotsSize = "24px",
+  glowRadius = 260,
+  glowColor = "scheme-brand-600-15",
 }: SpotlightBackgroundProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const target = useRef({ x: 0, y: 0 });
@@ -58,15 +66,20 @@ export function SpotlightBackground({
   return (
     <div
       ref={containerRef}
-      className={styles.spotlightBackground}
+      className={styles.spotlightWrapper}
       style={
         {
           "--dots-color": `var(--${dotsColor})`,
           "--dots-opacity": dotsOpacity / 100,
           "--dots-size": dotsSize,
           "--mask-radius": `${radius}px`,
+          "--glow-radius": `${glowRadius}px`,
+          "--glow-color": `var(--${glowColor})`,
         } as React.CSSProperties
       }
-    />
+    >
+      <div className={styles.dots} />
+      <div className={styles.glow} />
+    </div>
   );
 }

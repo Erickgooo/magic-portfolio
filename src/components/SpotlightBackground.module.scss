@@ -1,4 +1,4 @@
-.spotlightBackground {
+.spotlightWrapper {
   position: fixed;
   top: 0;
   left: 0;
@@ -6,6 +6,11 @@
   height: 100vh;
   pointer-events: none;
   z-index: 0;
+}
+
+.dots {
+  position: absolute;
+  inset: 0;
   background-image: radial-gradient(var(--dots-color) 1.5px, transparent 1.5px);
   background-size: var(--dots-size) var(--dots-size);
   opacity: var(--dots-opacity);
@@ -13,4 +18,10 @@
   -webkit-mask-image: radial-gradient(var(--mask-radius) at var(--x, 50%) var(--y, 50%), black 0%, transparent 100%);
   mask-size: 100% 100%;
   -webkit-mask-size: 100% 100%;
+}
+
+.glow {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(var(--glow-radius) at var(--x, 50%) var(--y, 50%), var(--glow-color) 0%, transparent 70%);
 }
