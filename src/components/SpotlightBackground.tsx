@@ -21,8 +21,8 @@ interface SpotlightBackgroundProps {
 export function SpotlightBackground({
   radius = 220,
   dotsColor = "scheme-neutral-500",
-  dotsOpacity = 40,
-  dotsSize = "2px",
+  dotsOpacity = 55,
+  dotsSize = "24px",
 }: SpotlightBackgroundProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const target = useRef({ x: 0, y: 0 });
