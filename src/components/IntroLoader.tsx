@@ -64,9 +64,26 @@ export const IntroLoader = () => {
   // Skipping outright when the tab starts hidden also matters here: if the
   // page was opened in a background tab, there is no "catching up" on a
   // missed intro later without it feeling broken, so we just don't show it.
-  const [shouldShow] = useState(
-    () => !hasPlayedThisPageLoad && pathname === "/" && !isTabHidden(),
-  );
+  const [shouldShow] = useState(() => {
+    const alreadyPlayed = hasPlayedThisPageLoad;
+    const isHome = pathname === "/";
+    const hidden = isTabHidden();
+    const result = !alreadyPlayed && isHome && !hidden;
+    // Left in permanently (not a temp debug log): this is the one decision
+    // in the whole component that's genuinely hard to inspect after the
+    // fact — by the time you'd check the DOM, the overlay has already
+    // mounted, played, or been skipped. Cheap, and answers "why didn't it
+    // show" in one line instead of another investigation.
+    if (typeof window !== "undefined") {
+      console.info("[IntroLoader] shouldShow:", result, {
+        alreadyPlayedThisPageLoad: alreadyPlayed,
+        pathname,
+        isHomeRoute: isHome,
+        tabHiddenAtMount: hidden,
+      });
+    }
+    return result;
+  });
   const [phase, setPhase] = useState<"pending" | "entering" | "leaving" | "done">(
     shouldShow ? "pending" : "done",
   );
@@ -82,6 +99,7 @@ export const IntroLoader = () => {
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const holdMs = reduceMotion ? 500 : HOLD_MS;
     const fadeMs = reduceMotion ? 150 : FADE_MS;
+    console.info("[IntroLoader] playing:", { reduceMotion, holdMs, fadeMs });
 
     // double rAF so the "entering" class change is picked up as a transition, not the initial state
     const raf = requestAnimationFrame(() =>
@@ -101,6 +119,7 @@ export const IntroLoader = () => {
       if (markPath && nodePath && wordmark) {
         const markLength = markPath.getTotalLength();
         const nodeLength = nodePath.getTotalLength();
+        console.info("[IntroLoader] path lengths:", { markLength, nodeLength });
         markPath.style.strokeDasharray = `${markLength}`;
         nodePath.style.strokeDasharray = `${nodeLength}`;
 
@@ -177,6 +196,12 @@ export const IntroLoader = () => {
             { duration: 700, delay: DRAW_MS, easing: "cubic-bezier(0.16, 1, 0.3, 1)", fill: "forwards" },
           ),
         );
+      } else {
+        console.warn("[IntroLoader] refs not ready, animation skipped:", {
+          markPath: !!markPath,
+          nodePath: !!nodePath,
+          wordmark: !!wordmark,
+        });
       }
     }
 
