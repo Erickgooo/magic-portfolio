@@ -19,20 +19,26 @@
   will-change: transform;
 }
 
-.dots {
-  position: absolute;
-  inset: 0;
-  background-image: radial-gradient(var(--dots-color) 1.5px, transparent 1.5px);
-  background-size: var(--dots-size) var(--dots-size);
-  opacity: var(--dots-opacity);
-  mask-image: radial-gradient(var(--mask-radius) at var(--x, 50%) var(--y, 50%), black 0%, transparent 100%);
-  -webkit-mask-image: radial-gradient(var(--mask-radius) at var(--x, 50%) var(--y, 50%), black 0%, transparent 100%);
-  mask-size: 100% 100%;
-  -webkit-mask-size: 100% 100%;
-}
-
 .glow {
   position: absolute;
   inset: 0;
   background-image: radial-gradient(var(--glow-radius) at var(--x, 50%) var(--y, 50%), var(--glow-color) 0%, transparent 70%);
+}
+
+// A plain, static dot texture — no mask, no JS, no fixed positioning. Applied
+// directly to the page body so it scrolls with the document like any other
+// background, rather than living on a viewport-fixed layer.
+.pageDots {
+  position: relative;
+}
+
+.pageDots::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(var(--scheme-neutral-500, #6e7681) 1.5px, transparent 1.5px);
+  background-size: 24px 24px;
+  opacity: 0.2;
+  z-index: 0;
 }

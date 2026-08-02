@@ -15,6 +15,7 @@ import {
 } from "@once-ui-system/core";
 import { Footer, Header, RouteGuard, Providers, FaqChatbot, IntroLoader } from "@/components";
 import { SpotlightBackground } from "@/components/SpotlightBackground";
+import spotlightStyles from "@/components/SpotlightBackground.module.scss";
 import { baseURL, fonts, style, dataStyle, home } from "@/resources";
 import { Analytics } from "@vercel/analytics/next";
 
@@ -110,7 +111,8 @@ export default async function RootLayout({
           as="body"
           background="page"
           fillWidth
-          style={{ minHeight: "100vh" }}
+          className={spotlightStyles.pageDots}
+          style={{ minHeight: "100vh", position: "relative" }}
           margin="0"
           padding="0"
           horizontal="center"

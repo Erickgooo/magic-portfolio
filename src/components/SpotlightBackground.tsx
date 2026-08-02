@@ -4,31 +4,19 @@ import { useEffect, useRef } from "react";
 import styles from "./SpotlightBackground.module.scss";
 
 interface SpotlightBackgroundProps {
-  radius?: number;
-  dotsColor?: string;
-  dotsOpacity?: number;
-  dotsSize?: string;
   glowRadius?: number;
   glowColor?: string;
 }
 
-// Plain CSS dot grid revealed through a cursor-following mask — deliberately
-// simple (no canvas, no devicePixelRatio handling, no per-frame geometry) so
-// it behaves the same on every device. A canvas rewrite of this (to draw
-// connecting lines for a fuller "Neural Grid" look) caused repeated bugs,
-// including a blank page on mobile, so this reverts to the proven approach
-// and only changes color (Grafito, not the Cobalto accent — Manual de
-// Marca Seccion 3.1 forbids using the accent as an extensive background)
-// and radius (a real, tight spotlight instead of one covering the page).
-// A separate glow layer (Cobalto, at the manual's own 15% alpha token)
-// gives the cursor a soft light ring independent of the dot grid, since
-// widening the dot spacing removed the incidental glow the denser grid
-// used to produce.
+// A cursor/finger-following glow — the dot grid used to live here too, but
+// as a position: fixed layer it stayed visually anchored to the viewport
+// while the page scrolled underneath it, which on mobile (where scrolling
+// itself is a touch gesture, so the glow tracked the scrolling finger) read
+// as the dots being stuck to the screen rather than part of the page. The
+// dots now live as a plain, non-fixed CSS background on the page body (see
+// layout.tsx) so they scroll naturally with content. Only this glow — a
+// small, genuinely viewport-anchored highlight — stays fixed and JS-tracked.
 export function SpotlightBackground({
-  radius = 220,
-  dotsColor = "scheme-neutral-500",
-  dotsOpacity = 55,
-  dotsSize = "24px",
   glowRadius = 260,
   glowColor = "scheme-brand-600-15",
 }: SpotlightBackgroundProps) {
@@ -82,16 +70,11 @@ export function SpotlightBackground({
       className={styles.spotlightWrapper}
       style={
         {
-          "--dots-color": `var(--${dotsColor})`,
-          "--dots-opacity": dotsOpacity / 100,
-          "--dots-size": dotsSize,
-          "--mask-radius": `${radius}px`,
           "--glow-radius": `${glowRadius}px`,
           "--glow-color": `var(--${glowColor})`,
         } as React.CSSProperties
       }
     >
-      <div className={styles.dots} />
       <div className={styles.glow} />
     </div>
   );
