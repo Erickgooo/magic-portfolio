@@ -13,6 +13,18 @@ const MSG_MAX_CHARS = 300;
 const LINKEDIN_URL = "https://www.linkedin.com/in/erick-mahecha/";
 const EMAIL = "santiagomahecha2328@gmail.com";
 
+// Deliberately NOT sessionStorage: sessionStorage survives an F5/reload
+// within the same tab, so once the greeting had shown once, it silently
+// never showed again for the rest of that browser session — read as the
+// bubble "sometimes" not firing. FaqChatbot lives in the root layout, which
+// Next.js's App Router never remounts on client-side navigation between
+// routes, so a plain module-level flag already does the right thing on its
+// own: it resets to `false` whenever this module is freshly evaluated —
+// which only happens on a real document load (first visit or reload) — and
+// stays `true` for the rest of that document's lifetime otherwise. Same
+// fix as IntroLoader's session-persistence bug.
+let greetingShownThisPageLoad = false;
+
 // ── Types ─────────────────────────────────────────────────────────────────────
 
 interface ActiveView {
@@ -248,14 +260,12 @@ export const FaqChatbot: React.FC = () => {
   useEffect(() => {
     if (typeof window === "undefined") return;
 
-    const shown = sessionStorage.getItem("erickbot_greeting_shown") === "true";
-    if (shown || isOpen) return;
+    if (greetingShownThisPageLoad || isOpen) return;
 
     const delayTimer = setTimeout(() => {
-      const currentShown = sessionStorage.getItem("erickbot_greeting_shown") === "true";
-      if (!isOpen && !currentShown) {
+      if (!isOpen && !greetingShownThisPageLoad) {
         setShowBubble(true);
-        sessionStorage.setItem("erickbot_greeting_shown", "true");
+        greetingShownThisPageLoad = true;
       }
     }, 2500);
 
@@ -277,9 +287,7 @@ export const FaqChatbot: React.FC = () => {
   useEffect(() => {
     if (isOpen) {
       setShowBubble(false);
-      if (typeof window !== "undefined") {
-        sessionStorage.setItem("erickbot_greeting_shown", "true");
-      }
+      greetingShownThisPageLoad = true;
     }
   }, [isOpen]);
 

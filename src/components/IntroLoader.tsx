@@ -181,12 +181,37 @@ export const IntroLoader = () => {
     // setTimeout, so switching away mid-intro can otherwise get it stuck
     // showing the overlay — and, worse, blocking clicks on everything under
     // it — for a long time. The moment that happens, just skip to the end.
+    //
+    // The bail is debounced rather than immediate: a real desktop page load
+    // can fire a transient `blur` (and sometimes a matching `visibilitychange`)
+    // a moment after mount — browser chrome/OS focus settling, not the user
+    // actually switching away — and reacting to that instantly cut the intro
+    // short a couple of seconds in on desktop specifically. Waiting briefly
+    // for focus to genuinely NOT return distinguishes a real tab-switch from
+    // that transient blip, the same class of race the mount-time hasFocus()
+    // check above was rewritten to avoid.
     const bail = () => setPhase("done");
+    let bailTimer: ReturnType<typeof setTimeout> | null = null;
+    const scheduleBail = () => {
+      if (bailTimer) return;
+      bailTimer = setTimeout(() => {
+        bailTimer = null;
+        bail();
+      }, 400);
+    };
+    const cancelScheduledBail = () => {
+      if (bailTimer) {
+        clearTimeout(bailTimer);
+        bailTimer = null;
+      }
+    };
     const onVisibilityChange = () => {
-      if (document.hidden) bail();
+      if (document.hidden) scheduleBail();
+      else cancelScheduledBail();
     };
     document.addEventListener("visibilitychange", onVisibilityChange);
-    window.addEventListener("blur", bail);
+    window.addEventListener("blur", scheduleBail);
+    window.addEventListener("focus", cancelScheduledBail);
 
     // Absolute backstop independent of the above, in case of any other edge case.
     const maxTimer = setTimeout(bail, MAX_LIFETIME_MS);
@@ -197,8 +222,10 @@ export const IntroLoader = () => {
       clearTimeout(leaveTimer);
       clearTimeout(doneTimer);
       clearTimeout(maxTimer);
+      cancelScheduledBail();
       document.removeEventListener("visibilitychange", onVisibilityChange);
-      window.removeEventListener("blur", bail);
+      window.removeEventListener("blur", scheduleBail);
+      window.removeEventListener("focus", cancelScheduledBail);
     };
   }, [shouldShow]);
 
