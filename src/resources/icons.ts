@@ -23,7 +23,28 @@ import {
   PiChatCircleTextDuotone,
 } from "react-icons/pi";
 
-import { SiJavascript, SiNextdotjs, SiFigma, SiSupabase } from "react-icons/si";
+import {
+  SiJavascript,
+  SiNextdotjs,
+  SiFigma,
+  SiSupabase,
+  SiTypescript,
+  SiZapier,
+  SiOdoo,
+  SiMeta,
+  SiCanva,
+  SiShopify,
+  SiWordpress,
+  SiNetlify,
+  SiVercel,
+  SiPython,
+  SiGoogleanalytics,
+  SiGooglesearchconsole,
+  SiElevenlabs,
+  SiDavinciresolve,
+  SiGooglegemini,
+  SiClaude,
+} from "react-icons/si";
 
 import { EMIcon } from "./EMIcon";
 
@@ -75,6 +96,22 @@ export const iconLibrary: Record<string, IconType> = {
   whatsapp: FaWhatsapp,
   reddit: FaReddit,
   telegram: FaTelegram,
+  typescript: SiTypescript,
+  zapier: SiZapier,
+  odoo: SiOdoo,
+  meta: SiMeta,
+  canva: SiCanva,
+  shopify: SiShopify,
+  wordpress: SiWordpress,
+  netlify: SiNetlify,
+  vercel: SiVercel,
+  python: SiPython,
+  googleAnalytics: SiGoogleanalytics,
+  googleSearchConsole: SiGooglesearchconsole,
+  elevenlabs: SiElevenlabs,
+  davinciresolve: SiDavinciresolve,
+  gemini: SiGooglegemini,
+  claude: SiClaude,
 };
 
 export type IconLibrary = typeof iconLibrary;

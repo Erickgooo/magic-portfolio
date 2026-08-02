@@ -3,6 +3,7 @@ import React, { ReactNode } from "react";
 import { slugify as transliterate } from "transliteration";
 import { YouTubeEmbed } from "@/components/mdx/YouTubeEmbed";
 import { ResultsStats } from "@/components/mdx/ResultsStats";
+import { TechStack } from "@/components/mdx/TechStack";
 
 import {
   Heading,
@@ -206,6 +207,7 @@ const components = {
   SmartLink,
   YouTubeEmbed,
   ResultsStats,
+  TechStack,
 };
 
 type CustomMDXProps = MDXRemoteProps & {

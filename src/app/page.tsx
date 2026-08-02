@@ -9,10 +9,9 @@ import {
   Row,
   Schema,
   Meta,
-  Line,
 } from "@once-ui-system/core";
 import { home, about, person, baseURL, routes } from "@/resources";
-import { Mailchimp } from "@/components";
+import { Mailchimp, NodeDivider } from "@/components";
 import { Projects } from "@/components/work/Projects";
 import { Posts } from "@/components/blog/Posts";
 import { AutoplayVideo } from "@/components/home/AutoplayVideo";
@@ -153,20 +152,7 @@ export default function Home() {
       {routes["/blog"] && (
         <Column fillWidth gap="24" marginBottom="l">
           <Row fillWidth paddingRight="64">
-            <Row position="relative" fitWidth>
-              <Line maxWidth={48} />
-              <Row
-                position="absolute"
-                style={{
-                  left: "50%",
-                  top: "50%",
-                  width: "5px",
-                  height: "5px",
-                  background: "#2D5BFF",
-                  transform: "translate(-50%, -50%) rotate(45deg)",
-                }}
-              />
-            </Row>
+            <NodeDivider />
           </Row>
           <Row fillWidth gap="24" marginTop="40" s={{ direction: "column" }}>
             <Row flex={1} paddingLeft="l" paddingTop="24">
@@ -179,20 +165,7 @@ export default function Home() {
             </Row>
           </Row>
           <Row fillWidth paddingLeft="64" horizontal="end">
-            <Row position="relative" fitWidth>
-              <Line maxWidth={48} />
-              <Row
-                position="absolute"
-                style={{
-                  left: "50%",
-                  top: "50%",
-                  width: "5px",
-                  height: "5px",
-                  background: "#2D5BFF",
-                  transform: "translate(-50%, -50%) rotate(45deg)",
-                }}
-              />
-            </Row>
+            <NodeDivider />
           </Row>
         </Column>
       )}

@@ -19,6 +19,7 @@ interface ProjectCardProps {
   description: string;
   avatars: { src: string }[];
   link: string;
+  metric?: string;
 }
 
 export const ProjectCard: React.FC<ProjectCardProps> = ({
@@ -29,7 +30,9 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
   description,
   avatars,
   link,
+  metric,
 }) => {
+  const [metricValue, metricLabel] = (metric || "").split("|").map((s) => s.trim());
   return (
     <Column fillWidth gap="m">
       <Carousel
@@ -48,10 +51,35 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
         gap="l"
       >
         {title && (
-          <Flex flex={5}>
+          <Flex flex={5} direction="column" gap="8">
             <Heading as="h2" wrap="balance" variant="heading-strong-xl">
               {title}
             </Heading>
+            {metricValue && metricLabel && (
+              <Flex
+                vertical="center"
+                gap="8"
+                fitWidth
+                paddingX="12"
+                paddingY="8"
+                radius="m"
+                style={{
+                  border: "1px solid var(--brand-alpha-medium)",
+                  background: "var(--brand-alpha-weak)",
+                }}
+              >
+                <Text
+                  style={{ fontFamily: "var(--font-code)", fontWeight: 700 }}
+                  onBackground="brand-strong"
+                  variant="body-strong-s"
+                >
+                  {metricValue}
+                </Text>
+                <Text onBackground="neutral-weak" variant="label-default-s">
+                  {metricLabel}
+                </Text>
+              </Flex>
+            )}
           </Flex>
         )}
         {(avatars?.length > 0 || description?.trim() || content?.trim()) && (

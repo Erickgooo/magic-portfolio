@@ -18,6 +18,8 @@ type Metadata = {
   tag?: string;
   team: Team[];
   link?: string;
+  /** Optional headline metric shown on the project card, "value|label" e.g. "338K+|organic views" */
+  metric?: string;
 };
 
 import { notFound } from "next/navigation";
@@ -47,6 +49,7 @@ function readMDXFile(filePath: string) {
     tag: data.tag || [],
     team: data.team || [],
     link: data.link || "",
+    metric: data.metric || "",
   };
 
   return { metadata, content };

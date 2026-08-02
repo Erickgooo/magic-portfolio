@@ -13,12 +13,11 @@ import {
   SmartLink,
   Row,
   Avatar,
-  Line,
 } from "@once-ui-system/core";
 import { baseURL, about, person, work } from "@/resources";
 import { EMIcon } from "@/resources/EMIcon";
 import { formatDate } from "@/utils/formatDate";
-import { ScrollToHash, CustomMDX } from "@/components";
+import { ScrollToHash, CustomMDX, NodeDivider } from "@/components";
 import { Metadata } from "next";
 import { Projects } from "@/components/work/Projects";
 
@@ -143,7 +142,7 @@ export default async function Project({
         <CustomMDX source={post.content} />
       </Column>
       <Column fillWidth gap="40" horizontal="center" marginTop="40">
-        <Line maxWidth="40" />
+        <NodeDivider maxWidth={40} />
         <Heading as="h2" variant="heading-strong-xl" marginBottom="24">
           Related projects
         </Heading>

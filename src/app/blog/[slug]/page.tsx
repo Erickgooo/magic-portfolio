@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { CustomMDX, ScrollToHash } from "@/components";
+import { CustomMDX, ScrollToHash, NodeDivider } from "@/components";
 import {
   Meta,
   Schema,
@@ -12,9 +12,9 @@ import {
   SmartLink,
   Avatar,
   Media,
-  Line,
 } from "@once-ui-system/core";
 import { baseURL, about, blog, person } from "@/resources";
+import { EMIcon } from "@/resources/EMIcon";
 import { formatDate } from "@/utils/formatDate";
 import { getPosts } from "@/utils/utils";
 import { Metadata } from "next";
@@ -111,17 +111,34 @@ export default async function Blog({ params }: { params: Promise<{ slug: string 
             </Row>
           </Row>
           {post.metadata.image && (
-            <Media
-              src={post.metadata.image}
-              alt={post.metadata.title}
-              aspectRatio="3/4"
-              priority
-              sizes="(min-width: 768px) 100vw, 768px"
-              border="neutral-alpha-weak"
-              radius="l"
-              marginTop="12"
-              marginBottom="8"
-            />
+            <Row fillWidth position="relative">
+              <Media
+                src={post.metadata.image}
+                alt={post.metadata.title}
+                aspectRatio="3/4"
+                priority
+                sizes="(min-width: 768px) 100vw, 768px"
+                border="neutral-alpha-weak"
+                radius="l"
+                marginTop="12"
+                marginBottom="8"
+              />
+              <span
+                aria-hidden="true"
+                style={{
+                  position: "absolute",
+                  right: "20px",
+                  bottom: "28px",
+                  fontSize: "24px",
+                  color: "#F4F5F7",
+                  opacity: 0.7,
+                  filter: "drop-shadow(0 1px 3px rgba(0,0,0,0.6))",
+                  lineHeight: 0,
+                }}
+              >
+                <EMIcon />
+              </span>
+            </Row>
           )}
           <Column as="article" maxWidth="s">
             <CustomMDX source={post.content} />
@@ -130,7 +147,7 @@ export default async function Blog({ params }: { params: Promise<{ slug: string 
           <ShareSection title={post.metadata.title} url={`${baseURL}${blog.path}/${post.slug}`} />
 
           <Column fillWidth gap="40" horizontal="center" marginTop="40">
-            <Line maxWidth="40" />
+            <NodeDivider maxWidth={40} />
             <Heading as="h2" variant="heading-strong-xl" marginBottom="24">
               Recent posts
             </Heading>

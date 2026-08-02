@@ -2,10 +2,12 @@ import {
   Avatar,
   Button,
   Column,
+  Grid,
   Heading,
   Icon,
   IconButton,
   Media,
+  RevealFx,
   Tag,
   Text,
   Meta,
@@ -227,13 +229,15 @@ export default function About() {
           </Column>
 
           {about.intro.display && (
-            <Column textVariant="body-default-l" fillWidth gap="m" marginBottom="xl">
-              {about.intro.description}
-            </Column>
+            <RevealFx translateY="8" fillWidth>
+              <Column textVariant="body-default-l" fillWidth gap="m" marginBottom="xl">
+                {about.intro.description}
+              </Column>
+            </RevealFx>
           )}
 
           {about.work.display && (
-            <>
+            <RevealFx translateY="8" delay={0.1} fillWidth direction="column">
               <Heading as="h2" id={about.work.title} variant="display-strong-s" marginBottom="m">
                 {about.work.title}
               </Heading>
@@ -295,11 +299,11 @@ export default function About() {
                   </Column>
                 ))}
               </Column>
-            </>
+            </RevealFx>
           )}
 
           {about.studies.display && (
-            <>
+            <RevealFx translateY="8" delay={0.15} fillWidth direction="column">
               <Heading as="h2" id={about.studies.title} variant="display-strong-s" marginBottom="m">
                 {about.studies.title}
               </Heading>
@@ -315,11 +319,11 @@ export default function About() {
                   </Column>
                 ))}
               </Column>
-            </>
+            </RevealFx>
           )}
 
           {about.certifications.display && (
-            <>
+            <RevealFx translateY="8" delay={0.2} fillWidth direction="column">
               <Heading
                 as="h2"
                 id={about.certifications.title}
@@ -328,31 +332,38 @@ export default function About() {
               >
                 {about.certifications.title}
               </Heading>
-              <Column fillWidth gap="l" marginBottom="40">
+              <Grid columns={2} s={{ columns: 1 }} gap="12" marginBottom="40">
                 {about.certifications.items.map((item, index) => (
-                  <Column key={`${item.name}-${index}`} fillWidth gap="4">
-                    {/* Título en blanco */}
-                    <Text id={item.name} variant="heading-strong-l">
+                  <Column
+                    key={`${item.name}-${index}`}
+                    fillWidth
+                    gap="4"
+                    padding="20"
+                    radius="m"
+                    style={{
+                      boxShadow:
+                        "0 0 0 1px var(--brand-alpha-medium), 0 0 24px var(--brand-alpha-weak)",
+                    }}
+                  >
+                    <Text id={item.name} variant="heading-strong-m">
                       {item.name}
                     </Text>
-                    {/* Subtítulo en gris */}
-                    <Text variant="heading-default-xs" onBackground="neutral-weak">
+                    <Text variant="heading-default-xs" onBackground="neutral-weak" marginBottom="8">
                       {item.institution}
                     </Text>
-                    {/* Link en azul */}
-                    <SmartLink href={item.link}>
-                      <Text variant="label-default-m" style={{ color: "#3B82F6" }}>
+                    <SmartLink suffixIcon="arrowUpRightFromSquare" href={item.link}>
+                      <Text variant="label-default-m" onBackground="brand-weak">
                         View credential
                       </Text>
                     </SmartLink>
                   </Column>
                 ))}
-              </Column>
-            </>
+              </Grid>
+            </RevealFx>
           )}
 
           {about.technical.display && (
-            <>
+            <RevealFx translateY="8" delay={0.25} fillWidth direction="column">
               <Heading
                 as="h2"
                 id={about.technical.title}
@@ -403,7 +414,7 @@ export default function About() {
                   </Column>
                 ))}
               </Column>
-            </>
+            </RevealFx>
           )}
         </Column>
       </Row>
