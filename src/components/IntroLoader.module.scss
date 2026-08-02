@@ -42,6 +42,7 @@
    entirely by its Web Animation (delayed to Fase C), so it isn't included
    here — doing so would fight that animation's delay. */
 .icon {
+  position: relative;
   display: flex;
   font-size: 56px;
   line-height: 1;
@@ -52,6 +53,44 @@
 
 .overlay.entering .icon {
   opacity: 1;
+}
+
+/* A single, brief pulse of light from the monogram's node — Fase A → Fase B
+   transition, not a continuous glow (that's Fase B's own drop-shadow pulse
+   on .markPath/.nodePath, in IntroLoader.tsx). Pure CSS, timed with
+   animation-delay rather than JS, so it stays in sync with the WAAPI
+   timeline without adding any extra logic: the delay below (2000ms) must
+   match DRAW_MS in IntroLoader.tsx, which is where Fase A ends. Positioned
+   at ~52%/47%, the node's approximate location within the icon's viewBox. */
+.flash {
+  position: absolute;
+  left: 52%;
+  top: 47%;
+  width: 0.5em;
+  height: 0.5em;
+  border-radius: 50%;
+  background: radial-gradient(circle, #f4f5f7 0%, #2d5bff 55%, transparent 75%);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(0.2);
+}
+
+.overlay.entering .flash {
+  animation: introFlash 450ms ease-out 2000ms forwards;
+}
+
+@keyframes introFlash {
+  0% {
+    transform: translate(-50%, -50%) scale(0.2);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(2.4);
+    opacity: 0;
+  }
 }
 
 /* Blanco Titanio in dark mode (default); Obsidiana in light mode. The node
@@ -94,5 +133,9 @@
   .nodePath {
     fill-opacity: 1 !important;
     stroke-dashoffset: 0 !important;
+  }
+  .flash {
+    animation: none !important;
+    opacity: 0 !important;
   }
 }

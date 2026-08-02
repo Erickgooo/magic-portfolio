@@ -11,7 +11,6 @@ const wordmarkFont = Space_Grotesk({
   display: "swap",
 });
 
-const SESSION_KEY = "em-intro-seen";
 // Fase A (0-2s): trazo del monograma. Fase B (2-4s, en paralelo C): resplandor
 // + wordmark. Fase D (4-5s): fade out del overlay. 2000 + 2000 + 1000 = 5000ms.
 const DRAW_MS = 2000;
@@ -22,22 +21,28 @@ const FADE_MS = 1000;
 // slow device, etc.), never let the overlay block the page longer than this.
 const MAX_LIFETIME_MS = 6500;
 
-const readAlreadySeen = () => {
-  try {
-    return sessionStorage.getItem(SESSION_KEY) === "1";
-  } catch {
-    // sessionStorage unavailable (e.g. privacy mode) — treat as first visit
-    return false;
-  }
-};
+// Deliberately NOT sessionStorage: sessionStorage survives an F5/reload within
+// the same tab, so it was suppressing the intro on reload — the opposite of
+// what's wanted. IntroLoader lives in the root layout, which Next.js's App
+// Router never remounts on client-side navigation between routes (only the
+// route's own page content swaps out), so a plain module-level variable
+// already does the right thing on its own: it resets to `false` whenever
+// this module is freshly evaluated — which only happens on a real document
+// load (first visit or reload) — and simply stays `true` for the rest of
+// that document's lifetime, through any amount of internal SPA navigation.
+let hasPlayedThisPageLoad = false;
 
-// This initializer also runs during SSR, where `document` doesn't exist.
-// Only `hidden` is checked here — `document.hasFocus()` can transiently
-// report false during a page's initial load even for a normal, foreground
-// visit (window focus can settle a beat after visibility does), and since
-// this decision is a one-shot read with no retry, a false negative there
-// would permanently skip the intro for the whole session.
+// This initializer also runs during SSR, where `document`/`window` don't
+// exist. Only `hidden` is checked here — `document.hasFocus()` can
+// transiently report false during a page's initial load even for a normal,
+// foreground visit (window focus can settle a beat after visibility does),
+// and since this decision is a one-shot read with no retry, a false negative
+// there would permanently skip the intro for the whole session.
 const isTabHidden = () => typeof document !== "undefined" && document.hidden;
+
+// The intro is Home-specific: a fresh document load that lands directly on
+// another route (e.g. a shared /work/... link) shouldn't show it.
+const isHomeRoute = () => typeof window !== "undefined" && window.location.pathname === "/";
 
 // Same monogram geometry as src/resources/EMIcon.tsx (angular "EM" + Cobalto
 // node, per Manual de Marca Sección 2.1) but rendered with stroke+fill so the
@@ -49,12 +54,13 @@ const NODE_PATH = "M 1022,960 L 960,1024 L 1024,1087 L 1086,1022 Z";
 
 export const IntroLoader = () => {
   // Captured once at first render (a lazy initializer is only ever a *read*,
-  // so it stays consistent even under React Strict Mode's dev double-render —
-  // unlike a sessionStorage write, which must not happen here).
+  // so it stays consistent even under React Strict Mode's dev double-render).
   // Skipping outright when the tab starts hidden also matters here: if the
   // page was opened in a background tab, there is no "catching up" on a
   // missed intro later without it feeling broken, so we just don't show it.
-  const [shouldShow] = useState(() => !readAlreadySeen() && !isTabHidden());
+  const [shouldShow] = useState(
+    () => !hasPlayedThisPageLoad && isHomeRoute() && !isTabHidden(),
+  );
   const [phase, setPhase] = useState<"pending" | "entering" | "leaving" | "done">(
     shouldShow ? "pending" : "done",
   );
@@ -65,9 +71,7 @@ export const IntroLoader = () => {
   useEffect(() => {
     if (!shouldShow) return;
 
-    try {
-      sessionStorage.setItem(SESSION_KEY, "1");
-    } catch {}
+    hasPlayedThisPageLoad = true;
 
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const holdMs = reduceMotion ? 500 : HOLD_MS;
@@ -250,6 +254,7 @@ export const IntroLoader = () => {
               strokeLinecap="round"
             />
           </svg>
+          <span className={styles.flash} />
         </span>
         <span
           ref={wordmarkRef}
