@@ -117,25 +117,3 @@
     font-size: 22px;
   }
 }
-
-@media (prefers-reduced-motion: reduce) {
-  .overlay {
-    transition-duration: 120ms !important;
-  }
-  .icon {
-    transition-duration: 1ms !important;
-  }
-  .wordmark {
-    opacity: 1 !important;
-    transform: none !important;
-  }
-  .markPath,
-  .nodePath {
-    fill-opacity: 1 !important;
-    stroke-dashoffset: 0 !important;
-  }
-  .flash {
-    animation: none !important;
-    opacity: 0 !important;
-  }
-}

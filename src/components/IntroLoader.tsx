@@ -96,10 +96,12 @@ export const IntroLoader = () => {
 
     hasPlayedThisPageLoad = true;
 
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const holdMs = reduceMotion ? 500 : HOLD_MS;
-    const fadeMs = reduceMotion ? 150 : FADE_MS;
-    console.info("[IntroLoader] playing:", { reduceMotion, holdMs, fadeMs });
+    // Deliberately NOT gated behind prefers-reduced-motion: this is a brand
+    // reveal the site owner wants every visitor to see regardless of that
+    // OS/browser preference (a conscious call, made after confirming via
+    // [IntroLoader] diagnostics below that respecting it was the actual
+    // cause of the animation not appearing on a real desktop machine).
+    console.info("[IntroLoader] playing:", { holdMs: HOLD_MS, fadeMs: FADE_MS });
 
     // double rAF so the "entering" class change is picked up as a transition, not the initial state
     const raf = requestAnimationFrame(() =>
@@ -111,102 +113,100 @@ export const IntroLoader = () => {
     // *actual* rendered length (getTotalLength()), which can only be measured
     // at runtime, not hardcoded for a multi-subpath shape like this one.
     const animations: Animation[] = [];
-    if (!reduceMotion) {
-      const markPath = markPathRef.current;
-      const nodePath = nodePathRef.current;
-      const wordmark = wordmarkRef.current;
+    const markPath = markPathRef.current;
+    const nodePath = nodePathRef.current;
+    const wordmark = wordmarkRef.current;
 
-      if (markPath && nodePath && wordmark) {
-        const markLength = markPath.getTotalLength();
-        const nodeLength = nodePath.getTotalLength();
-        console.info("[IntroLoader] path lengths:", { markLength, nodeLength });
-        markPath.style.strokeDasharray = `${markLength}`;
-        nodePath.style.strokeDasharray = `${nodeLength}`;
+    if (markPath && nodePath && wordmark) {
+      const markLength = markPath.getTotalLength();
+      const nodeLength = nodePath.getTotalLength();
+      console.info("[IntroLoader] path lengths:", { markLength, nodeLength });
+      markPath.style.strokeDasharray = `${markLength}`;
+      nodePath.style.strokeDasharray = `${nodeLength}`;
 
-        const drawEasing = "cubic-bezier(0.65, 0, 0.35, 1)";
-        const glowEasing = "ease-out";
+      const drawEasing = "cubic-bezier(0.65, 0, 0.35, 1)";
+      const glowEasing = "ease-out";
 
-        // Fase A — trazo del contorno completo (0–2s).
-        animations.push(
-          markPath.animate(
-            [{ strokeDashoffset: markLength }, { strokeDashoffset: 0 }],
-            { duration: DRAW_MS, easing: drawEasing, fill: "forwards" },
-          ),
-        );
-        // The small node traces quickly near the end of the main stroke,
-        // as if it's the last thing the pen lands on.
-        animations.push(
-          nodePath.animate(
-            [{ strokeDashoffset: nodeLength }, { strokeDashoffset: 0 }],
+      // Fase A — trazo del contorno completo (0–2s).
+      animations.push(
+        markPath.animate(
+          [{ strokeDashoffset: markLength }, { strokeDashoffset: 0 }],
+          { duration: DRAW_MS, easing: drawEasing, fill: "forwards" },
+        ),
+      );
+      // The small node traces quickly near the end of the main stroke,
+      // as if it's the last thing the pen lands on.
+      animations.push(
+        nodePath.animate(
+          [{ strokeDashoffset: nodeLength }, { strokeDashoffset: 0 }],
+          {
+            duration: DRAW_MS * 0.5,
+            delay: DRAW_MS * 0.5,
+            easing: drawEasing,
+            fill: "forwards",
+          },
+        ),
+      );
+      // Fase B — resplandor Cobalto de baja intensidad (Manual Sección 5.3,
+      // "Glow Border"): sube y se asienta, nunca satura. Corre en paralelo
+      // al trazo (arranca en t=0) para que el contorno ya se vea con un
+      // brillo tenue mientras se dibuja, y crece una vez completo.
+      animations.push(
+        markPath.animate(
+          [
+            { fillOpacity: 0, filter: "drop-shadow(0 0 0 rgba(45, 91, 255, 0))" },
             {
-              duration: DRAW_MS * 0.5,
-              delay: DRAW_MS * 0.5,
-              easing: drawEasing,
-              fill: "forwards",
+              fillOpacity: 1,
+              filter:
+                "drop-shadow(0 0 8px rgba(45, 91, 255, 0.55)) drop-shadow(0 0 18px rgba(45, 91, 255, 0.25))",
+              offset: 0.5,
             },
-          ),
-        );
-        // Fase B — resplandor Cobalto de baja intensidad (Manual Sección 5.3,
-        // "Glow Border"): sube y se asienta, nunca satura. Corre en paralelo
-        // al trazo (arranca en t=0) para que el contorno ya se vea con un
-        // brillo tenue mientras se dibuja, y crece una vez completo.
-        animations.push(
-          markPath.animate(
-            [
-              { fillOpacity: 0, filter: "drop-shadow(0 0 0 rgba(45, 91, 255, 0))" },
-              {
-                fillOpacity: 1,
-                filter:
-                  "drop-shadow(0 0 8px rgba(45, 91, 255, 0.55)) drop-shadow(0 0 18px rgba(45, 91, 255, 0.25))",
-                offset: 0.5,
-              },
-              {
-                fillOpacity: 1,
-                filter: "drop-shadow(0 0 3px rgba(45, 91, 255, 0.2))",
-              },
-            ],
-            { duration: GLOW_MS, delay: DRAW_MS, easing: glowEasing, fill: "forwards" },
-          ),
-        );
-        animations.push(
-          nodePath.animate(
-            [
-              { fillOpacity: 0.4, filter: "drop-shadow(0 0 0 rgba(45, 91, 255, 0))" },
-              {
-                fillOpacity: 1,
-                filter:
-                  "drop-shadow(0 0 10px rgba(45, 91, 255, 0.7)) drop-shadow(0 0 20px rgba(45, 91, 255, 0.3))",
-                offset: 0.5,
-              },
-              {
-                fillOpacity: 1,
-                filter: "drop-shadow(0 0 4px rgba(45, 91, 255, 0.25))",
-              },
-            ],
-            { duration: GLOW_MS, delay: DRAW_MS, easing: glowEasing, fill: "forwards" },
-          ),
-        );
-        // Fase C — wordmark, en paralelo a B.
-        animations.push(
-          wordmark.animate(
-            [
-              { opacity: 0, transform: "translateY(8px)" },
-              { opacity: 1, transform: "translateY(0)" },
-            ],
-            { duration: 700, delay: DRAW_MS, easing: "cubic-bezier(0.16, 1, 0.3, 1)", fill: "forwards" },
-          ),
-        );
-      } else {
-        console.warn("[IntroLoader] refs not ready, animation skipped:", {
-          markPath: !!markPath,
-          nodePath: !!nodePath,
-          wordmark: !!wordmark,
-        });
-      }
+            {
+              fillOpacity: 1,
+              filter: "drop-shadow(0 0 3px rgba(45, 91, 255, 0.2))",
+            },
+          ],
+          { duration: GLOW_MS, delay: DRAW_MS, easing: glowEasing, fill: "forwards" },
+        ),
+      );
+      animations.push(
+        nodePath.animate(
+          [
+            { fillOpacity: 0.4, filter: "drop-shadow(0 0 0 rgba(45, 91, 255, 0))" },
+            {
+              fillOpacity: 1,
+              filter:
+                "drop-shadow(0 0 10px rgba(45, 91, 255, 0.7)) drop-shadow(0 0 20px rgba(45, 91, 255, 0.3))",
+              offset: 0.5,
+            },
+            {
+              fillOpacity: 1,
+              filter: "drop-shadow(0 0 4px rgba(45, 91, 255, 0.25))",
+            },
+          ],
+          { duration: GLOW_MS, delay: DRAW_MS, easing: glowEasing, fill: "forwards" },
+        ),
+      );
+      // Fase C — wordmark, en paralelo a B.
+      animations.push(
+        wordmark.animate(
+          [
+            { opacity: 0, transform: "translateY(8px)" },
+            { opacity: 1, transform: "translateY(0)" },
+          ],
+          { duration: 700, delay: DRAW_MS, easing: "cubic-bezier(0.16, 1, 0.3, 1)", fill: "forwards" },
+        ),
+      );
+    } else {
+      console.warn("[IntroLoader] refs not ready, animation skipped:", {
+        markPath: !!markPath,
+        nodePath: !!nodePath,
+        wordmark: !!wordmark,
+      });
     }
 
-    const leaveTimer = setTimeout(() => setPhase("leaving"), holdMs);
-    const doneTimer = setTimeout(() => setPhase("done"), holdMs + fadeMs);
+    const leaveTimer = setTimeout(() => setPhase("leaving"), HOLD_MS);
+    const doneTimer = setTimeout(() => setPhase("done"), HOLD_MS + FADE_MS);
 
     // Background tabs (and unfocused windows) throttle/pause rAF and
     // setTimeout, so switching away mid-intro can otherwise get it stuck
