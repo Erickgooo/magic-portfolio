@@ -7,7 +7,6 @@ import {
   Icon,
   IconButton,
   Media,
-  RevealFx,
   Tag,
   Text,
   Meta,
@@ -229,15 +228,13 @@ export default function About() {
           </Column>
 
           {about.intro.display && (
-            <RevealFx translateY="8" fillWidth>
-              <Column textVariant="body-default-l" fillWidth gap="m" marginBottom="xl">
-                {about.intro.description}
-              </Column>
-            </RevealFx>
+            <Column textVariant="body-default-l" fillWidth gap="m" marginBottom="xl">
+              {about.intro.description}
+            </Column>
           )}
 
           {about.work.display && (
-            <RevealFx translateY="8" delay={0.1} fillWidth direction="column">
+            <>
               <Heading as="h2" id={about.work.title} variant="display-strong-s" marginBottom="m">
                 {about.work.title}
               </Heading>
@@ -299,11 +296,11 @@ export default function About() {
                   </Column>
                 ))}
               </Column>
-            </RevealFx>
+            </>
           )}
 
           {about.studies.display && (
-            <RevealFx translateY="8" delay={0.15} fillWidth direction="column">
+            <>
               <Heading as="h2" id={about.studies.title} variant="display-strong-s" marginBottom="m">
                 {about.studies.title}
               </Heading>
@@ -319,11 +316,11 @@ export default function About() {
                   </Column>
                 ))}
               </Column>
-            </RevealFx>
+            </>
           )}
 
           {about.certifications.display && (
-            <RevealFx translateY="8" delay={0.2} fillWidth direction="column">
+            <>
               <Heading
                 as="h2"
                 id={about.certifications.title}
@@ -359,11 +356,11 @@ export default function About() {
                   </Column>
                 ))}
               </Grid>
-            </RevealFx>
+            </>
           )}
 
           {about.technical.display && (
-            <RevealFx translateY="8" delay={0.25} fillWidth direction="column">
+            <>
               <Heading
                 as="h2"
                 id={about.technical.title}
@@ -414,7 +411,7 @@ export default function About() {
                   </Column>
                 ))}
               </Column>
-            </RevealFx>
+            </>
           )}
         </Column>
       </Row>

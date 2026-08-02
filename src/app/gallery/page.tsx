@@ -1,4 +1,4 @@
-import { Column, Heading, RevealFx, Text, Meta, Schema } from "@once-ui-system/core";
+import { Column, Heading, Text, Meta, Schema } from "@once-ui-system/core";
 import GalleryView from "@/components/gallery/GalleryView";
 import { baseURL, gallery, person } from "@/resources";
 
@@ -30,33 +30,29 @@ export default function Gallery() {
       />
 
       {/* Sección de Texto Introductorio */}
-      <RevealFx translateY="8" fillWidth>
-        <Column fillWidth gap="m" paddingX="l">
-          <Heading variant="display-strong-s" marginBottom="m">
-            {gallery.title}
-          </Heading>
+      <Column fillWidth gap="m" paddingX="l">
+        <Heading variant="display-strong-s" marginBottom="m">
+          {gallery.title}
+        </Heading>
 
-          <Text variant="body-default-l" onBackground="neutral-weak">
-            Cinematic video production used to require a crew, a budget, and days of shooting. These
-            assets were built by one person, usually in hours.
-          </Text>
+        <Text variant="body-default-l" onBackground="neutral-weak">
+          Cinematic video production used to require a crew, a budget, and days of shooting. These
+          assets were built by one person, usually in hours.
+        </Text>
 
-          <Text variant="body-default-l" onBackground="neutral-weak">
-            This section collects paid ad creatives, short-form video, and AI-generated content
-            produced for real campaigns. Each piece was built around a specific platform context and commercial
-            objective.
-          </Text>
+        <Text variant="body-default-l" onBackground="neutral-weak">
+          This section collects paid ad creatives, short-form video, and AI-generated content
+          produced for real campaigns. Each piece was built around a specific platform context and commercial
+          objective.
+        </Text>
 
-          <Text variant="body-default-l" onBackground="neutral-weak">
-            <strong>Stack:</strong> Higgsfield · Kling 3.0 · Google Veo 3 · DaVinci Resolve · CapCut ·
-            ElevenLabs · Affinity.
-          </Text>
-        </Column>
-      </RevealFx>
+        <Text variant="body-default-l" onBackground="neutral-weak">
+          <strong>Stack:</strong> Higgsfield · Kling 3.0 · Google Veo 3 · DaVinci Resolve · CapCut ·
+          ElevenLabs · Affinity.
+        </Text>
+      </Column>
 
-      <RevealFx translateY="12" delay={0.15} fillWidth>
-        <GalleryView />
-      </RevealFx>
+      <GalleryView />
     </Column>
   );
 }

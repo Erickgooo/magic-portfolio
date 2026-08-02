@@ -222,7 +222,6 @@ function ImageCell({ item }: { item: Extract<GalleryItem, { type: "image" }> }) 
     <>
       <HoverWrapper onClick={() => setOpen(true)}>
         <Media
-          priority
           sizes="(max-width: 560px) 100vw, (max-width: 900px) 50vw, 33vw"
           radius="m"
           aspectRatio={aspectRatio}
@@ -272,7 +271,6 @@ function CarouselCell({ item }: { item: Extract<GalleryItem, { type: "carousel" 
       <HoverWrapper onClick={() => setOpen(true)}>
         {/* Cover thumbnail */}
         <Media
-          priority
           sizes="(max-width: 560px) 100vw, (max-width: 900px) 50vw, 33vw"
           radius="m"
           aspectRatio={aspectRatio}

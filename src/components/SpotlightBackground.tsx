@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import styles from "./SpotlightBackground.module.scss";
 
 interface SpotlightBackgroundProps {
@@ -36,25 +36,26 @@ export function SpotlightBackground({
   const target = useRef({ x: 0, y: 0 });
   const current = useRef({ x: 0, y: 0 });
   const frameRef = useRef<number | undefined>(undefined);
-  // Starts true so the first client render matches the server render (no
-  // hydration mismatch); corrected right after mount. On a touch device
-  // there's no cursor to follow, so --x/--y would just freeze wherever it
-  // was initialized and sit there while the page scrolls underneath it,
-  // reading as a stuck, overlapping artifact rather than a subtle texture.
-  const [interactive, setInteractive] = useState(true);
 
   useEffect(() => {
-    const isInteractive = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-    setInteractive(isInteractive);
-    if (!isInteractive) return;
-
     target.current = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
     current.current = { ...target.current };
 
     const handleMouseMove = (e: MouseEvent) => {
       target.current = { x: e.clientX, y: e.clientY };
     };
+    // Touch devices have no cursor, so the reveal follows the finger instead —
+    // same idea as mousemove, just driven by touchstart/touchmove. Without
+    // this, --x/--y would never move past its initial value on a phone,
+    // leaving the reveal frozen at the same spot while the page scrolls
+    // underneath it.
+    const handleTouchMove = (e: TouchEvent) => {
+      const touch = e.touches[0];
+      if (touch) target.current = { x: touch.clientX, y: touch.clientY };
+    };
     window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    window.addEventListener("touchstart", handleTouchMove, { passive: true });
+    window.addEventListener("touchmove", handleTouchMove, { passive: true });
 
     const loop = () => {
       current.current.x += (target.current.x - current.current.x) * 0.08;
@@ -69,6 +70,8 @@ export function SpotlightBackground({
 
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("touchstart", handleTouchMove);
+      window.removeEventListener("touchmove", handleTouchMove);
       if (frameRef.current) cancelAnimationFrame(frameRef.current);
     };
   }, []);
@@ -77,7 +80,6 @@ export function SpotlightBackground({
     <div
       ref={containerRef}
       className={styles.spotlightWrapper}
-      data-interactive={interactive}
       style={
         {
           "--dots-color": `var(--${dotsColor})`,
