@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Media, MasonryGrid, Flex, Text, Icon, Dialog, Carousel } from "@once-ui-system/core";
 import { gallery } from "@/resources";
 
@@ -110,11 +110,39 @@ function HoverWrapper({
 }
 
 // ─── YouTube cell ─────────────────────────────────────────────────────────────
+// The real iframe only mounts once this cell is near the viewport (or the
+// user clicks it) — not immediately on page load. A gallery like this can
+// hold half a dozen+ YouTube embeds; each is a heavy cross-origin context
+// with its own JS runtime and video player, and loading all of them at once
+// is a well-known way to run a mobile browser tab out of memory. Rendering
+// a static thumbnail everywhere else keeps the page light until content is
+// actually about to be seen.
 function YouTubeCell({ item }: { item: Extract<GalleryItem, { type: "youtube" }> }) {
   const [hovered, setHovered] = useState(false);
+  const [loaded, setLoaded] = useState(false);
+  const cellRef = useRef<HTMLDivElement>(null);
   const aspectRatio = getAspectRatio(item.image.orientation, true);
+
+  useEffect(() => {
+    const el = cellRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setLoaded(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "200px" },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <Flex
+      ref={cellRef}
       fillWidth
       position="relative"
       radius="m"
@@ -131,13 +159,52 @@ function YouTubeCell({ item }: { item: Extract<GalleryItem, { type: "youtube" }>
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      <iframe
-        src={item.embedUrl}
-        title={item.image.alt}
-        style={{ width: "100%", height: "100%", border: "none" }}
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowFullScreen
-      />
+      {loaded ? (
+        <iframe
+          src={item.embedUrl}
+          title={item.image.alt}
+          style={{ width: "100%", height: "100%", border: "none" }}
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        />
+      ) : (
+        <Flex
+          fillWidth
+          fillHeight
+          center
+          style={{ position: "relative", cursor: "pointer" }}
+          onClick={() => setLoaded(true)}
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={`https://img.youtube.com/vi/${item.videoId}/hqdefault.jpg`}
+            alt={item.image.alt}
+            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+          />
+          <Flex
+            center
+            style={{
+              position: "absolute",
+              width: "3rem",
+              height: "3rem",
+              borderRadius: "50%",
+              background: "rgba(11,11,15,0.55)",
+              backdropFilter: "blur(4px)",
+            }}
+          >
+            <div
+              style={{
+                width: 0,
+                height: 0,
+                marginLeft: "4px",
+                borderTop: "9px solid transparent",
+                borderBottom: "9px solid transparent",
+                borderLeft: "14px solid #F4F5F7",
+              }}
+            />
+          </Flex>
+        </Flex>
+      )}
     </Flex>
   );
 }

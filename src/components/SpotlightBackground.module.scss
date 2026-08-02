@@ -25,3 +25,19 @@
   inset: 0;
   background-image: radial-gradient(var(--glow-radius) at var(--x, 50%) var(--y, 50%), var(--glow-color) 0%, transparent 70%);
 }
+
+// Touch devices have no cursor to follow, so the mask/glow would just
+// freeze at their initial position and scroll along with nothing chasing
+// it. A plain, uniform, low-opacity dot texture reads as intentional;
+// a spotlight stuck mid-screen reads as broken.
+[data-interactive="false"] {
+  .dots {
+    mask-image: none;
+    -webkit-mask-image: none;
+    opacity: calc(var(--dots-opacity) * 0.6);
+  }
+
+  .glow {
+    display: none;
+  }
+}

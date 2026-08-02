@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./SpotlightBackground.module.scss";
 
 interface SpotlightBackgroundProps {
@@ -36,8 +36,18 @@ export function SpotlightBackground({
   const target = useRef({ x: 0, y: 0 });
   const current = useRef({ x: 0, y: 0 });
   const frameRef = useRef<number | undefined>(undefined);
+  // Starts true so the first client render matches the server render (no
+  // hydration mismatch); corrected right after mount. On a touch device
+  // there's no cursor to follow, so --x/--y would just freeze wherever it
+  // was initialized and sit there while the page scrolls underneath it,
+  // reading as a stuck, overlapping artifact rather than a subtle texture.
+  const [interactive, setInteractive] = useState(true);
 
   useEffect(() => {
+    const isInteractive = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    setInteractive(isInteractive);
+    if (!isInteractive) return;
+
     target.current = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
     current.current = { ...target.current };
 
@@ -67,6 +77,7 @@ export function SpotlightBackground({
     <div
       ref={containerRef}
       className={styles.spotlightWrapper}
+      data-interactive={interactive}
       style={
         {
           "--dots-color": `var(--${dotsColor})`,
