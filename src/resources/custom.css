@@ -59,7 +59,10 @@
 .metric {
   font-family: var(--font-code), monospace;
   font-weight: 600;
-  color: var(--brand-on-background-strong);
+  /* -weak, not -strong: --brand-on-background-strong is static white in dark and
+     near-black in light — it is the max-contrast text token, not the brand hue.
+     -weak is the Cobalto one (brand-700 dark / brand-500 light). */
+  color: var(--brand-on-background-weak);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }

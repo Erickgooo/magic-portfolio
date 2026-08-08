@@ -110,7 +110,7 @@ const InputArea: React.FC<InputAreaProps> = ({
             href={LINKEDIN_URL}
             target="_blank"
             rel="noopener noreferrer"
-            style={{ textDecoration: "underline", color: "var(--brand-on-background-strong)" }}
+            style={{ textDecoration: "underline", color: "var(--brand-on-background-weak)" }}
           >
             reach out directly!
           </a>
@@ -169,7 +169,7 @@ function parseAnswerText(text: string): React.ReactNode[] {
             href={url}
             target="_blank"
             rel="noopener noreferrer"
-            style={{ textDecoration: "underline", color: "var(--brand-on-background-strong)" }}
+            style={{ textDecoration: "underline", color: "var(--brand-on-background-weak)" }}
           >
             {label}
           </a>,

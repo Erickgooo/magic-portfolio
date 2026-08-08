@@ -218,9 +218,15 @@ export default function About() {
             )}
           </Column>
 
+          {/* One Text, not a bare Column: Column is a flex container, so every
+              element child of the intro — each <br /> and each inline <Metric>
+              span — became its own flex item on its own row, chopping the
+              sentences apart around every figure. A single Text gives the whole
+              intro one inline formatting context, and the blank lines come from
+              the <br /> pairs in the copy rather than from a flex gap. */}
           {about.intro.display && (
-            <Column textVariant="body-default-l" fillWidth gap="m" marginBottom="xl">
-              {about.intro.description}
+            <Column fillWidth marginBottom="xl">
+              <Text variant="body-default-l">{about.intro.description}</Text>
             </Column>
           )}
 

@@ -94,7 +94,7 @@ export default function Home() {
                   >
                     <Text
                       style={{ fontFamily: "var(--font-code)", fontWeight: 700 }}
-                      onBackground="brand-strong"
+                      onBackground="brand-weak"
                       variant="body-strong-m"
                     >
                       {stat.value}

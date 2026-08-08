@@ -70,7 +70,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
               >
                 <Text
                   style={{ fontFamily: "var(--font-code)", fontWeight: 700 }}
-                  onBackground="brand-strong"
+                  onBackground="brand-weak"
                   variant="body-strong-s"
                 >
                   {metricValue}

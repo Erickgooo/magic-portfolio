@@ -132,7 +132,7 @@ const about: About = {
         chatbot that handled <Metric>85%</Metric> of inbound conversations autonomously for Artesa.
         A full marketing department built from scratch for Quick Metal Shop (brand identity, paid
         media, SEO automation, CRM integration, and a custom-built trade show application deployed in{" "}
-        <Metric>48 hours</Metric>).
+        <Metric>48</Metric> hours).
         A complete rebranding and content automation system for Dakoma Roofing, delivered as a
         one-person freelance engagement.
         <br />
@@ -221,7 +221,7 @@ const about: About = {
           </>,
           <>
             Designed, developed, and deployed a custom full-stack interactive gallery web
-            application in under <Metric>48 hours</Metric> for ArquiExpo 2026. Built with Next.js,
+            application in under <Metric>48</Metric> hours for ArquiExpo 2026. Built with Next.js,
             deployed on
             Netlify, optimized for a vertical touchscreen interface, and fully responsive across all
             devices including iOS Safari.
