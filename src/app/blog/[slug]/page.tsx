@@ -5,8 +5,6 @@ import {
   Schema,
   Column,
   Heading,
-  HeadingNav,
-  Icon,
   Row,
   Text,
   SmartLink,
@@ -17,6 +15,7 @@ import { baseURL, about, blog, person } from "@/resources";
 import { EMIcon } from "@/resources/EMIcon";
 import { formatDate } from "@/utils/formatDate";
 import { getPosts } from "@/utils/utils";
+import { OnThisPage } from "@/components/blog/OnThisPage";
 import { Metadata } from "next";
 import React from "react";
 import { Posts } from "@/components/blog/Posts";
@@ -148,7 +147,7 @@ export default async function Blog({ params }: { params: Promise<{ slug: string 
 
           <Column fillWidth gap="40" horizontal="center" marginTop="40">
             <NodeDivider maxWidth={40} />
-            <Heading as="h2" variant="heading-strong-xl" marginBottom="24">
+            <Heading as="h2" data-exclude-nav variant="heading-strong-xl" marginBottom="24">
               Recent posts
             </Heading>
             <Posts exclude={[post.slug]} range={[1, 2]} columns="2" thumbnail direction="column" />
@@ -165,17 +164,10 @@ export default async function Blog({ params }: { params: Promise<{ slug: string 
         gap="16"
         m={{ hide: true }}
       >
-        <Row
-          gap="12"
-          paddingLeft="2"
-          vertical="center"
-          onBackground="neutral-medium"
-          textVariant="label-default-s"
-        >
-          <Icon name="document" size="xs" />
-          On this page
-        </Row>
-        <HeadingNav fitHeight />
+        {/* OnThisPage renders its own "On this page" header — the page used to
+            render one too, on top of <HeadingNav>, which renders one by default
+            (`header` prop), so the label appeared twice. */}
+        <OnThisPage />
       </Column>
     </Row>
   );
