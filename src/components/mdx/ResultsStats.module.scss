@@ -17,8 +17,10 @@
   display: flex;
   align-items: center;
   gap: 0;
-  background: var(--neutral-alpha-weak);
-  border: 1px solid var(--neutral-alpha-medium);
+  background: var(--brand-alpha-weak);
+  // Glow Border, Manual §5.3.3 — this is a highlighted data block, the exact
+  // case the treatment is reserved for.
+  box-shadow: var(--glow-border);
   border-radius: 12px;
   overflow: hidden;
 }

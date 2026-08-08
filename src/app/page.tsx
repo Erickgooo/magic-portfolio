@@ -11,7 +11,7 @@ import {
   Meta,
 } from "@once-ui-system/core";
 import { home, about, person, baseURL, routes } from "@/resources";
-import { Mailchimp, NodeDivider } from "@/components";
+import { CallToAction, Mailchimp, NodeDivider } from "@/components";
 import { Projects } from "@/components/work/Projects";
 import { Posts } from "@/components/blog/Posts";
 import { AutoplayVideo } from "@/components/home/AutoplayVideo";
@@ -60,9 +60,7 @@ export default function Home() {
                 textVariant="label-default-s"
                 arrow={false}
                 href={home.featured.href}
-                style={{
-                  boxShadow: "0 0 0 1px var(--brand-alpha-medium), 0 0 24px var(--brand-alpha-weak)",
-                }}
+                style={{ boxShadow: "var(--glow-border)" }}
               >
                 <Row paddingY="2">{home.featured.title}</Row>
               </Badge>
@@ -90,7 +88,7 @@ export default function Home() {
                     paddingY="8"
                     radius="m"
                     style={{
-                      border: "1px solid var(--brand-alpha-medium)",
+                      boxShadow: "var(--glow-border)",
                       background: "var(--brand-alpha-weak)",
                     }}
                   >
@@ -182,6 +180,9 @@ export default function Home() {
             View all projects
           </Button>
         </Row>
+      </RevealFx>
+      <RevealFx translateY="16" delay={0.6} fillWidth>
+        <CallToAction />
       </RevealFx>
       <Mailchimp />
     </Column>

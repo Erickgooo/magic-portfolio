@@ -1,5 +1,6 @@
 import { About, Blog, Gallery, Home, Newsletter, Person, Social, Work } from "@/types";
 import { Line, Logo, Row, Text } from "@once-ui-system/core";
+import { Metric } from "./Metric";
 
 const person: Person = {
   firstName: "Erick Santiago",
@@ -44,7 +45,9 @@ const home: Home = {
   image: "/images/og/social-preview.jpg",
   label: "Home",
   title: `${person.name}'s Portfolio`,
-  description: `Portfolio website showcasing my work as a ${person.role}`,
+  // Manual §1.3 (precisión sobre exageración): every value statement carries a
+  // concrete figure. Mirrors the short bio in §1.4.
+  description: `I build complete growth systems for founders: AI content pipelines, CRM automation and paid media. ROAS 3.92x · 338K+ organic views at $0 ad spend · $3.45 cost per lead in technical B2B.`,
   headline: <>I Build Marketing Infrastructure From Zero. And Make It Outperform Full Departments.</>,
   featured: {
     display: true,
@@ -67,9 +70,14 @@ const home: Home = {
       SEO automation, CRM, and the software itself when nothing exists yet.
     </>
   ),
+  // The three verifiable pillars from Manual §1.1, plus the $0 spend that makes
+  // the reach figure meaningful. ROAS and CPL are what a founder buying growth
+  // actually evaluates, so they belong above the fold.
   stats: [
     { value: "338K+", label: "organic views" },
     { value: "$0", label: "ad spend" },
+    { value: "3.92x", label: "ROAS" },
+    { value: "$3.45", label: "cost per lead" },
   ],
 };
 
@@ -100,9 +108,9 @@ const about: About = {
       <>
         I'm a one-person growth department. I've built complete marketing infrastructures: brand
         identity, paid media, CRM automation, SEO systems, and AI content production, for companies
-        across construction, food, and retail. Most recently, I generated 338K+ organic video views
-        for Quick Metal Shop with zero ad spend, using an AI production pipeline I designed and ran
-        myself.
+        across construction, food, and retail. Most recently, I generated <Metric>338K+</Metric>{" "}
+        organic video views for Quick Metal Shop with zero ad spend, using an AI production pipeline
+        I designed and ran myself.
         <br />
         <br />
         My entry point into marketing wasn't a campaign. It was a crisis line.
@@ -121,9 +129,10 @@ const about: About = {
         <br />
         <br />
         The answer has taken different shapes across different projects. An AI-powered WhatsApp
-        chatbot that handled 85% of inbound conversations autonomously for Artesa. A full marketing
-        department built from scratch for Quick Metal Shop (brand identity, paid media, SEO
-        automation, CRM integration, and a custom-built trade show application deployed in 48 hours).
+        chatbot that handled <Metric>85%</Metric> of inbound conversations autonomously for Artesa.
+        A full marketing department built from scratch for Quick Metal Shop (brand identity, paid
+        media, SEO automation, CRM integration, and a custom-built trade show application deployed in{" "}
+        <Metric>48 hours</Metric>).
         A complete rebranding and content automation system for Dakoma Roofing, delivered as a
         one-person freelance engagement.
         <br />
@@ -157,7 +166,9 @@ const about: About = {
           <>Implementing and managing generative AI solutions and virtual assistants across client operations.</>,
           <>Overseeing Meta Ads campaigns and WhatsApp Business API communications for client accounts.</>,
           <>Monitoring KPIs and managing client accounts to ensure on-time, high-quality delivery.</>,
-          <>Leading and mentoring a 2-person operations team.</>,
+          <>
+            Leading and mentoring a <Metric>2-person</Metric> operations team.
+          </>,
         ],
         images: [],
       },
@@ -210,7 +221,8 @@ const about: About = {
           </>,
           <>
             Designed, developed, and deployed a custom full-stack interactive gallery web
-            application in under 48 hours for ArquiExpo 2026. Built with Next.js, deployed on
+            application in under <Metric>48 hours</Metric> for ArquiExpo 2026. Built with Next.js,
+            deployed on
             Netlify, optimized for a vertical touchscreen interface, and fully responsive across all
             devices including iOS Safari.
           </>,
@@ -257,8 +269,8 @@ const about: About = {
         description: (
           <>
             Designed and deployed an end-to-end lead qualification system for a Bogotá-based ATV
-            retailer managing 200+ inbound WhatsApp leads per day with no CRM infrastructure in
-            place.
+            retailer managing <Metric>200+</Metric> inbound WhatsApp leads per day with no CRM
+            infrastructure in place.
             <br />
             <strong>Stack:</strong> WhatsApp Business API · Kommo CRM · Meta Business Suite · Gemini
             3.1 Pro
@@ -305,8 +317,8 @@ const about: About = {
         achievements: [
           <>
             Designed and deployed an AI-powered WhatsApp chatbot integrated with Bitrix24 CRM to
-            automate lead qualification and initial customer interactions, handling 85% of
-            conversations without human intervention.
+            automate lead qualification and initial customer interactions, handling{" "}
+            <Metric>85%</Metric> of conversations without human intervention.
           </>,
           <>
             Translated business requirements into automated workflows that reduced response times
@@ -584,328 +596,329 @@ const gallery: Gallery = {
   images: [
     {
       src: "https://youtube.com/shorts/BzDuYfJs3Oo",
-      alt: "QMS - Video Ad",
+      alt: "Quick Metal Shop video ad, short-form vertical creative",
       orientation: "vertical",
     },
     {
       src: "https://youtube.com/shorts/E-8o73YzYh4",
-      alt: "QMS - Día del Padre Reel 2",
+      alt: "Quick Metal Shop Father's Day reel, second cut",
       orientation: "vertical",
     },
+    // QMS B2B carousel: "Cómo saber si un taller te va a cumplir o te va a atrasar"
     {
       src: "/images/gallery/carru1.png",
-      alt: "Visual Work Carru 1",
+      alt: "Quick Metal Shop B2B carousel for contractors and engineers, slide 1 of 6: how to tell whether a metal shop will deliver on time",
       orientation: "square",
       group: "carru",
     },
     {
       src: "/images/gallery/carru2.png",
-      alt: "Visual Work Carru 2",
+      alt: "Quick Metal Shop B2B carousel for contractors and engineers, slide 2 of 6",
       orientation: "square",
       group: "carru",
     },
     {
       src: "/images/gallery/carru3.png",
-      alt: "Visual Work Carru 3",
+      alt: "Quick Metal Shop B2B carousel for contractors and engineers, slide 3 of 6",
       orientation: "square",
       group: "carru",
     },
     {
       src: "/images/gallery/carru4.png",
-      alt: "Visual Work Carru 4",
+      alt: "Quick Metal Shop B2B carousel for contractors and engineers, slide 4 of 6",
       orientation: "square",
       group: "carru",
     },
     {
       src: "/images/gallery/carru5.png",
-      alt: "Visual Work Carru 5",
+      alt: "Quick Metal Shop B2B carousel for contractors and engineers, slide 5 of 6",
       orientation: "square",
       group: "carru",
     },
     {
       src: "/images/gallery/carru6.png",
-      alt: "Visual Work Carru 6",
+      alt: "Quick Metal Shop B2B carousel for contractors and engineers, slide 6 of 6",
       orientation: "square",
       group: "carru",
     },
     {
       src: "https://youtube.com/shorts/PoQ8VFQ801Q",
-      alt: "QMS - Colección Día del Padre Teaser",
+      alt: "Quick Metal Shop Father's Day collection teaser reel",
       orientation: "vertical",
     },
     {
       src: "https://youtube.com/shorts/GXaDhzxqOpo",
-      alt: "QMS - Día del Padre Reel",
+      alt: "Quick Metal Shop Father's Day reel",
       orientation: "vertical",
     },
     {
       src: "https://youtube.com/shorts/PgvIVcyL4jg",
-      alt: "QMS - Día del Padre Story",
+      alt: "Quick Metal Shop Father's Day story creative",
       orientation: "vertical",
     },
+    // QMS B2C carousel: "Lleva un pedacito de Puerto Rico en cada pared"
     {
       src: "/images/gallery/1.png",
-      alt: "Visual Work 1",
+      alt: "Quick Metal Shop B2C carousel for Puerto Rico wall decor, slide 1 of 5: laser-cut steel Puerto Rico wall piece",
       orientation: "square",
       group: "generic",
     },
     {
       src: "/images/gallery/2.png",
-      alt: "Visual Work 2",
+      alt: "Quick Metal Shop B2C carousel for Puerto Rico wall decor, slide 2 of 5",
       orientation: "square",
       group: "generic",
     },
     {
       src: "/images/gallery/3.png",
-      alt: "Visual Work 3",
+      alt: "Quick Metal Shop B2C carousel for Puerto Rico wall decor, slide 3 of 5",
       orientation: "square",
       group: "generic",
     },
     {
       src: "/images/gallery/4.png",
-      alt: "Visual Work 4",
+      alt: "Quick Metal Shop B2C carousel for Puerto Rico wall decor, slide 4 of 5",
       orientation: "square",
       group: "generic",
     },
     {
       src: "/images/gallery/5.png",
-      alt: "Visual Work 5",
+      alt: "Quick Metal Shop B2C carousel for Puerto Rico wall decor, slide 5 of 5",
       orientation: "square",
       group: "generic",
     },
     {
       src: "/images/gallery/dakoma1.png",
-      alt: "Dakoma Roofing Rebranding 1",
+      alt: "Dakoma Roofing rebranding asset, slide 1 of 5",
       orientation: "square",
       group: "dakoma",
     },
     {
       src: "/images/gallery/dakoma2.png",
-      alt: "Dakoma Roofing Rebranding 2",
+      alt: "Dakoma Roofing rebranding asset, slide 2 of 5",
       orientation: "square",
       group: "dakoma",
     },
     {
       src: "/images/gallery/dakoma3.png",
-      alt: "Dakoma Roofing Rebranding 3",
+      alt: "Dakoma Roofing rebranding asset, slide 3 of 5",
       orientation: "square",
       group: "dakoma",
     },
     {
       src: "/images/gallery/dakoma4.png",
-      alt: "Dakoma Roofing Rebranding 4",
+      alt: "Dakoma Roofing rebranding asset, slide 4 of 5",
       orientation: "square",
       group: "dakoma",
     },
     {
       src: "/images/gallery/dakoma5.png",
-      alt: "Dakoma Roofing Rebranding 5",
+      alt: "Dakoma Roofing rebranding asset, slide 5 of 5",
       orientation: "square",
       group: "dakoma",
     },
     {
       src: "/images/gallery/qms1.png",
-      alt: "Quick Metal Shop 1",
+      alt: "Quick Metal Shop brand social creative, slide 1 of 6",
       orientation: "square",
       group: "qms",
     },
     {
       src: "/images/gallery/qms2.png",
-      alt: "Quick Metal Shop 2",
+      alt: "Quick Metal Shop brand social creative, slide 2 of 6",
       orientation: "square",
       group: "qms",
     },
     {
       src: "/images/gallery/qms3.png",
-      alt: "Quick Metal Shop 3",
+      alt: "Quick Metal Shop brand social creative, slide 3 of 6",
       orientation: "square",
       group: "qms",
     },
     {
       src: "/images/gallery/qms4.png",
-      alt: "Quick Metal Shop 4",
+      alt: "Quick Metal Shop brand social creative, slide 4 of 6",
       orientation: "square",
       group: "qms",
     },
     {
       src: "/images/gallery/qms5.png",
-      alt: "Quick Metal Shop 5",
+      alt: "Quick Metal Shop brand social creative, slide 5 of 6",
       orientation: "square",
       group: "qms",
     },
     {
       src: "/images/gallery/qms6.png",
-      alt: "Quick Metal Shop 6",
+      alt: "Quick Metal Shop brand social creative, slide 6 of 6",
       orientation: "square",
       group: "qms",
     },
     {
       src: "https://www.youtube.com/watch?v=qXv6XMOy1N4",
-      alt: "PR Collection",
+      alt: "Quick Metal Shop Puerto Rico collection video",
       orientation: "vertical",
     },
     {
       src: "https://www.youtube.com/watch?v=KSerIhwaknE",
-      alt: "Custom Metal Signs",
+      alt: "Quick Metal Shop custom metal signs video",
       orientation: "vertical",
     },
     {
       src: "https://www.youtube.com/watch?v=c_oQBTyLB0M",
-      alt: "Pieza Taino",
+      alt: "Quick Metal Shop Taíno-inspired laser-cut piece video",
       orientation: "vertical",
     },
     {
       src: "https://www.youtube.com/watch?v=J1EtEBNQ2mE",
-      alt: "Piezas Decorativas",
+      alt: "Quick Metal Shop decorative laser-cut pieces video",
       orientation: "vertical",
     },
     {
       src: "/images/gallery/Artesa - Wallpaper Diciembre.jpg",
-      alt: "Artesa - Wallpaper Diciembre",
+      alt: "Artesa Panadería December campaign wallpaper",
       orientation: "horizontal",
     },
     {
       src: "/images/gallery/Artesa - Panettone 2x1.jpg",
-      alt: "Artesa - Panettone 2x1",
+      alt: "Artesa Panadería panettone 2-for-1 promotion creative",
       orientation: "vertical",
     },
     {
       src: "https://www.youtube.com/watch?v=5hcoQ5J9occ",
-      alt: "Artesa - Recorrido Tiendas",
+      alt: "Artesa Panadería store tour video",
       orientation: "vertical",
     },
     {
       src: "/images/gallery/Artesa - Muffin ChocoMix.jpg",
-      alt: "Artesa - Muffin ChocoMix",
+      alt: "Artesa Panadería ChocoMix muffin product creative",
       orientation: "vertical",
     },
     {
       src: "/images/gallery/Artesa - Nuevos Sabores.jpg",
-      alt: "Artesa - Nuevos Sabores",
+      alt: "Artesa Panadería new flavors launch creative",
       orientation: "vertical",
     },
     {
       src: "https://www.youtube.com/watch?v=c8CcTBk6sV4",
-      alt: "Aseneg - Short Diciembre",
+      alt: "Aseneg December short-form video",
       orientation: "vertical",
     },
     {
       src: "https://www.youtube.com/watch?v=0EvVcg9uSk8",
-      alt: "Aseneg - Burnout",
+      alt: "Aseneg burnout awareness short-form video",
       orientation: "vertical",
     },
     {
       src: "/images/gallery/Artesa - Magia de Diciembre.jpg",
-      alt: "Artesa - Magia de Diciembre",
+      alt: "Artesa Panadería December campaign creative",
       orientation: "vertical",
     },
     {
       src: "/images/gallery/Artesa - Nuevo Menú.jpg",
-      alt: "Artesa - Nuevo Menú",
+      alt: "Artesa Panadería new menu launch creative",
       orientation: "vertical",
     },
     {
       src: "/images/gallery/Artesa - Día de la Madre.jpg",
-      alt: "Artesa - Día de la Madre",
+      alt: "Artesa Panadería Mother's Day campaign creative",
       orientation: "vertical",
     },
-    // ── Nuevas imágenes detectadas ────────────────────────────────────────
-    // Carrusel: dias1–6
+    // QMS B2B carousel: "¿Cuántos días de obra perdiste este año?"
     {
       src: "/images/gallery/dias1.png",
-      alt: "Días 1",
+      alt: "Quick Metal Shop B2B carousel on project delays, slide 1 of 6: how many build days were lost waiting on late metal parts",
       orientation: "square",
       group: "dias",
     },
     {
       src: "/images/gallery/dias2.png",
-      alt: "Días 2",
+      alt: "Quick Metal Shop B2B carousel on project delays, slide 2 of 6",
       orientation: "square",
       group: "dias",
     },
     {
       src: "/images/gallery/dias3.png",
-      alt: "Días 3",
+      alt: "Quick Metal Shop B2B carousel on project delays, slide 3 of 6",
       orientation: "square",
       group: "dias",
     },
     {
       src: "/images/gallery/dias4.png",
-      alt: "Días 4",
+      alt: "Quick Metal Shop B2B carousel on project delays, slide 4 of 6",
       orientation: "square",
       group: "dias",
     },
     {
       src: "/images/gallery/dias5.png",
-      alt: "Días 5",
+      alt: "Quick Metal Shop B2B carousel on project delays, slide 5 of 6",
       orientation: "square",
       group: "dias",
     },
     {
       src: "/images/gallery/dias6.png",
-      alt: "Días 6",
+      alt: "Quick Metal Shop B2B carousel on project delays, slide 6 of 6",
       orientation: "square",
       group: "dias",
     },
-    // Carrusel: idea1–4
+    // QMS carousel: "De la idea al producto terminado"
     {
       src: "/images/gallery/idea1.png",
-      alt: "Idea 1",
+      alt: "Quick Metal Shop carousel on the fabrication process, slide 1 of 4: concept sketch turned into a dimensioned laser-cut panel drawing",
       orientation: "square",
       group: "idea",
     },
     {
       src: "/images/gallery/idea2.png",
-      alt: "Idea 2",
+      alt: "Quick Metal Shop carousel on the fabrication process, slide 2 of 4",
       orientation: "square",
       group: "idea",
     },
     {
       src: "/images/gallery/idea3.png",
-      alt: "Idea 3",
+      alt: "Quick Metal Shop carousel on the fabrication process, slide 3 of 4",
       orientation: "square",
       group: "idea",
     },
     {
       src: "/images/gallery/idea4.png",
-      alt: "Idea 4",
+      alt: "Quick Metal Shop carousel on the fabrication process, slide 4 of 4",
       orientation: "square",
       group: "idea",
     },
-    // Imágenes individuales
+    // Piezas individuales
     {
       src: "/images/gallery/arqui.png",
-      alt: "Arqui",
+      alt: "Quick Metal Shop trade show announcement revealing the ArquiExpo 2026 stand design",
       orientation: "vertical",
     },
     {
       src: "/images/gallery/coqui.png",
-      alt: "Coqui",
+      alt: "Quick Metal Shop product ad for the laser-cut steel coquí wall piece, with specs, finishes and shipping detail",
       orientation: "square",
     },
     {
       src: "/images/gallery/diadelpadre.png",
-      alt: "Día del Padre",
+      alt: "Quick Metal Shop Father's Day product ad featuring laser-cut metal gifts",
       orientation: "square",
     },
     {
       src: "/images/gallery/libres.png",
-      alt: "Libres",
+      alt: "Quick Metal Shop Juneteenth post: a breaking steel chain over the line \"Libres. Hoy y siempre.\"",
       orientation: "square",
     },
     {
       src: "/images/gallery/metal.png",
-      alt: "Metal",
+      alt: "Quick Metal Shop B2B ad for facades, pergolas and decorative metal design in architectural projects",
       orientation: "square",
     },
     {
       src: "/images/gallery/pared.png",
-      alt: "Pared",
+      alt: "Quick Metal Shop product ad for a four-panel laser-cut steel wall piece in a living room setting",
       orientation: "vertical",
     },
     {
       src: "/images/gallery/transform.png",
-      alt: "Transform",
+      alt: "Quick Metal Shop English-language ad for customizable laser-cut steel wall art, shipping to Puerto Rico and the USA",
       orientation: "vertical",
     },
   ],

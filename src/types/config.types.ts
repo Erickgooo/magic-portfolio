@@ -141,11 +141,12 @@ export type SchemaConfig = {
 /**
  * Social links for organization.
  */
-export type SameAsConfig = {
-  threads: string;
-  linkedin: string;
-  discord: string;
-};
+/**
+ * Absolute profile URLs emitted as schema.org `sameAs`.
+ * Derived from the social links in content.tsx — only real URLs belong here,
+ * empty entries would otherwise ship as blank strings in the JSON-LD.
+ */
+export type SameAsConfig = string[];
 
 /**
  * Social sharing configuration for blog posts.

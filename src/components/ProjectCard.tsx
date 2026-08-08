@@ -64,7 +64,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
                 paddingY="8"
                 radius="m"
                 style={{
-                  border: "1px solid var(--brand-alpha-medium)",
+                  boxShadow: "var(--glow-border)",
                   background: "var(--brand-alpha-weak)",
                 }}
               >

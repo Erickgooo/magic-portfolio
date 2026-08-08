@@ -110,7 +110,7 @@ const InputArea: React.FC<InputAreaProps> = ({
             href={LINKEDIN_URL}
             target="_blank"
             rel="noopener noreferrer"
-            style={{ textDecoration: "underline", color: "var(--brand-solid)" }}
+            style={{ textDecoration: "underline", color: "var(--brand-on-background-strong)" }}
           >
             reach out directly!
           </a>
@@ -169,7 +169,7 @@ function parseAnswerText(text: string): React.ReactNode[] {
             href={url}
             target="_blank"
             rel="noopener noreferrer"
-            style={{ textDecoration: "underline", color: "var(--brand-solid)" }}
+            style={{ textDecoration: "underline", color: "var(--brand-on-background-strong)" }}
           >
             {label}
           </a>,
@@ -194,7 +194,9 @@ function parseAnswerText(text: string): React.ReactNode[] {
 // ── Bubble styles ─────────────────────────────────────────────────────────────
 
 const userBubbleStyle: React.CSSProperties = {
-  background: "var(--brand-solid)",
+  // Same Cobalto fill as the resting primary CTA, so the one solid brand color
+  // in the UI stays consistent (Manual §3.1).
+  background: "var(--brand-solid-medium)",
   maxWidth: "85%",
   borderBottomRightRadius: "var(--radius-xs)",
   whiteSpace: "normal",
@@ -417,7 +419,10 @@ export const FaqChatbot: React.FC = () => {
                 {/* User question */}
                 <Flex fillWidth horizontal="end">
                   <Flex paddingY="s" paddingX="m" radius="m" style={userBubbleStyle}>
-                    <Text variant="body-default-m" onBackground="brand-strong">
+                    {/* onSolid, not onBackground: the bubble is a solid Cobalto
+                        fill, so the label needs Blanco Titanio rather than the
+                        Cobalto used for brand text on the page background. */}
+                    <Text variant="body-default-m" onSolid="brand-strong">
                       {activeView.question}
                     </Text>
                   </Flex>

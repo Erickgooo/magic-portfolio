@@ -52,6 +52,42 @@
   --scheme-neutral-600-50: #93939680;
 }
 
+/* ─── Data Callout (Manual §4.3) ───────────────────────────────────────────
+   Inline metrics inside running copy: mono family + Cobalto, so a figure never
+   reads as ordinary prose. Tabular numerals keep digits aligned.
+──────────────────────────────────────────────────────────────────────────── */
+.metric {
+  font-family: var(--font-code), monospace;
+  font-weight: 600;
+  color: var(--brand-on-background-strong);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* ─── Glow Border (Manual §5.3.3) ──────────────────────────────────────────
+   1px Cobalto ring plus a low-intensity glow — the only light effect the manual
+   permits, reserved for metric cards and highlighted data blocks. Defined once
+   here so every data callout carries the identical treatment.
+──────────────────────────────────────────────────────────────────────────── */
+:root {
+  --glow-border: 0 0 0 1px var(--brand-alpha-medium), 0 0 24px var(--brand-alpha-weak);
+}
+
+/* ─── Solid CTA color ──────────────────────────────────────────────────────
+   Manual §3.2: the primary CTA is the one place Cobalto Eléctrico appears as a
+   solid fill, and it has to be the exact brand hex. Once UI paints a resting
+   primary button with --brand-solid-medium and its hover with -strong, and
+   data-solid=color maps those a step apart per theme, so the button would drift
+   off-brand and shift tone between light and dark. Pin the resting fill to
+   Cobalto exactly and darken on hover (brand-500) — going lighter would drop
+   Blanco Titanio label text below AA contrast.
+──────────────────────────────────────────────────────────────────────────── */
+:root[data-solid="color"] {
+  --brand-solid-medium: #2d5bff;
+  --brand-solid-strong: #2549cb;
+  --brand-on-solid-strong: #f4f5f7;
+}
+
 /* ─── Mobile bottom-nav clearance ──────────────────────────────────────────
    On mobile (≤768px) the header switches to position:fixed at the bottom
    (bottom: 24px). Without extra padding-bottom, the bar overlaps content.

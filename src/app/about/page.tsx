@@ -14,7 +14,7 @@ import {
   Row,
   SmartLink,
 } from "@once-ui-system/core";
-import { baseURL, about, person, social } from "@/resources";
+import { baseURL, about, person, sameAs, social } from "@/resources";
 import TableOfContents from "@/components/about/TableOfContents";
 import styles from "@/components/about/about.module.scss";
 import React from "react";
@@ -66,6 +66,7 @@ export default function About() {
         description={about.description}
         path={about.path}
         image={`/api/og/generate?title=${encodeURIComponent(about.title)}`}
+        sameAs={sameAs}
         author={{
           name: person.name,
           url: `${baseURL}${about.path}`,
@@ -124,29 +125,19 @@ export default function About() {
             vertical="center"
             marginBottom="32"
           >
+            {/* Manual §3.2: the booking CTA is the single solid-Cobalto element on
+                the page — the one thing the eye is meant to find first. */}
             {about.calendar.display && (
-              <Row
-                fitWidth
-                border="brand-alpha-medium"
-                background="brand-alpha-weak"
-                radius="full"
-                padding="4"
-                gap="8"
-                marginBottom="m"
-                vertical="center"
-                className={styles.blockAlign}
-                style={{
-                  backdropFilter: "blur(var(--static-space-1))",
-                }}
-              >
-                <Icon paddingLeft="12" name="calendar" onBackground="brand-weak" />
-                <Row paddingX="8">Schedule a call</Row>
-                <IconButton
+              <Row fitWidth marginBottom="m" className={styles.blockAlign}>
+                <Button
                   href={about.calendar.link}
-                  data-border="rounded"
-                  variant="secondary"
-                  icon="chevronRight"
-                />
+                  variant="primary"
+                  size="m"
+                  prefixIcon="calendar"
+                  arrowIcon
+                >
+                  Schedule a call
+                </Button>
               </Row>
             )}
             <Heading className={styles.textAlign} variant="display-strong-xl">

@@ -10,7 +10,7 @@ import {
   SocialSharingConfig,
   StyleConfig,
 } from "@/types";
-import { home, person } from "./index";
+import { home, person, social } from "./index";
 
 // IMPORTANT: Replace with your own domain address - it's used for SEO in meta tags and schema
 const baseURL: string = "https://erickmahecha.com";
@@ -75,9 +75,9 @@ const style: StyleConfig = {
   neutral: "custom", // sand | gray | slate | custom — Obsidiana/Titanio/Grafito (src/resources/custom.css)
   brand: "custom", // blue | indigo | violet | magenta | pink | red | orange | yellow | moss | green | emerald | aqua | cyan | custom — Cobalto Eléctrico
   accent: "custom", // blue | indigo | violet | magenta | pink | red | orange | yellow | moss | green | emerald | aqua | cyan | custom — Cobalto Eléctrico
-  solid: "contrast", // color | contrast
+  solid: "color", // color | contrast — solid surfaces must carry Cobalto Eléctrico, not a neutral (Manual §3.2: CTAs exclusivamente en Cobalto)
   solidStyle: "flat", // flat | plastic
-  border: "playful", // rounded | playful | conservative
+  border: "conservative", // rounded | playful | conservative — Manual §2.3: geometría angular, sin redondeos decorativos
   surface: "translucent", // filled | translucent
   transition: "all", // all | micro | macro
   scaling: "100", // 90 | 95 | 100 | 105 | 110
@@ -191,12 +191,11 @@ const schema: SchemaConfig = {
   email: person.email,
 };
 
-// social links
-const sameAs: SameAsConfig = {
-  threads: "",
-  linkedin: "https://www.linkedin.com/in/erick-mahecha/",
-  discord: "",
-};
+// Profile URLs for schema.org `sameAs`, derived from the social links so the two
+// never drift apart. mailto: entries are excluded — sameAs takes URLs only.
+const sameAs: SameAsConfig = social
+  .map((item) => item.link)
+  .filter((link) => link.startsWith("http"));
 
 // social sharing configuration for blog posts
 const socialSharing: SocialSharingConfig = {
