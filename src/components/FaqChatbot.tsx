@@ -145,6 +145,29 @@ const InputArea: React.FC<InputAreaProps> = ({
 
 // ── Markdown parser (module-level pure function) ──────────────────────────────
 
+/**
+ * Allow only http(s), mailto and same-origin relative link targets.
+ *
+ * The href below is parsed out of the model's reply, and that reply is shaped by
+ * visitor input — a crafted message can try to talk Gemini into emitting
+ * `[text](javascript:...)`. React does not sanitise href, and the CSP carries
+ * 'unsafe-inline' in script-src, which does not block javascript: URLs either.
+ * Impact is confined to the sender's own session (replies are never stored or
+ * shown to another visitor), so this is self-XSS rather than a way to reach
+ * someone else — but the sink costs nothing to close.
+ */
+function safeHref(raw: string): string | null {
+  const url = raw.trim();
+  // Relative, but not protocol-relative (`//evil.example` would leave the origin).
+  if (url.startsWith("/") && !url.startsWith("//")) return url;
+  try {
+    const { protocol } = new URL(url);
+    return protocol === "http:" || protocol === "https:" || protocol === "mailto:" ? url : null;
+  } catch {
+    return null;
+  }
+}
+
 function parseAnswerText(text: string): React.ReactNode[] {
   const lines = text.split("\n");
   return lines.map((line, lIdx) => {
@@ -163,16 +186,22 @@ function parseAnswerText(text: string): React.ReactNode[] {
       } else if (matchText.startsWith("[") && matchText.includes("](")) {
         const label = matchText.substring(1, matchText.indexOf("]("));
         const url = matchText.substring(matchText.indexOf("](") + 2, matchText.length - 1);
+        const href = safeHref(url);
         lineParts.push(
-          <a
-            key={matchIdx}
-            href={url}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ textDecoration: "underline", color: "var(--brand-on-background-weak)" }}
-          >
-            {label}
-          </a>,
+          href ? (
+            <a
+              key={matchIdx}
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ textDecoration: "underline", color: "var(--brand-on-background-weak)" }}
+            >
+              {label}
+            </a>
+          ) : (
+            // Unsupported scheme: keep the visible label, drop the link.
+            <span key={matchIdx}>{label}</span>
+          ),
         );
       }
       idx = regex.lastIndex;
