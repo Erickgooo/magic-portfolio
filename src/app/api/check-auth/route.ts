@@ -1,13 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
-import * as cookie from "cookie";
+import { AUTH_COOKIE, verifyAuthToken } from "@/utils/auth";
+
+export const runtime = "nodejs";
 
 export async function GET(request: NextRequest) {
-  const cookieHeader = request.headers.get("cookie") || "";
-  const cookies = cookie.parse(cookieHeader);
+  const token = request.cookies.get(AUTH_COOKIE)?.value;
 
-  if (cookies.authToken === "authenticated") {
+  if (await verifyAuthToken(token)) {
     return NextResponse.json({ authenticated: true }, { status: 200 });
-  } else {
-    return NextResponse.json({ authenticated: false }, { status: 401 });
   }
+
+  return NextResponse.json({ authenticated: false }, { status: 401 });
 }

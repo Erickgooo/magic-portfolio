@@ -1,12 +1,27 @@
 import { ImageResponse } from "next/og";
 import { baseURL, person } from "@/resources";
 import { EM_MARK_DATA_URI } from "./mark";
+import { RateLimiter, getClientIp } from "@/utils/rateLimit";
 
 export const runtime = "nodejs";
 
+const TITLE_MAX_CHARS = 120;
+
+// Image rendering is expensive; cap it at 30 images per minute per IP.
+const ogLimiter = new RateLimiter(30, 60 * 1000);
+
 export async function GET(request: Request) {
+  const rate = ogLimiter.consume(getClientIp(request));
+
+  if (!rate.allowed) {
+    return new Response("Too many requests", {
+      status: 429,
+      headers: { "Retry-After": String(rate.retryAfter) },
+    });
+  }
+
   let url = new URL(request.url);
-  let title = url.searchParams.get("title") || "Portfolio";
+  let title = (url.searchParams.get("title") || "Portfolio").slice(0, TITLE_MAX_CHARS);
 
   async function loadGoogleFont(font: string) {
     const url = `https://fonts.googleapis.com/css2?family=${font}`;

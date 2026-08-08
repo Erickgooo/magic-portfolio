@@ -4,7 +4,6 @@ import {
   EffectsConfig,
   FontsConfig,
   MailchimpConfig,
-  ProtectedRoutesConfig,
   RoutesConfig,
   SameAsConfig,
   SchemaConfig,
@@ -32,7 +31,8 @@ const display: DisplayConfig = {
 
 // Enable password protection on selected routes
 // Set password in the .env file, refer to .env.example
-const protectedRoutes: ProtectedRoutesConfig = {};
+// Defined in ./protectedRoutes so middleware.ts can import it standalone.
+import { protectedRoutes } from "./protectedRoutes";
 
 // Import and set font for each variant — Manual de Marca, Sección 04:
 // Space Grotesk (titulares), Inter (cuerpo/label), JetBrains Mono (datos).

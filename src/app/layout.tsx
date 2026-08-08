@@ -9,7 +9,6 @@ import {
   Column,
   Flex,
   Meta,
-  opacity,
   RevealFx,
   SpacingToken,
 } from "@once-ui-system/core";
