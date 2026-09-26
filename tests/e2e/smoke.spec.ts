@@ -71,27 +71,6 @@ const KNOWN_CONSOLE_ERRORS: KnownConsoleError[] = [
     urlIncludes: "/_vercel/insights/script.js",
     browsers: ["webkit"],
   },
-  // Firefox-only, gallery only: the gallery page embeds several YouTube
-  // videos as iframes; Firefox rejects the `__Secure-YEC` cookie those
-  // iframes set (cross-site + SameSite=Lax/Strict) and logs it as a console
-  // error — Chromium/WebKit either don't set/reject it the same way or don't
-  // surface it as a console "error". Pre-existing, third-party (YouTube)
-  // behaviour, unrelated to this harness. Only the two videos that render
-  // above the fold at Desktop Firefox's default viewport actually mount an
-  // iframe before `networkidle`, so only those two video IDs are scoped here
-  // (deterministic across repeated runs, confirmed via debug script).
-  {
-    text: '[JavaScript Error: "Cookie “__Secure-YEC” has been rejected because it is in a cross-site context and its “SameSite” is “Lax” or “Strict”." {file: "https://www.youtube.com/embed/BzDuYfJs3Oo" line: 0}]',
-    urlIncludes: "/embed/BzDuYfJs3Oo",
-    route: "gallery",
-    browsers: ["firefox"],
-  },
-  {
-    text: '[JavaScript Error: "Cookie “__Secure-YEC” has been rejected because it is in a cross-site context and its “SameSite” is “Lax” or “Strict”." {file: "https://www.youtube.com/embed/KSerIhwaknE" line: 0}]',
-    urlIncludes: "/embed/KSerIhwaknE",
-    route: "gallery",
-    browsers: ["firefox"],
-  },
 ];
 
 function isKnownConsoleError(msg: ConsoleMessage, routeName: string, browserName: string): boolean {

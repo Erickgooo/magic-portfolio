@@ -61,9 +61,13 @@ Found running the Playwright smoke test (`tests/e2e/smoke.spec.ts`) against `npm
      - **Chromium/mobile-chromium:** `Refused to execute script from 'http://localhost:3100/_vercel/insights/script.js' because its MIME type ('text/html') is not executable, and strict MIME type checking is enabled.`
      - **Firefox:** logs one combined console error instead of two — the 404 message above is *not* separately logged; only `[JavaScript Error: "The resource from “http://localhost:3100/_vercel/insights/script.js” was blocked due to MIME type (“text/html”) mismatch (X-Content-Type-Options: nosniff)." {file: "<page URL>" line: 0}]` (the `{file: …}` suffix is the *page's* URL, which varies per route, so it's matched by prefix, not full equality).
      - **WebKit:** `Refused to execute http://localhost:3100/_vercel/insights/script.js as script because "X-Content-Type-Options: nosniff" was given and its Content-Type is not a script MIME type.`
-2. **Gallery page: YouTube embed cookie rejection (gallery route only, Firefox only).** The gallery embeds several YouTube videos as iframes; Firefox rejects the third-party `__Secure-YEC` cookie those iframes set (cross-site request + `SameSite=Lax`/`Strict`) and logs it as a console error. Chromium/WebKit either don't reject the cookie the same way or don't surface it as a console "error" (not observed on either in the debug script). Pre-existing, third-party (YouTube) behaviour, unrelated to this harness. Only the two videos that render above the fold at Desktop Firefox's default viewport (1280×720) actually mount an iframe before `waitForLoadState("networkidle")`, so only those two video IDs are scoped (deterministic across repeated runs):
-   - `[JavaScript Error: "Cookie “__Secure-YEC” has been rejected because it is in a cross-site context and its “SameSite” is “Lax” or “Strict”." {file: "https://www.youtube.com/embed/BzDuYfJs3Oo" line: 0}]`
-   - `[JavaScript Error: "Cookie “__Secure-YEC” has been rejected because it is in a cross-site context and its “SameSite” is “Lax” or “Strict”." {file: "https://www.youtube.com/embed/KSerIhwaknE" line: 0}]`
+
+> The gallery's YouTube embeds previously mounted iframes eagerly (Firefox
+> then rejected their third-party `__Secure-YEC` cookie and logged it as a
+> console error). Since the click-to-load facade (Task 7 / A5), no YouTube
+> iframe mounts until a user activates it, so that entry and its Firefox-only
+> smoke-test exclusions have been removed — confirmed clean on chromium,
+> firefox and webkit.
 
 ## Local next start (same machine, for apples-to-apples comparison)
 

@@ -1,5 +1,6 @@
 "use client";
 
+import { YouTubeFacade } from "@/components/YouTubeFacade";
 import styles from "./YouTubeEmbed.module.scss";
 
 interface YouTubeEmbedProps {
@@ -21,12 +22,11 @@ export function YouTubeEmbed({
     <div className={styles.wrapper}>
       <div className={styles.videoBlock}>
         <div className={`${styles.container} ${!isVert ? styles.widescreen : ""}`}>
-          <iframe
+          <YouTubeFacade
             className={styles.iframe}
-            src={`https://www.youtube.com/embed/${videoId}`}
+            videoId={videoId}
             title={title}
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
+            aspectRatio="auto"
           />
         </div>
         {instagramUrl && (
