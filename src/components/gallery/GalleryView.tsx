@@ -226,25 +226,21 @@ function ImageCell({ item }: { item: Extract<GalleryItem, { type: "image" }> }) 
         />
       </HoverWrapper>
 
-      {/* Lightbox — plain <img> so the image ALWAYS renders at its
-          true natural aspect ratio with zero cropping, regardless of
-          the orientation tag assigned in content.tsx */}
+      {/* Lightbox — Media with its default `aspectRatio="original"` renders
+          next/image with automatic height and zero cropping, so the image
+          ALWAYS shows at its true natural aspect ratio regardless of the
+          orientation tag assigned in content.tsx */}
       <Dialog
         isOpen={open}
         onClose={() => setOpen(false)}
         title={<span />}
         style={{ maxWidth: 900 }}
       >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <Media
           src={item.image.src}
           alt={item.image.alt}
-          style={{
-            display: "block",
-            width: "100%",
-            height: "auto",
-            borderRadius: "var(--radius-m, 8px)",
-          }}
+          sizes="(max-width: 900px) 100vw, 900px"
+          radius="m"
         />
       </Dialog>
     </>

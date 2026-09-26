@@ -133,7 +133,7 @@ export default function Home() {
           <RevealFx translateY="12" delay={0.5} fillWidth horizontal="center" paddingTop="32">
             <AutoplayVideo
               src="/videohome.mp4"
-              poster="/images/videohome-poster.jpg"
+              poster="/images/videohome-poster.webp"
               watermark
               style={{
                 maxWidth: "100%",

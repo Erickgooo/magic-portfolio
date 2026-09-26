@@ -399,12 +399,11 @@ export const FaqChatbot: React.FC = () => {
           <Row fillWidth vertical="center" horizontal="between" className={styles.header}>
             <Row gap="8" vertical="center">
               <Image
-                src="/images/chatbot/chatbot-icon.png"
+                src="/images/chatbot/chatbot-icon.webp"
                 alt="ErickBot"
                 width={32}
                 height={32}
                 className={styles.headerIcon}
-                priority
               />
               <Column vertical="start">
                 <Heading as="h4" variant="heading-strong-s">
@@ -545,12 +544,11 @@ export const FaqChatbot: React.FC = () => {
             <Icon name="x" size="m" />
           ) : (
             <Image
-              src="/images/chatbot/chatbot-icon.png"
+              src="/images/chatbot/chatbot-icon.webp"
               alt="ErickBot"
               width={64}
               height={64}
               className={styles.avatarIcon}
-              priority
             />
           )}
         </button>

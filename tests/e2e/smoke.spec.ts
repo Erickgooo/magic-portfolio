@@ -20,9 +20,6 @@ import { ROUTES } from "./helpers";
 // that text). Observed once via a throwaway debug script during development
 // (not committed):
 //   404 "Failed to load resource...": location().url = "http://localhost:3100/_vercel/insights/script.js"
-//   400 "Failed to load resource..." (gallery): location().url =
-//     "http://localhost:3100/_next/image?url=%2Fimages%2Fgallery%2FArtesa%20-%20Nuevo%20Men%C3%BA.jpg&w=640&q=75"
-//     "http://localhost:3100/_next/image?url=%2Fimages%2Fgallery%2FArtesa%20-%20D%C3%ADa%20de%20la%20Madre.jpg&w=640&q=75"
 //
 // Firefox and WebKit word some of these messages differently (or don't log
 // some of them at all — see docs/perf-baseline.md for the full per-browser
@@ -73,25 +70,6 @@ const KNOWN_CONSOLE_ERRORS: KnownConsoleError[] = [
     text: 'Refused to execute http://localhost:3100/_vercel/insights/script.js as script because "X-Content-Type-Options: nosniff" was given and its Content-Type is not a script MIME type.',
     urlIncludes: "/_vercel/insights/script.js",
     browsers: ["webkit"],
-  },
-  // Gallery only: two images are PNG files saved with a `.jpg` extension
-  // (`Artesa - Nuevo Menú.jpg`, `Artesa - Día de la Madre.jpg`); Next's
-  // built-in `/_next/image` optimizer 400s them. Scoped to the exact
-  // (URL-encoded) filename and to the gallery route, so a 400 for any other
-  // resource, on any page, still fails the test. Chromium and WebKit word
-  // this identically and expose the same location().url (WebKit only
-  // triggered the first image's request before `networkidle`; Firefox does
-  // not log either of these as a console error at all, so no Firefox entry
-  // is added for them — see docs/perf-baseline.md).
-  {
-    text: "Failed to load resource: the server responded with a status of 400 (Bad Request)",
-    urlIncludes: "Artesa%20-%20Nuevo%20Men%C3%BA.jpg",
-    route: "gallery",
-  },
-  {
-    text: "Failed to load resource: the server responded with a status of 400 (Bad Request)",
-    urlIncludes: "Artesa%20-%20D%C3%ADa%20de%20la%20Madre.jpg",
-    route: "gallery",
   },
   // Firefox-only, gallery only: the gallery page embeds several YouTube
   // videos as iframes; Firefox rejects the `__Secure-YEC` cookie those
