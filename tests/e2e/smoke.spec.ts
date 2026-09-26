@@ -1,5 +1,5 @@
-import { expect, test } from "@playwright/test";
 import type { ConsoleMessage } from "@playwright/test";
+import { expect, test } from "./fixtures";
 import { ROUTES } from "./helpers";
 
 // Pre-existing console errors observed on this build, unrelated to the
@@ -23,31 +23,66 @@ import { ROUTES } from "./helpers";
 //   400 "Failed to load resource..." (gallery): location().url =
 //     "http://localhost:3100/_next/image?url=%2Fimages%2Fgallery%2FArtesa%20-%20Nuevo%20Men%C3%BA.jpg&w=640&q=75"
 //     "http://localhost:3100/_next/image?url=%2Fimages%2Fgallery%2FArtesa%20-%20D%C3%ADa%20de%20la%20Madre.jpg&w=640&q=75"
+//
+// Firefox and WebKit word some of these messages differently (or don't log
+// some of them at all — see docs/perf-baseline.md for the full per-browser
+// breakdown observed running this same suite against each browser project).
+// Entries below that are worded identically across browsers (and whose text
+// still embeds/derives the same `urlIncludes`) are left unscoped; entries
+// whose *text* differs per browser carry a `browsers` allow-list so a
+// mismatch on one browser can't accidentally swallow a different browser's
+// real error.
 interface KnownConsoleError {
   text: string;
   /** Substring identifying the failing resource, checked against location().url and, as a
-   * fallback, the message text itself (Chromium exposes the URL differently per message type). */
+   * fallback, the message text itself (browsers expose the URL differently per message type). */
   urlIncludes: string;
   /** Restrict this exclusion to one route; omit to apply on every page. */
   route?: (typeof ROUTES)[number]["name"];
+  /** Restrict this exclusion to these browser projects; omit to apply on every browser. */
+  browsers?: ("chromium" | "firefox" | "webkit")[];
 }
 
 const KNOWN_CONSOLE_ERRORS: KnownConsoleError[] = [
   // @vercel/analytics requests this script; it exists only when served by
   // Vercel, so it 404s locally and is then refused for its resulting MIME type.
+  //
+  // The 404 itself is worded identically by all three engines (confirmed via
+  // debug script): "Failed to load resource: the server responded with a
+  // status of 404 (Not Found)", location().url =
+  // "http://localhost:3100/_vercel/insights/script.js" — left unscoped.
   {
     text: "Failed to load resource: the server responded with a status of 404 (Not Found)",
     urlIncludes: "/_vercel/insights/script.js",
   },
+  // The follow-up "script refused for its MIME type" message is worded
+  // differently by every engine and each embeds the script's URL directly in
+  // its own text (location().url is empty/irrelevant for this message type),
+  // so each needs its own browser-scoped entry.
   {
     text: "Refused to execute script from 'http://localhost:3100/_vercel/insights/script.js' because its MIME type ('text/html') is not executable, and strict MIME type checking is enabled.",
     urlIncludes: "/_vercel/insights/script.js",
+    browsers: ["chromium"],
+  },
+  {
+    text: '[JavaScript Error: "The resource from “http://localhost:3100/_vercel/insights/script.js” was blocked due to MIME type (“text/html”) mismatch (X-Content-Type-Options: nosniff)." {file: "%PAGE_URL%" line: 0}]',
+    urlIncludes: "/_vercel/insights/script.js",
+    browsers: ["firefox"],
+  },
+  {
+    text: 'Refused to execute http://localhost:3100/_vercel/insights/script.js as script because "X-Content-Type-Options: nosniff" was given and its Content-Type is not a script MIME type.',
+    urlIncludes: "/_vercel/insights/script.js",
+    browsers: ["webkit"],
   },
   // Gallery only: two images are PNG files saved with a `.jpg` extension
   // (`Artesa - Nuevo Menú.jpg`, `Artesa - Día de la Madre.jpg`); Next's
   // built-in `/_next/image` optimizer 400s them. Scoped to the exact
   // (URL-encoded) filename and to the gallery route, so a 400 for any other
-  // resource, on any page, still fails the test.
+  // resource, on any page, still fails the test. Chromium and WebKit word
+  // this identically and expose the same location().url (WebKit only
+  // triggered the first image's request before `networkidle`; Firefox does
+  // not log either of these as a console error at all, so no Firefox entry
+  // is added for them — see docs/perf-baseline.md).
   {
     text: "Failed to load resource: the server responded with a status of 400 (Bad Request)",
     urlIncludes: "Artesa%20-%20Nuevo%20Men%C3%BA.jpg",
@@ -58,24 +93,59 @@ const KNOWN_CONSOLE_ERRORS: KnownConsoleError[] = [
     urlIncludes: "Artesa%20-%20D%C3%ADa%20de%20la%20Madre.jpg",
     route: "gallery",
   },
+  // Firefox-only, gallery only: the gallery page embeds several YouTube
+  // videos as iframes; Firefox rejects the `__Secure-YEC` cookie those
+  // iframes set (cross-site + SameSite=Lax/Strict) and logs it as a console
+  // error — Chromium/WebKit either don't set/reject it the same way or don't
+  // surface it as a console "error". Pre-existing, third-party (YouTube)
+  // behaviour, unrelated to this harness. Only the two videos that render
+  // above the fold at Desktop Firefox's default viewport actually mount an
+  // iframe before `networkidle`, so only those two video IDs are scoped here
+  // (deterministic across repeated runs, confirmed via debug script).
+  {
+    text: '[JavaScript Error: "Cookie “__Secure-YEC” has been rejected because it is in a cross-site context and its “SameSite” is “Lax” or “Strict”." {file: "https://www.youtube.com/embed/BzDuYfJs3Oo" line: 0}]',
+    urlIncludes: "/embed/BzDuYfJs3Oo",
+    route: "gallery",
+    browsers: ["firefox"],
+  },
+  {
+    text: '[JavaScript Error: "Cookie “__Secure-YEC” has been rejected because it is in a cross-site context and its “SameSite” is “Lax” or “Strict”." {file: "https://www.youtube.com/embed/KSerIhwaknE" line: 0}]',
+    urlIncludes: "/embed/KSerIhwaknE",
+    route: "gallery",
+    browsers: ["firefox"],
+  },
 ];
 
-function isKnownConsoleError(msg: ConsoleMessage, routeName: string): boolean {
+function isKnownConsoleError(msg: ConsoleMessage, routeName: string, browserName: string): boolean {
   const text = msg.text();
   const locationUrl = msg.location().url;
-  return KNOWN_CONSOLE_ERRORS.some(
-    (known) =>
-      (!known.route || known.route === routeName) &&
-      text === known.text &&
-      (locationUrl.includes(known.urlIncludes) || text.includes(known.urlIncludes)),
-  );
+  return KNOWN_CONSOLE_ERRORS.some((known) => {
+    if (known.route && known.route !== routeName) return false;
+    if (
+      known.browsers &&
+      !known.browsers.includes(browserName as "chromium" | "firefox" | "webkit")
+    )
+      return false;
+    if (!(locationUrl.includes(known.urlIncludes) || text.includes(known.urlIncludes)))
+      return false;
+    // The Firefox "blocked due to MIME type" message embeds the *page's own*
+    // URL (not the vercel script's) in its `file:` suffix, so it can't be
+    // matched by an exact literal string across routes — match everything up
+    // to that suffix instead.
+    if (known.text.includes("%PAGE_URL%")) {
+      const [prefix] = known.text.split("%PAGE_URL%");
+      return text.startsWith(prefix);
+    }
+    return text === known.text;
+  });
 }
 
 for (const route of ROUTES) {
-  test(`smoke: ${route.name} renders without console errors`, async ({ page }) => {
+  test(`smoke: ${route.name} renders without console errors`, async ({ page, browserName }) => {
     const errors: string[] = [];
     page.on("console", (msg) => {
-      if (msg.type() === "error" && !isKnownConsoleError(msg, route.name)) errors.push(msg.text());
+      if (msg.type() === "error" && !isKnownConsoleError(msg, route.name, browserName))
+        errors.push(msg.text());
     });
     page.on("pageerror", (err) => errors.push(err.message));
     const response = await page.goto(route.path);

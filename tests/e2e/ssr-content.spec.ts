@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, test } from "./fixtures";
 
 // With JavaScript disabled the page shows exactly the server HTML. Before the
 // fix RouteGuard rendered a spinner on the server, so no heading existed.
@@ -21,42 +21,28 @@ test.describe("server-rendered content", () => {
   }
 });
 
-test("client navigation never flashes NotFound", async ({ page, browserName }) => {
-  // WebKit only: next.config.mjs's production CSP sends
-  // `upgrade-insecure-requests` (correctly — real HTTPS deployments need
-  // it), and this Playwright-WebKit build, unlike Chromium/Firefox, doesn't
-  // exempt `localhost` from it. It upgrades every subresource the *document*
-  // references — CSS, JS chunks, images — to `https://`, which then fails
-  // to connect since the local e2e server (`npm run start`, per
-  // playwright.config.ts) has no TLS listener. That cascade of failed CSS
-  // loads is what broke this test: with the page's own layout CSS never
-  // applied, an unrelated `next/image fill` element (e.g. a project's team
-  // avatar) lost its positioned containing block and stretched across the
-  // whole document, intercepting the click meant for the header link
-  // underneath it. Confirmed via getComputedStyle/requestfailed logging
-  // during the investigation (see task-3-report.md, Fix round 1) that
-  // stripping the response's CSP/HSTS headers before the browser parses the
-  // document removes the upgrade entirely and the page then renders and
-  // behaves identically to Chromium/Firefox — i.e. this was never a real
+test("csp is intact outside webkit-localhost", async ({ page, browserName }) => {
+  // Proves the fixtures.ts auto fixture is scoped correctly: on every browser
+  // other than WebKit (which strips CSP/HSTS against localhost — see
+  // tests/e2e/fixtures.ts), the real production CSP header from
+  // next.config.mjs must still reach the page untouched.
+  test.skip(browserName === "webkit", "webkit-localhost intentionally strips CSP; see fixtures.ts");
+  const response = await page.goto("/");
+  expect(response?.headers()["content-security-policy"]).toContain("upgrade-insecure-requests");
+});
+
+test("client navigation never flashes NotFound", async ({ page }) => {
+  // WebKit + local production CSP: see tests/e2e/fixtures.ts for why the
+  // `stripCspOnWebkitLocalhost` auto fixture strips CSP/HSTS on WebKit
+  // against localhost. Without it, a cascade of failed CSS loads (every
+  // subresource upgraded to https and failing to connect) left an unrelated
+  // `next/image fill` element (e.g. a project's team avatar) without a
+  // positioned containing block, stretching it across the whole document and
+  // intercepting the click meant for the header link underneath it —
+  // confirmed via getComputedStyle/requestfailed logging during the
+  // investigation (see task-3-report.md, Fix round 1). This was never a real
   // click-target bug, just a test-environment artifact of testing a
-  // production CSP over plain HTTP. Scoped to `document` requests only and
-  // to WebKit only, since Chromium/Firefox never had this problem.
-  if (browserName === "webkit") {
-    await page.route("**/*", async (route) => {
-      const request = route.request();
-      if (request.resourceType() !== "document") {
-        await route.continue();
-        return;
-      }
-      const response = await route.fetch();
-      const {
-        "content-security-policy": _csp,
-        "strict-transport-security": _hsts,
-        ...headers
-      } = response.headers();
-      await route.fulfill({ response, headers });
-    });
-  }
+  // production CSP over plain HTTP.
 
   // Starts on /about, not /, so the Home-only IntroLoader overlay (which
   // covers the page and blocks pointer events for several seconds on first
