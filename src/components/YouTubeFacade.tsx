@@ -52,7 +52,6 @@ export function YouTubeFacade({ videoId, title, aspectRatio, className }: YouTub
           onClick={() => setActive(true)}
           aria-label={`Play video: ${title}`}
         >
-          {/* biome-ignore lint/a11y/useAltText: decorative; the button carries the accessible name */}
           <img
             className={styles.thumb}
             src={youTubeThumbnail(videoId)}

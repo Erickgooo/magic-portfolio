@@ -9,6 +9,13 @@
 // impossible. Diagnostics ARE printed normally when linting a real file path,
 // so both the "now" and "before" contents are written to a temporary sibling
 // file under src/ and linted by path instead of via stdin.
+//
+// Counting: uses `biome lint <file> --reporter=json` and counts every entry
+// in the JSON `diagnostics` array (any category, any severity). A previous
+// version matched the human-readable output against /lint\/[a-zA-Z]+\/[a-zA-Z]+/g,
+// which never matches category names containing digits (e.g. `lint/a11y/*`)
+// or non-`lint/*` categories (e.g. `suppressions/unused`) — silently letting
+// those diagnostics through uncounted.
 import { execFileSync, spawnSync } from "node:child_process";
 import { randomBytes } from "node:crypto";
 import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
@@ -29,8 +36,12 @@ function count(content, file) {
   const tmpFile = path.join(scratch, `${randomBytes(4).toString("hex")}-${path.basename(file)}`);
   writeFileSync(tmpFile, content);
   try {
-    const r = spawnSync(process.execPath, [BIOME, "lint", tmpFile], { encoding: "utf8" });
-    return ((r.stdout ?? "") + (r.stderr ?? "")).match(/lint\/[a-zA-Z]+\/[a-zA-Z]+/g)?.length ?? 0;
+    const r = spawnSync(process.execPath, [BIOME, "lint", tmpFile, "--reporter=json"], {
+      encoding: "utf8",
+    });
+    const stdout = r.stdout ?? "";
+    const json = JSON.parse(stdout);
+    return json.diagnostics?.length ?? 0;
   } finally {
     rmSync(tmpFile, { force: true });
   }
