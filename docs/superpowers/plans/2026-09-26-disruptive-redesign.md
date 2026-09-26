@@ -19,9 +19,20 @@ npm ci --no-audit --no-fund
 ```
 Usa del Plan 1: `playwright.config.ts`, `tests/e2e/helpers.ts` (`ROUTES`, `measureCLS`), `scripts/perf/lighthouse.mjs`, `scripts/perf/report.mjs`, `LazyVideo`, `YouTubeFacade`, `routeEnabled`.
 
+## Ejecución y puntos de control
+
+- Modo: **subagent-driven**. Un implementador y un revisor por tarea, más una revisión final de la rama.
+- **Si una tarea no pasa la revisión dos veces seguidas: detenerse y reportar a Erick.**
+- **Antes de la Task 1:** rebasar sobre `main` si el merge de `perf/quick-wins` ya ocurrió; si no, sobre `perf/quick-wins`. Así el rediseño parte de los assets optimizados.
+- **CP2 (tras la Task 13, Fase B + Home):** push de la rama y Preview para que Erick vea el primer momento firma en celular y desktop. **No seguir con Work (Task 14) sin su aprobación.** Entregar un resumen corto: tareas hechas, commits e ideas descartadas.
+- **CP3 (Task 22, fin de la Fase D):** Preview final, reporte completo y resumen de fase. Merge solo con aprobación.
+- Al cerrar cada fase (B, C, D), resumen corto: tareas hechas, commits e ideas descartadas.
+
 ## Global Constraints
 
 - Rama `feat/disruptive-redesign` (worktree `.claude/worktrees/disruptive-redesign`). **Nunca commit a `main`. Merge solo con aprobación explícita de Erick.**
+- **Biome gate** antes de cada commit: `npx @biomejs/biome check src --max-diagnostics=0` sin errores **y** `node scripts/quality/biome-gate.mjs HEAD` sin warnings nuevos en los archivos tocados.
+- DevDependencies con versión exacta (`npm i -D -E`). Nunca `postinstall` ni `playwright install` en `package.json`.
 - Commits atómicos (`feat:`, `perf:`, `fix:`, `test:`, `docs:`, `refactor:`). Cada mensaje termina con `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>`.
 - Gates antes de cada push: `npm run build`, `npx tsc --noEmit` y `npx @biomejs/biome check src` con 0 errores.
 - **Solo se animan `transform` y `opacity`.** Nada de width/height/top/left/color/filter en animaciones nuevas.
@@ -130,7 +141,8 @@ for (const [name, pagePath] of selected) {
 - [ ] **Step 2: devDep y scripts**
 
 ```bash
-npm i -D web-vitals@4
+npm i -D -E web-vitals@4
+node -e "console.log(require('./package.json').devDependencies['web-vitals'])"   # sin ^ ni ~
 ```
 En `package.json` → `scripts`:
 ```json
@@ -3061,11 +3073,31 @@ import { GlowTrack, Magnetic } from "@/components/motion";
     </GlowTrack>
 ```
 - Quitar `test.fixme` de `tests/e2e/pointer-fx.spec.ts`.
+- La ficha no muestra avatares del equipo (aprobado). **El crédito al equipo debe seguir visible en el caso de estudio.** Añadir `tests/e2e/team-credit.spec.ts`:
+```ts
+import { readFileSync, readdirSync } from "node:fs";
+import path from "node:path";
+import { expect, test } from "@playwright/test";
+
+const dir = "src/app/work/projects";
+const withTeam = readdirSync(dir)
+  .filter((f) => f.endsWith(".mdx"))
+  .map((f) => ({ slug: f.replace(/\.mdx$/, ""), src: readFileSync(path.join(dir, f), "utf8") }))
+  .map(({ slug, src }) => ({ slug, names: [...src.matchAll(/^\s+- name: "([^"]+)"/gm)].map((m) => m[1]) }))
+  .filter((p) => p.names.length > 0);
+
+for (const p of withTeam) {
+  test(`team credit visible on /work/${p.slug}`, async ({ page }) => {
+    await page.goto(`/work/${p.slug}`);
+    for (const name of p.names) await expect(page.getByText(name, { exact: true }).first()).toBeVisible();
+  });
+}
+```
 
 - [ ] **Step 3: Verificar**
 
 ```bash
-npm run build && npx playwright test --project=chromium --project=mobile-chromium --project=webkit tests/e2e/pointer-fx.spec.ts tests/e2e/view-transitions.spec.ts tests/e2e/cls.spec.ts tests/e2e/no-broken-images.spec.ts
+npm run build && npx playwright test --project=chromium --project=mobile-chromium --project=webkit tests/e2e/pointer-fx.spec.ts tests/e2e/team-credit.spec.ts tests/e2e/view-transitions.spec.ts tests/e2e/cls.spec.ts tests/e2e/no-broken-images.spec.ts
 ```
 Manual: en Home desktop, clic en la imagen destacada → la imagen se transforma en el hero del caso de estudio (se completa en la Task 15; aquí se verifica que la navegación funciona y no hay nombres duplicados).
 
@@ -3149,6 +3181,14 @@ git commit -m "feat: hand off from the IntroLoader to the hero animations
 
 Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
 ```
+
+- [ ] **Step 4: CP2 — Preview de la Fase B + Home y ESPERA**
+
+1. Gates completos (build, tsc, Biome gate, `npm run test:unit && npm run test:e2e`).
+2. `LH_PAGES=home LH_TAG=cp2-local npm run perf:lh` y `npm run perf:report -- cp2-local base-local`.
+3. `git push -u origin feat/disruptive-redesign` y URL del Preview (mismo procedimiento que el Plan 1, Task 11, Steps 6–7, incluido el bypass de Deployment Protection si hace falta).
+4. Mensaje a Erick con: resumen de la Fase B y la Home (tareas hechas, `git log --oneline perf/quick-wins..HEAD` o `main..HEAD`, ideas descartadas), tabla de Lighthouse de Home, URL del Preview y qué mirar en celular y desktop (hero tras el intro, riel y ramas en ≥1024px, líneas horizontales en móvil, video acoplado, ficha técnica, CTA).
+5. **No empezar la Task 14 sin aprobación.**
 
 ---
 
@@ -3750,13 +3790,39 @@ test("clicking a Work row morphs into the case study (shared element present in 
   await expect(page.locator("h1")).toContainText("LeadBot");
 });
 
-test("results stats keep their exact values for assistive tech", async ({ page }) => {
-  await page.goto("/work/quick-metal-shop-viral-videos");
-  const stats = page.locator("[data-results-stats] [data-stat-value]");
-  if ((await stats.count()) === 0) test.skip(true, "this case study has no ResultsStats");
-  const first = await stats.first().textContent();
-  expect(first?.trim().length).toBeGreaterThan(0);
-});
+// Every ResultsStats value must end as the exact MDX string, character by character.
+// (Move these two imports to the top of the file, next to the @playwright/test import.)
+import { readFileSync, readdirSync } from "node:fs";
+import path from "node:path";
+
+const DIR = "src/app/work/projects";
+const statsBySlug = readdirSync(DIR)
+  .filter((f) => f.endsWith(".mdx"))
+  .map((f) => {
+    const src = readFileSync(path.join(DIR, f), "utf8");
+    const values = [...src.matchAll(/<ResultsStats[^>]*data="([^"]+)"/g)].flatMap((m) =>
+      m[1].split("|").map((s) => s.trim()).filter((_, i) => i % 2 === 0),
+    );
+    return { slug: f.replace(/\.mdx$/, ""), values };
+  })
+  .filter((p) => p.values.length > 0);
+
+for (const p of statsBySlug) {
+  test(`ResultsStats on /work/${p.slug} end exactly as written in the MDX`, async ({ page }) => {
+    await page.goto(`/work/${p.slug}`);
+    const stats = page.locator("[data-results-stats] [data-stat-value]");
+    await stats.first().scrollIntoViewIfNeeded();
+    await page.waitForTimeout(1200); // > DecodeText duration
+    const shown = await stats.evaluateAll((els) =>
+      els.map((el) => ({
+        value: el.querySelector("[class*='value']")?.textContent ?? "",
+        overlay: el.querySelector("[aria-hidden='true']")?.textContent ?? "",
+      })),
+    );
+    expect(shown.map((s) => s.value)).toEqual(p.values);
+    expect(shown.every((s) => s.overlay === "")).toBe(true);
+  });
+}
 ```
 
 - [ ] **Step 2: Hero con nombre estático**
@@ -3825,14 +3891,27 @@ test("each experience node fills when it crosses the center", async ({ page }) =
   expect(Number(fill)).toBeGreaterThan(0.9);
 });
 
-test("TOC shows mono indices and moves the node with transform", async ({ page }) => {
+test("TOC is numbered anchor navigation that marks the active section", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto("/about");
-  await expect(page.locator("[data-toc-index]").first()).toHaveText("01");
-  await page.locator("h2#Work\\ Experience, h2[id='Work Experience']").first().scrollIntoViewIfNeeded();
+  const nav = page.getByRole("navigation", { name: "On this page" });
+  const links = nav.getByRole("link");
+  await expect(links.first()).toHaveAttribute("href", "#Introduction");
+  await expect(nav.locator("[data-toc-index]").first()).toHaveText("01");
+  await page.locator("[id='Work Experience']").first().scrollIntoViewIfNeeded();
   await page.waitForTimeout(400);
+  await expect(nav.locator("a[aria-current='true']")).toHaveCount(1);
   const t = await page.locator("[data-toc-node]").evaluate((el) => getComputedStyle(el).transform);
   expect(t).not.toBe("none");
+});
+
+test.describe("TOC without JavaScript", () => {
+  test.use({ javaScriptEnabled: false, viewport: { width: 1440, height: 900 } });
+  test("anchors still navigate to their section", async ({ page }) => {
+    await page.goto("/about");
+    await page.getByRole("navigation", { name: "On this page" }).getByRole("link").nth(1).click();
+    await expect(page).toHaveURL(/#Work%20Experience$/);
+  });
 });
 
 test("reduced motion: timeline fully drawn and nodes filled", async ({ page }) => {
@@ -4019,31 +4098,27 @@ const TableOfContents: React.FC<TableOfContentsProps> = ({ structure, about }) =
     return () => observer.disconnect();
   }, [sections]);
 
-  const scrollTo = (id: string, offset: number) => {
-    const element = document.getElementById(id);
-    if (!element) return;
-    window.scrollTo({ top: element.getBoundingClientRect().top + window.scrollY - offset, behavior: "smooth" });
-  };
-
   if (!about.tableOfContent.display) return null;
 
+  // Plain in-page anchors: they work without JS, can be shared/bookmarked and are
+  // announced as navigation. The sticky-header offset comes from scroll-margin-top
+  // on the section headings (about.module.scss), so no click handler is needed.
   return (
     <Column left="0" style={{ top: "50%", transform: "translateY(-50%)", whiteSpace: "nowrap" }} position="fixed" paddingLeft="24" m={{ hide: true }}>
       <nav aria-label="On this page" className={styles.toc}>
         <span aria-hidden="true" className={styles.tocNode} data-toc-node="" style={{ transform: `translateY(${active * ITEM}px) rotate(45deg)` }} />
         {sections.map((section, i) => (
-          <button
-            type="button"
+          <a
             key={section.title}
+            href={`#${encodeURIComponent(section.title)}`}
             className={styles.tocItem}
             aria-current={i === active ? "true" : undefined}
-            onClick={() => scrollTo(section.title, 80)}
           >
             <span className={styles.tocIndex} data-toc-index="">
               {String(i + 1).padStart(2, "0")}
             </span>
             <Text>{section.title}</Text>
-          </button>
+          </a>
         ))}
       </nav>
     </Column>
@@ -4052,7 +4127,15 @@ const TableOfContents: React.FC<TableOfContentsProps> = ({ structure, about }) =
 
 export default TableOfContents;
 ```
-Además de numerar, convierte los ítems de `Flex onClick` a `<button>` (accesibles por teclado). La opción `subItems` estaba desactivada (`about.tableOfContent.subItems: false`); se elimina su render y se documenta en el commit. Si se reactiva algún día, se reincorpora.
+Los ítems pasan de `Flex onClick` a enlaces `<a href="#…">` numerados, con `aria-current="true"` en el activo. La opción `subItems` estaba desactivada (`about.tableOfContent.subItems: false`), así que se elimina su render (aprobado) y se documenta en el commit. `ViewTransitions` no intercepta estos enlaces (mismo pathname + hash), así que usan el salto nativo. Borrar de `TableOfContents.tsx` los imports que queden sin uso (`Flex`).
+
+Añadir a `about.module.scss` el offset del header para los destinos de ancla:
+```scss
+.anchorTarget {
+  scroll-margin-top: 80px;
+}
+```
+y aplicar `className={styles.anchorTarget}` a los `Heading`/`Column` con `id={about.intro.title}`, `id={about.work.title}`, `id={about.studies.title}`, `id={about.certifications.title}` y `id={about.technical.title}` en `about/page.tsx`. Si el componente ya tiene `className`, concatenarlo.
 
 Estilos (añadir a `about.module.scss`):
 
@@ -4072,8 +4155,8 @@ Estilos (añadir a `about.module.scss`):
   transition: transform var(--dur-s) var(--ease-precise);
 }
 .tocItem {
-  all: unset;
   display: flex;
+  text-decoration: none;
   gap: 12px;
   align-items: center;
   height: 36px;
@@ -4708,9 +4791,10 @@ Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
 3. Obtener la URL del Preview con el mismo procedimiento que la Task 11 (Steps 6–7) del Plan 1, incluido el caso de Deployment Protection (token de *Protection Bypass for Automation*; no desactivarla).
 4. `LH_BASE_URL=<preview> LH_TAG=redesign-preview npm run perf:lh` y añadir la tabla del Preview al reporte (commit `docs:` + push).
 
-- [ ] **Step 7: Entrega a Erick y ESPERA**
+- [ ] **Step 7: CP3 — entrega a Erick y ESPERA**
 
 Mensaje con:
+0. Resumen corto de las Fases C y D: tareas hechas, commits e ideas descartadas.
 1. URL del Preview.
 2. Enlace a `docs/perf-report.md`, con la tabla resumida en el mensaje.
 3. Resumen por página.
