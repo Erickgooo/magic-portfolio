@@ -134,7 +134,6 @@ export default function Home() {
             <LazyVideo
               data-testid="home-video"
               src="/videohome.mp4"
-              webm="/videohome.webm"
               poster="/images/videohome-poster.webp"
               width={1280}
               height={720}
