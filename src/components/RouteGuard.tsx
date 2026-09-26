@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
+import NotFound from "@/app/not-found";
 import { routes } from "@/resources";
 import { Flex, Spinner } from "@once-ui-system/core";
-import NotFound from "@/app/not-found";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
 interface RouteGuardProps {
   children: React.ReactNode;

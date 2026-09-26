@@ -1,6 +1,6 @@
-import { Column, Heading, Text, Meta, Schema } from "@once-ui-system/core";
 import GalleryView from "@/components/gallery/GalleryView";
 import { baseURL, gallery, person } from "@/resources";
+import { Column, Heading, Meta, Schema, Text } from "@once-ui-system/core";
 
 export async function generateMetadata() {
   return Meta.generate({
@@ -42,8 +42,8 @@ export default function Gallery() {
 
         <Text variant="body-default-l" onBackground="neutral-weak">
           This section collects paid ad creatives, short-form video, and AI-generated content
-          produced for real campaigns. Each piece was built around a specific platform context and commercial
-          objective.
+          produced for real campaigns. Each piece was built around a specific platform context and
+          commercial objective.
         </Text>
 
         <Text variant="body-default-l" onBackground="neutral-weak">

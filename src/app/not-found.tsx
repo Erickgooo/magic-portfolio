@@ -1,5 +1,5 @@
-import { Column, Row, Heading, Text, Button } from "@once-ui-system/core";
 import { EMIcon } from "@/resources/EMIcon";
+import { Button, Column, Heading, Row, Text } from "@once-ui-system/core";
 
 export default function NotFound() {
   return (
@@ -18,8 +18,7 @@ export default function NotFound() {
         This page hasn't been built yet.
       </Heading>
       <Text onBackground="neutral-weak" align="center">
-        Everything else here was designed and shipped from zero — this URL just wasn't one of
-        them.
+        Everything else here was designed and shipped from zero — this URL just wasn't one of them.
       </Text>
       <Row paddingTop="16">
         <Button href="/" variant="secondary" size="m" arrowIcon>

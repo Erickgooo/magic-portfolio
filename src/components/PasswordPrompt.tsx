@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
 import { Button, Column, Heading, PasswordInput, Text } from "@once-ui-system/core";
+import { useState } from "react";
 
 /**
  * Password form for routes gated by middleware.ts. On success the page is

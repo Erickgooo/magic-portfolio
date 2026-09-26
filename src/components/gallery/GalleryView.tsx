@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { Media, MasonryGrid, Flex, Text, Icon, Dialog, Carousel } from "@once-ui-system/core";
 import { gallery } from "@/resources";
+import { Carousel, Dialog, Flex, Icon, MasonryGrid, Media, Text } from "@once-ui-system/core";
+import { useEffect, useRef, useState } from "react";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 type RawImage = (typeof gallery.images)[number];
@@ -86,9 +86,7 @@ function HoverWrapper({
         cursor: onClick ? "pointer" : "default",
         transform: hovered ? "scale(1.025)" : "scale(1)",
         transition: "transform 0.25s ease, box-shadow 0.25s ease",
-        boxShadow: hovered
-          ? "0 8px 32px rgba(0,0,0,0.35)"
-          : "0 2px 8px rgba(0,0,0,0.12)",
+        boxShadow: hovered ? "0 8px 32px rgba(0,0,0,0.35)" : "0 2px 8px rgba(0,0,0,0.12)",
       }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -152,9 +150,7 @@ function YouTubeCell({ item }: { item: Extract<GalleryItem, { type: "youtube" }>
         aspectRatio,
         transform: hovered ? "scale(1.025)" : "scale(1)",
         transition: "transform 0.25s ease, box-shadow 0.25s ease",
-        boxShadow: hovered
-          ? "0 8px 32px rgba(0,0,0,0.35)"
-          : "0 2px 8px rgba(0,0,0,0.12)",
+        boxShadow: hovered ? "0 8px 32px rgba(0,0,0,0.35)" : "0 2px 8px rgba(0,0,0,0.12)",
       }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}

@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useRef } from "react";
 import { EMIcon } from "@/resources/EMIcon";
+import { useEffect, useRef } from "react";
 
 interface AutoplayVideoProps {
   src: string;

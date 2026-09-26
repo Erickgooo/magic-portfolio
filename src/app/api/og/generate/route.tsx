@@ -1,7 +1,7 @@
-import { ImageResponse } from "next/og";
 import { baseURL, person } from "@/resources";
-import { EM_MARK_DATA_URI } from "./mark";
 import { RateLimiter, getClientIp } from "@/utils/rateLimit";
+import { ImageResponse } from "next/og";
+import { EM_MARK_DATA_URI } from "./mark";
 
 export const runtime = "nodejs";
 
@@ -20,8 +20,8 @@ export async function GET(request: Request) {
     });
   }
 
-  let url = new URL(request.url);
-  let title = (url.searchParams.get("title") || "Portfolio").slice(0, TITLE_MAX_CHARS);
+  const url = new URL(request.url);
+  const title = (url.searchParams.get("title") || "Portfolio").slice(0, TITLE_MAX_CHARS);
 
   async function loadGoogleFont(font: string) {
     const url = `https://fonts.googleapis.com/css2?family=${font}`;
@@ -30,7 +30,7 @@ export async function GET(request: Request) {
 
     if (resource) {
       const response = await fetch(resource[1]);
-      if (response.status == 200) {
+      if (response.status === 200) {
         return await response.arrayBuffer();
       }
     }
@@ -91,6 +91,7 @@ export async function GET(request: Request) {
         >
           <img
             src={baseURL + person.avatar}
+            alt={person.name}
             style={{
               width: "12rem",
               height: "12rem",

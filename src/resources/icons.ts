@@ -1,65 +1,65 @@
-import { IconType } from "react-icons";
+import type { IconType } from "react-icons";
 
 import {
-  HiArrowUpRight,
-  HiOutlineLink,
-  HiArrowTopRightOnSquare,
-  HiEnvelope,
-  HiCalendarDays,
   HiArrowRight,
+  HiArrowTopRightOnSquare,
+  HiArrowUpRight,
+  HiCalendarDays,
+  HiEnvelope,
+  HiOutlineDocument,
   HiOutlineEye,
   HiOutlineEyeSlash,
-  HiOutlineDocument,
   HiOutlineGlobeAsiaAustralia,
+  HiOutlineLink,
   HiOutlineRocketLaunch,
 } from "react-icons/hi2";
 
 import {
-  PiHouseDuotone,
-  PiUserCircleDuotone,
-  PiGridFourDuotone,
   PiBookBookmarkDuotone,
-  PiImageDuotone,
   PiChatCircleTextDuotone,
+  PiGridFourDuotone,
+  PiHouseDuotone,
+  PiImageDuotone,
+  PiUserCircleDuotone,
 } from "react-icons/pi";
 
 import {
-  SiJavascript,
-  SiNextdotjs,
+  SiCanvas,
+  SiClaude,
+  SiDavinciresolve,
+  SiElevenlabs,
   SiFigma,
+  SiGoogleanalytics,
+  SiGooglegemini,
+  SiGooglesearchconsole,
+  SiJavascript,
+  SiMeta,
+  SiNetlify,
+  SiNextdotjs,
+  SiOdoo,
+  SiPython,
+  SiShopify,
   SiSupabase,
   SiTypescript,
-  SiZapier,
-  SiOdoo,
-  SiMeta,
-  SiCanvas,
-  SiShopify,
-  SiWordpress,
-  SiNetlify,
   SiVercel,
-  SiPython,
-  SiGoogleanalytics,
-  SiGooglesearchconsole,
-  SiElevenlabs,
-  SiDavinciresolve,
-  SiGooglegemini,
-  SiClaude,
+  SiWordpress,
+  SiZapier,
 } from "react-icons/si";
 
 import { EMIcon } from "./EMIcon";
 
 import {
   FaDiscord,
+  FaFacebook,
   FaGithub,
   FaLinkedin,
-  FaX,
-  FaThreads,
-  FaXTwitter,
-  FaFacebook,
   FaPinterest,
-  FaWhatsapp,
   FaReddit,
   FaTelegram,
+  FaThreads,
+  FaWhatsapp,
+  FaX,
+  FaXTwitter,
 } from "react-icons/fa6";
 
 export const iconLibrary: Record<string, IconType> = {

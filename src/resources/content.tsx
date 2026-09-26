@@ -1,11 +1,11 @@
-import { About, Blog, Gallery, Home, Newsletter, Person, Social, Work } from "@/types";
+import type { About, Blog, Gallery, Home, Newsletter, Person, Social, Work } from "@/types";
 import { Line, Logo, Row, Text } from "@once-ui-system/core";
 import { Metric } from "./Metric";
 
 const person: Person = {
   firstName: "Erick Santiago",
   lastName: "Mahecha Tafur",
-  name: `Erick Mahecha`,
+  name: "Erick Mahecha",
   role: "Growth Marketing & AI Automation Specialist",
   avatar: "/images/avatar.jpg",
   email: "santiagomahecha2328@gmail.com",
@@ -47,8 +47,11 @@ const home: Home = {
   title: `${person.name}'s Portfolio`,
   // Manual §1.3 (precisión sobre exageración): every value statement carries a
   // concrete figure. Mirrors the short bio in §1.4.
-  description: `I build complete growth systems for founders: AI content pipelines, CRM automation and paid media. ROAS 3.92x · 338K+ organic views at $0 ad spend · $3.45 cost per lead in technical B2B.`,
-  headline: <>I Build Marketing Infrastructure From Zero. And Make It Outperform Full Departments.</>,
+  description:
+    "I build complete growth systems for founders: AI content pipelines, CRM automation and paid media. ROAS 3.92x · 338K+ organic views at $0 ad spend · $3.45 cost per lead in technical B2B.",
+  headline: (
+    <>I Build Marketing Infrastructure From Zero. And Make It Outperform Full Departments.</>
+  ),
   featured: {
     display: true,
     title: (
@@ -122,19 +125,17 @@ const about: About = {
         place to start. It's also an unusually useful one.
         <br />
         <br />
-        That operational foundation pushed me toward a different kind of marketing. Not just
-        running campaigns, but redesigning how businesses attract, qualify, and convert customers. I
-        became focused on one question: what can be automated, and what's the cost of not automating
-        it?
+        That operational foundation pushed me toward a different kind of marketing. Not just running
+        campaigns, but redesigning how businesses attract, qualify, and convert customers. I became
+        focused on one question: what can be automated, and what's the cost of not automating it?
         <br />
         <br />
         The answer has taken different shapes across different projects. An AI-powered WhatsApp
         chatbot that handled <Metric>85%</Metric> of inbound conversations autonomously for Artesa.
         A full marketing department built from scratch for Quick Metal Shop (brand identity, paid
-        media, SEO automation, CRM integration, and a custom-built trade show application deployed in{" "}
-        <Metric>48</Metric> hours).
-        A complete rebranding and content automation system for Dakoma Roofing, delivered as a
-        one-person freelance engagement.
+        media, SEO automation, CRM integration, and a custom-built trade show application deployed
+        in <Metric>48</Metric> hours). A complete rebranding and content automation system for
+        Dakoma Roofing, delivered as a one-person freelance engagement.
         <br />
         <br />
         What connects all of it is the same approach: start with the operational reality, identify
@@ -162,10 +163,21 @@ const about: About = {
         timeframe: "July 2026 - Present",
         role: "Growth & Operations Lead",
         achievements: [
-          <>Leading retention strategy and conversion funnel optimization through RFM models and CRM automation.</>,
-          <>Implementing and managing generative AI solutions and virtual assistants across client operations.</>,
-          <>Overseeing Meta Ads campaigns and WhatsApp Business API communications for client accounts.</>,
-          <>Monitoring KPIs and managing client accounts to ensure on-time, high-quality delivery.</>,
+          <>
+            Leading retention strategy and conversion funnel optimization through RFM models and CRM
+            automation.
+          </>,
+          <>
+            Implementing and managing generative AI solutions and virtual assistants across client
+            operations.
+          </>,
+          <>
+            Overseeing Meta Ads campaigns and WhatsApp Business API communications for client
+            accounts.
+          </>,
+          <>
+            Monitoring KPIs and managing client accounts to ensure on-time, high-quality delivery.
+          </>,
           <>
             Leading and mentoring a <Metric>2-person</Metric> operations team.
           </>,
@@ -222,9 +234,8 @@ const about: About = {
           <>
             Designed, developed, and deployed a custom full-stack interactive gallery web
             application in under <Metric>48</Metric> hours for ArquiExpo 2026. Built with Next.js,
-            deployed on
-            Netlify, optimized for a vertical touchscreen interface, and fully responsive across all
-            devices including iOS Safari.
+            deployed on Netlify, optimized for a vertical touchscreen interface, and fully
+            responsive across all devices including iOS Safari.
           </>,
         ],
         images: [],
@@ -580,7 +591,8 @@ const work: Work = {
   path: "/work",
   label: "Projects",
   title: `Projects – ${person.name}`,
-  description: `AI systems, automation workflows, and marketing infrastructure built by Erick Mahecha`,
+  description:
+    "AI systems, automation workflows, and marketing infrastructure built by Erick Mahecha",
   // Create new project pages by adding a new .mdx file to app/blog/posts
   // All projects will be listed on the /home and /work routes
 };
@@ -903,7 +915,7 @@ const gallery: Gallery = {
     },
     {
       src: "/images/gallery/libres.png",
-      alt: "Quick Metal Shop Juneteenth post: a breaking steel chain over the line \"Libres. Hoy y siempre.\"",
+      alt: 'Quick Metal Shop Juneteenth post: a breaking steel chain over the line "Libres. Hoy y siempre."',
       orientation: "square",
     },
     {

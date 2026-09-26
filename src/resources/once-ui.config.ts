@@ -1,4 +1,4 @@
-import {
+import type {
   DataStyleConfig,
   DisplayConfig,
   EffectsConfig,
@@ -36,7 +36,7 @@ import { protectedRoutes } from "./protectedRoutes";
 
 // Import and set font for each variant — Manual de Marca, Sección 04:
 // Space Grotesk (titulares), Inter (cuerpo/label), JetBrains Mono (datos).
-import { Space_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
+import { Inter, JetBrains_Mono, Space_Grotesk } from "next/font/google";
 
 const heading = Space_Grotesk({
   variable: "--font-heading",

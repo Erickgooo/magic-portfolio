@@ -1,5 +1,5 @@
-import { getPosts } from "@/utils/utils";
 import { baseURL, blog, person } from "@/resources";
+import { getPosts } from "@/utils/utils";
 import { NextResponse } from "next/server";
 
 /** Escape text interpolated into XML so titles containing &, < or > cannot break the feed. */

@@ -1,20 +1,20 @@
-import {
-  Heading,
-  Text,
-  Button,
-  Avatar,
-  RevealFx,
-  Column,
-  Badge,
-  Row,
-  Schema,
-  Meta,
-} from "@once-ui-system/core";
-import { home, about, person, baseURL, routes } from "@/resources";
 import { CallToAction, Mailchimp, NodeDivider } from "@/components";
-import { Projects } from "@/components/work/Projects";
 import { Posts } from "@/components/blog/Posts";
 import { AutoplayVideo } from "@/components/home/AutoplayVideo";
+import { Projects } from "@/components/work/Projects";
+import { about, baseURL, home, person, routes } from "@/resources";
+import {
+  Avatar,
+  Badge,
+  Button,
+  Column,
+  Heading,
+  Meta,
+  RevealFx,
+  Row,
+  Schema,
+  Text,
+} from "@once-ui-system/core";
 
 export async function generateMetadata() {
   return Meta.generate({

@@ -1,3 +1,6 @@
+import TableOfContents from "@/components/about/TableOfContents";
+import styles from "@/components/about/about.module.scss";
+import { about, baseURL, person, sameAs, social } from "@/resources";
 import {
   Avatar,
   Button,
@@ -7,16 +10,13 @@ import {
   Icon,
   IconButton,
   Media,
+  Meta,
+  Row,
+  Schema,
+  SmartLink,
   Tag,
   Text,
-  Meta,
-  Schema,
-  Row,
-  SmartLink,
 } from "@once-ui-system/core";
-import { baseURL, about, person, sameAs, social } from "@/resources";
-import TableOfContents from "@/components/about/TableOfContents";
-import styles from "@/components/about/about.module.scss";
 import React from "react";
 
 export async function generateMetadata() {

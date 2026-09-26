@@ -35,7 +35,7 @@ function parseValue(raw: string): { numericPart: number; suffix: string; prefix:
   const match = cleanStr.match(/^([\d,\.]+)([KkMmBb+%]*)(.*)$/);
   if (!match) return { numericPart: 0, suffix: str, prefix: "" };
   const rawNum = match[1].replace(/,/g, "");
-  const numericPart = parseFloat(rawNum) || 0;
+  const numericPart = Number.parseFloat(rawNum) || 0;
   const suffix = (match[2] + match[3]).trim();
   return { numericPart, suffix, prefix: hasDollar ? "$" : "" };
 }
@@ -79,7 +79,7 @@ function AnimatedStat({ stat }: { stat: Stat }) {
           function tick(now: number) {
             const elapsed = now - start;
             const progress = Math.min(elapsed / duration, 1);
-            const eased = 1 - Math.pow(1 - progress, 3);
+            const eased = 1 - (1 - progress) ** 3;
             setDisplayed(eased * numericPart);
             if (progress < 1) {
               rafRef.current = requestAnimationFrame(tick);
@@ -93,7 +93,7 @@ function AnimatedStat({ stat }: { stat: Stat }) {
           rafRef.current = requestAnimationFrame(tick);
         }
       },
-      { threshold: 0.3 }
+      { threshold: 0.3 },
     );
 
     observer.observe(el);
@@ -162,6 +162,7 @@ export function ResultsStats({ data, title }: ResultsStatsProps) {
       <div className={styles.carouselWrapper}>
         {hasOverflow && (
           <button
+            type="button"
             className={`${styles.arrow} ${styles.arrowLeft} ${
               !canScrollLeft ? styles.arrowDisabled : ""
             }`}
@@ -182,6 +183,7 @@ export function ResultsStats({ data, title }: ResultsStatsProps) {
         </div>
         {hasOverflow && (
           <button
+            type="button"
             className={`${styles.arrow} ${styles.arrowRight} ${
               !canScrollRight ? styles.arrowDisabled : ""
             }`}
