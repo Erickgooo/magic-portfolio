@@ -1,6 +1,6 @@
 import { CallToAction, Mailchimp, NodeDivider } from "@/components";
 import { Posts } from "@/components/blog/Posts";
-import { AutoplayVideo } from "@/components/home/AutoplayVideo";
+import { LazyVideo } from "@/components/home/LazyVideo";
 import { Projects } from "@/components/work/Projects";
 import { about, baseURL, home, person, routes } from "@/resources";
 import {
@@ -131,15 +131,15 @@ export default function Home() {
             </Button>
           </RevealFx>
           <RevealFx translateY="12" delay={0.5} fillWidth horizontal="center" paddingTop="32">
-            <AutoplayVideo
+            <LazyVideo
+              data-testid="home-video"
               src="/videohome.mp4"
+              webm="/videohome.webm"
               poster="/images/videohome-poster.webp"
+              width={1280}
+              height={720}
+              label="Play showreel"
               watermark
-              style={{
-                maxWidth: "100%",
-                borderRadius: "12px",
-                border: "1px solid rgba(255,255,255,0.1)",
-              }}
             />
           </RevealFx>
         </Column>
