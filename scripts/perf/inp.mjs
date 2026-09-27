@@ -1,16 +1,20 @@
 // Lab INP: mobile viewport, 4x CPU throttling, real (trusted) Playwright input.
 // Reports web-vitals INP per page plus long tasks (>50 ms) observed while scrolling.
 import { readFileSync } from "node:fs";
-import { createRequire } from "node:module";
+import path from "node:path";
 import { chromium, devices } from "@playwright/test";
 
-const require = createRequire(import.meta.url);
-const WEB_VITALS = readFileSync(require.resolve("web-vitals/dist/web-vitals.iife.js"), "utf8");
+// web-vitals' package "exports" don't expose the IIFE build, so read it by path.
+const WEB_VITALS = readFileSync(
+  path.join(process.cwd(), "node_modules", "web-vitals", "dist", "web-vitals.iife.js"),
+  "utf8",
+);
 const BASE = process.env.INP_BASE_URL ?? "http://localhost:3100";
 
 const SCENARIOS = {
   home: async (page) => {
-    await page.locator("header a[href='/work']").first().click();
+    // Mobile viewport: only the icon variant is visible; it carries the accessible name.
+    await page.locator("header").getByRole("link", { name: "Projects" }).click();
     await page.waitForURL("**/work");
   },
   work: async (page) => {
