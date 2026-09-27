@@ -1,28 +1,22 @@
-// Server-only font declarations — Manual de Marca, Sección 04:
+// Font declarations — Manual de Marca, Sección 04:
 // Space Grotesk (titulares), Inter (cuerpo/label), JetBrains Mono (datos).
 //
-// This module is owned by the root layout (imported only from
-// src/app/layout.tsx) so the three font instances have a single, obvious
-// source of truth, and `@/resources/once-ui.config.ts` merely re-exports
-// them for backward compatibility (Task 11b).
+// The three font instances live here as a single, obvious source of truth.
+// `@/resources/once-ui.config.ts` re-exports them (Task 11b), and that
+// barrel is imported by several client components (e.g. Header.tsx), so
+// this module is NOT server-only — treat it as shared code.
 //
-// Task 11b root cause (verified, not the module-location theory): the
-// built HTML had zero `<link rel="preload" as="font">` tags on this
-// machine regardless of which module held these calls — moving them here
-// alone did not fix it. Inspecting `.next/server/next-font-manifest.json`
-// showed `"app": {}` (always empty), and the webpack module-graph request
-// string for next/font-processed modules on Windows uses backslashes
+// next/font emits `<link rel="preload" as="font">` tags for these
+// declarations on Linux builds (verified in production/Vercel). Local
+// Windows builds do not emit them: `.next/server/next-font-manifest.json`
+// stays `"app": {}` because the webpack module-graph request string for
+// next/font-processed modules on Windows uses backslashes
 // (`...\next-font-loader\index.js?...`), while
 // `next/dist/build/webpack/plugins/next-font-manifest-plugin.js` tests
 // `mod.request.includes('/next-font-loader/index.js?')` — a
-// forward-slash-only substring. That check can never match on Windows, so
-// the manifest is never populated and no preload/preconnect is ever
-// emitted, independent of our source layout (matches vercel/next.js#57008,
-// reproduced with three different module structures during this task).
-// the Windows-only Next.js bug (vercel/next.js#57008) prevents font preload
-// emission in local Windows builds only; production (Linux/Vercel) is
-// unaffected; a temporary local patch was tried for measurement and not shipped
-// — see docs/perf-report.md
+// forward-slash-only substring that can never match on Windows (matches
+// vercel/next.js#57008). This is a build-host artefact, independent of
+// which module holds these declarations — see docs/perf-report.md.
 import { Inter, JetBrains_Mono, Space_Grotesk } from "next/font/google";
 
 export const heading = Space_Grotesk({

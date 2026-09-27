@@ -34,11 +34,11 @@ const display: DisplayConfig = {
 // Defined in ./protectedRoutes so middleware.ts can import it standalone.
 import { protectedRoutes } from "./protectedRoutes";
 
-// Font instances live in src/app/fonts.ts (a server-only module owned by
-// the root layout, per Task 11b — see that file for the preload root
-// cause). Re-exported here only for API compatibility — no runtime code
-// currently imports `fonts` through @/resources; layout.tsx imports the
-// three instances directly from @/app/fonts for its className.
+// Font instances live in src/app/fonts.ts (Task 11b — see that file for
+// the preload details). Re-exported here for API compatibility; this
+// barrel (@/resources) is imported by client components (e.g.
+// src/components/Header.tsx), so these font instances are not
+// server-only despite living under src/app.
 import { body, code, heading } from "@/app/fonts";
 
 const fonts: FontsConfig = {
