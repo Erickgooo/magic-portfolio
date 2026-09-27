@@ -1,7 +1,7 @@
 import { CallToAction, Mailchimp } from "@/components";
 import { Posts } from "@/components/blog/Posts";
-import styles from "@/components/home/Home.module.scss";
 import { DockFrame } from "@/components/home/DockFrame";
+import styles from "@/components/home/Home.module.scss";
 import { HomeRail } from "@/components/home/HomeRail";
 import { HomeSection } from "@/components/home/HomeSection";
 import { LazyVideo } from "@/components/home/LazyVideo";
