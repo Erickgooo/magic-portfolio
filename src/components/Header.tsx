@@ -86,6 +86,7 @@ export const Header = () => {
         padding="8"
         horizontal="center"
         data-border="rounded"
+        style={{ viewTransitionName: "site-header" }}
         s={{
           position: "fixed",
         }}
@@ -215,6 +216,7 @@ export const Header = () => {
             </Flex>
           </Flex>
         </Flex>
+        <span aria-hidden="true" className={styles.sweep} />
       </Row>
     </>
   );
