@@ -1,7 +1,13 @@
 import type { Page } from "@playwright/test";
 import { expect, test } from "./fixtures";
 
-const CASES = [{ path: "/about", text: "Erick Mahecha" }];
+const CASES = [
+  { path: "/about", text: "Erick Mahecha" },
+  {
+    path: "/",
+    text: "I Build Marketing Infrastructure From Zero. And Make It Outperform Full Departments.",
+  },
+];
 
 async function copyH1(page: Page) {
   return page.evaluate(() => {

@@ -1,6 +1,7 @@
 import TableOfContents from "@/components/about/TableOfContents";
 import styles from "@/components/about/about.module.scss";
-import { KineticText, Reveal } from "@/components/motion";
+import { KineticText } from "@/components/motion/KineticText";
+import { Reveal } from "@/components/motion/Reveal";
 import { about, baseURL, person, sameAs, social } from "@/resources";
 import {
   Avatar,

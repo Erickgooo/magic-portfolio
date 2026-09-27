@@ -1,20 +1,14 @@
-import { CallToAction, Mailchimp, NodeDivider } from "@/components";
+import { CallToAction, Mailchimp } from "@/components";
 import { Posts } from "@/components/blog/Posts";
+import styles from "@/components/home/Home.module.scss";
+import { HomeSection } from "@/components/home/HomeSection";
 import { LazyVideo } from "@/components/home/LazyVideo";
+import { BlueprintFrame } from "@/components/motion/BlueprintFrame";
+import { DecodeText } from "@/components/motion/DecodeText";
+import { KineticText } from "@/components/motion/KineticText";
 import { Projects } from "@/components/work/Projects";
 import { about, baseURL, home, person, routes } from "@/resources";
-import {
-  Avatar,
-  Badge,
-  Button,
-  Column,
-  Heading,
-  Meta,
-  RevealFx,
-  Row,
-  Schema,
-  Text,
-} from "@once-ui-system/core";
+import { Avatar, Badge, Button, Heading, Meta, Row, Schema, Text } from "@once-ui-system/core";
 
 export async function generateMetadata() {
   return Meta.generate({
@@ -26,9 +20,21 @@ export async function generateMetadata() {
   });
 }
 
+// Section order drives the "0N / 0T" indices — numbering comes from this list.
+type SectionKey = "hero" | "reel" | "featured" | "writing" | "contact";
+const SECTIONS: SectionKey[] = [
+  "hero",
+  "reel",
+  "featured",
+  ...(routes["/blog"] ? (["writing"] as SectionKey[]) : []),
+  "contact",
+];
+const total = SECTIONS.length;
+const idx = (key: SectionKey) => SECTIONS.indexOf(key) + 1;
+
 export default function Home() {
   return (
-    <Column maxWidth="m" gap="xl" paddingY="12" horizontal="center">
+    <div className={styles.home}>
       <Schema
         as="webPage"
         baseURL={baseURL}
@@ -42,131 +48,76 @@ export default function Home() {
           image: `${baseURL}${person.avatar}`,
         }}
       />
-      <Column fillWidth horizontal="center" gap="m">
-        <Column maxWidth="s" horizontal="center" align="center">
-          {home.featured.display && (
-            <RevealFx
-              fillWidth
-              horizontal="center"
-              paddingTop="16"
-              paddingBottom="32"
-              paddingLeft="12"
-            >
-              <Badge
-                background="brand-alpha-weak"
-                paddingX="12"
-                paddingY="4"
-                onBackground="neutral-strong"
-                textVariant="label-default-s"
-                arrow={false}
-                href={home.featured.href}
-                style={{ boxShadow: "var(--glow-border)" }}
-              >
-                <Row paddingY="2">{home.featured.title}</Row>
-              </Badge>
-            </RevealFx>
-          )}
-          <RevealFx translateY="4" fillWidth horizontal="center" paddingBottom="16">
-            <Heading wrap="balance" variant="display-strong-l">
-              {home.headline}
-            </Heading>
-          </RevealFx>
-          <RevealFx translateY="8" delay={0.2} fillWidth horizontal="center" paddingBottom="32">
-            <Text wrap="balance" onBackground="neutral-weak" variant="heading-default-xl">
-              {home.subline}
-            </Text>
-          </RevealFx>
-          {home.stats && home.stats.length > 0 && (
-            <RevealFx translateY="8" delay={0.3} fillWidth horizontal="center" paddingBottom="24">
-              <Row gap="12" horizontal="center" wrap>
-                {home.stats.map((stat) => (
-                  <Row
-                    key={stat.label}
-                    vertical="center"
-                    gap="8"
-                    paddingX="16"
-                    paddingY="8"
-                    radius="m"
-                    style={{
-                      boxShadow: "var(--glow-border)",
-                      background: "var(--brand-alpha-weak)",
-                    }}
-                  >
-                    <Text
-                      style={{ fontFamily: "var(--font-code)", fontWeight: 700 }}
-                      onBackground="brand-weak"
-                      variant="body-strong-m"
-                    >
-                      {stat.value}
-                    </Text>
-                    <Text onBackground="neutral-weak" variant="label-default-s">
-                      {stat.label}
-                    </Text>
-                  </Row>
-                ))}
-              </Row>
-            </RevealFx>
-          )}
-          <RevealFx paddingTop="12" delay={0.4} horizontal="center" paddingLeft="12">
-            <Button
-              id="about"
-              data-border="rounded"
-              href={about.path}
-              variant="secondary"
-              size="m"
-              weight="default"
-              arrowIcon
-            >
-              <Row gap="8" vertical="center" paddingRight="4">
-                {about.avatar.display && (
-                  <Avatar
-                    marginRight="8"
-                    style={{ marginLeft: "-0.75rem" }}
-                    src={person.avatar}
-                    size="m"
-                  />
-                )}
-                {about.title}
-              </Row>
-            </Button>
-          </RevealFx>
-          <RevealFx translateY="12" delay={0.5} fillWidth horizontal="center" paddingTop="32">
-            <LazyVideo
-              data-testid="home-video"
-              src="/videohome.mp4"
-              poster="/images/videohome-poster.webp"
-              width={1280}
-              height={720}
-              label="Play showreel"
-              watermark
-            />
-          </RevealFx>
-        </Column>
-      </Column>
-      <RevealFx translateY="16" delay={0.6}>
+
+      <HomeSection index={idx("hero")} total={total} className={styles.hero}>
+        <BlueprintFrame trigger="load" />
+        {home.featured.display && (
+          <Badge
+            background="brand-alpha-weak"
+            paddingX="12"
+            paddingY="4"
+            onBackground="neutral-strong"
+            textVariant="label-default-s"
+            arrow={false}
+            href={home.featured.href}
+            style={{ boxShadow: "var(--glow-border)" }}
+          >
+            <Row paddingY="2">{home.featured.title}</Row>
+          </Badge>
+        )}
+        <Heading as="h1" wrap="balance" variant="display-strong-l">
+          <KineticText text={home.headline as string} />
+        </Heading>
+        <Text as="p" wrap="balance" onBackground="neutral-weak" variant="heading-default-xl">
+          {home.subline}
+        </Text>
+        {home.stats && home.stats.length > 0 && (
+          <ul className={styles.stats} data-home-stats="">
+            {home.stats.map((stat) => (
+              <li key={stat.label} className={styles.stat}>
+                <DecodeText value={stat.value} className={styles.statValue} />
+                <span className={styles.statLabel}>{stat.label}</span>
+              </li>
+            ))}
+          </ul>
+        )}
+        <Button
+          id="about"
+          data-border="rounded"
+          href={about.path}
+          variant="secondary"
+          size="m"
+          weight="default"
+          arrowIcon
+        >
+          <Row gap="8" vertical="center" paddingRight="4">
+            {about.avatar.display && (
+              <Avatar
+                marginRight="8"
+                style={{ marginLeft: "-0.75rem" }}
+                src={person.avatar}
+                size="m"
+              />
+            )}
+            {about.title}
+          </Row>
+        </Button>
+      </HomeSection>
+
+      <HomeSection index={idx("reel")} total={total}>
+        <LazyVideo
+          data-testid="home-video"
+          src="/videohome.mp4"
+          poster="/images/videohome-poster.webp"
+          width={1280}
+          height={720}
+          label="Play showreel"
+          watermark
+        />
+      </HomeSection>
+
+      <HomeSection index={idx("featured")} total={total}>
         <Projects range={[1, 1]} />
-      </RevealFx>
-      {routes["/blog"] && (
-        <Column fillWidth gap="24" marginBottom="l">
-          <Row fillWidth paddingRight="64">
-            <NodeDivider />
-          </Row>
-          <Row fillWidth gap="24" marginTop="40" s={{ direction: "column" }}>
-            <Row flex={1} paddingLeft="l" paddingTop="24">
-              <Heading as="h2" variant="display-strong-xs" wrap="balance">
-                Latest from the blog
-              </Heading>
-            </Row>
-            <Row flex={3} paddingX="20">
-              <Posts range={[1, 2]} columns="2" />
-            </Row>
-          </Row>
-          <Row fillWidth paddingLeft="64" horizontal="end">
-            <NodeDivider />
-          </Row>
-        </Column>
-      )}
-      <RevealFx translateY="16" delay={0.6}>
         <Row fillWidth horizontal="center" paddingBottom="24">
           <Button
             id="all-projects"
@@ -179,11 +130,21 @@ export default function Home() {
             View all projects
           </Button>
         </Row>
-      </RevealFx>
-      <RevealFx translateY="16" delay={0.6} fillWidth>
+      </HomeSection>
+
+      {routes["/blog"] && (
+        <HomeSection index={idx("writing")} total={total}>
+          <Heading as="h2" variant="display-strong-xs" wrap="balance" marginBottom="24">
+            Latest from the blog
+          </Heading>
+          <Posts range={[1, 2]} columns="2" />
+        </HomeSection>
+      )}
+
+      <HomeSection index={idx("contact")} total={total}>
         <CallToAction />
-      </RevealFx>
+      </HomeSection>
       <Mailchimp />
-    </Column>
+    </div>
   );
 }

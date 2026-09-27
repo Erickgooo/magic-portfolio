@@ -20,7 +20,7 @@ export const CallToAction = () => {
       background="surface"
       style={{ boxShadow: "var(--glow-border)" }}
     >
-      <Heading wrap="balance" variant="display-strong-xs">
+      <Heading as="h2" wrap="balance" variant="display-strong-xs">
         Let's build the growth system your company doesn't have yet.
       </Heading>
       <Text
