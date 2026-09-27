@@ -1,3 +1,4 @@
+import { HeadingLink } from "@/components/HeadingLink";
 import { ResultsStats } from "@/components/mdx/ResultsStats";
 import { TechStack } from "@/components/mdx/TechStack";
 import { YouTubeEmbed } from "@/components/mdx/YouTubeEmbed";
@@ -16,7 +17,6 @@ import {
   Feedback,
   Grid,
   Heading,
-  HeadingLink,
   Icon,
   InlineCode,
   Line,
@@ -90,13 +90,15 @@ function slugify(str: string): string {
 }
 
 function createHeading(as: "h1" | "h2" | "h3" | "h4" | "h5" | "h6") {
+  const level = Number(as.slice(1)) as 1 | 2 | 3 | 4 | 5 | 6;
+
   const CustomHeading = ({
     children,
     ...props
-  }: Omit<React.ComponentProps<typeof HeadingLink>, "as" | "id">) => {
+  }: Omit<React.ComponentProps<typeof HeadingLink>, "level" | "id">) => {
     const slug = slugify(children as string);
     return (
-      <HeadingLink marginTop="24" marginBottom="12" as={as} id={slug} {...props}>
+      <HeadingLink marginTop="24" marginBottom="12" level={level} id={slug} {...props}>
         {children}
       </HeadingLink>
     );
