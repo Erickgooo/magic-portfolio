@@ -93,3 +93,59 @@
   font-size: 0.8125rem;
   color: var(--neutral-on-background-weak);
 }
+
+/* ─── Rail (≥1024px) ─── */
+.home {
+  view-timeline-name: --home;
+}
+
+.rail {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -48px;
+  width: 1px;
+  pointer-events: none;
+}
+.railLine {
+  position: absolute;
+  inset: 0;
+  background: var(--line);
+  transform-origin: center top;
+}
+.railNode {
+  position: sticky;
+  top: 50vh;
+  display: block;
+  width: 9px;
+  height: 9px;
+  margin-left: -4px;
+  background: var(--cobalt);
+  box-shadow: var(--glow-border);
+  transform: rotate(45deg);
+}
+
+@media (max-width: 1023px) {
+  .rail {
+    display: none;
+  }
+}
+
+@keyframes rail-draw {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .railLine {
+      animation: rail-draw linear both;
+      animation-timeline: --home;
+      animation-range: cover 0% cover 100%;
+    }
+  }
+}

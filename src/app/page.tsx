@@ -1,11 +1,14 @@
 import { CallToAction, Mailchimp } from "@/components";
 import { Posts } from "@/components/blog/Posts";
 import styles from "@/components/home/Home.module.scss";
+import { DockFrame } from "@/components/home/DockFrame";
+import { HomeRail } from "@/components/home/HomeRail";
 import { HomeSection } from "@/components/home/HomeSection";
 import { LazyVideo } from "@/components/home/LazyVideo";
 import { BlueprintFrame } from "@/components/motion/BlueprintFrame";
 import { DecodeText } from "@/components/motion/DecodeText";
 import { KineticText } from "@/components/motion/KineticText";
+import { Reveal } from "@/components/motion/Reveal";
 import { Projects } from "@/components/work/Projects";
 import { about, baseURL, home, person, routes } from "@/resources";
 import { Avatar, Badge, Button, Heading, Meta, Row, Schema, Text } from "@once-ui-system/core";
@@ -48,6 +51,7 @@ export default function Home() {
           image: `${baseURL}${person.avatar}`,
         }}
       />
+      <HomeRail />
 
       <HomeSection index={idx("hero")} total={total} className={styles.hero}>
         <BlueprintFrame trigger="load" />
@@ -105,19 +109,25 @@ export default function Home() {
       </HomeSection>
 
       <HomeSection index={idx("reel")} total={total}>
-        <LazyVideo
-          data-testid="home-video"
-          src="/videohome.mp4"
-          poster="/images/videohome-poster.webp"
-          width={1280}
-          height={720}
-          label="Play showreel"
-          watermark
-        />
+        <Reveal>
+          <DockFrame>
+            <LazyVideo
+              data-testid="home-video"
+              src="/videohome.mp4"
+              poster="/images/videohome-poster.webp"
+              width={1280}
+              height={720}
+              label="Play showreel"
+              watermark
+            />
+          </DockFrame>
+        </Reveal>
       </HomeSection>
 
       <HomeSection index={idx("featured")} total={total}>
-        <Projects range={[1, 1]} />
+        <Reveal>
+          <Projects range={[1, 1]} />
+        </Reveal>
         <Row fillWidth horizontal="center" paddingBottom="24">
           <Button
             id="all-projects"
@@ -137,12 +147,16 @@ export default function Home() {
           <Heading as="h2" variant="display-strong-xs" wrap="balance" marginBottom="24">
             Latest from the blog
           </Heading>
-          <Posts range={[1, 2]} columns="2" />
+          <Reveal>
+            <Posts range={[1, 2]} columns="2" />
+          </Reveal>
         </HomeSection>
       )}
 
       <HomeSection index={idx("contact")} total={total}>
-        <CallToAction />
+        <Reveal>
+          <CallToAction />
+        </Reveal>
       </HomeSection>
       <Mailchimp />
     </div>

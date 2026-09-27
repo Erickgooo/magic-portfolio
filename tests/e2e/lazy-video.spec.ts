@@ -67,11 +67,15 @@ test.describe("home video", () => {
 
   test("reserves its box so it causes no layout shift", async ({ page }) => {
     await page.goto("/");
-    const before = await page.locator('[data-testid="home-video"]').boundingBox();
-    await page.locator('[data-testid="home-video"]').scrollIntoViewIfNeeded();
+    // Layout height (offsetHeight) — the docking frame scales the video with a
+    // transform, which is not a layout shift and would skew boundingBox().
+    const video = page.locator('[data-testid="home-video"]');
+    const before = await video.evaluate((el) => (el as HTMLElement).offsetHeight);
+    await video.scrollIntoViewIfNeeded();
     await page.waitForTimeout(1000);
-    const after = await page.locator('[data-testid="home-video"]').boundingBox();
-    expect(Math.round(after?.height ?? 0)).toBe(Math.round(before?.height ?? -1));
+    const after = await video.evaluate((el) => (el as HTMLElement).offsetHeight);
+    expect(before).toBeGreaterThan(0);
+    expect(after).toBe(before);
   });
 
   test("exposes a pause control once playing, and it pauses the video", async ({
