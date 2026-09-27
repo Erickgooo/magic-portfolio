@@ -19,11 +19,10 @@
 // the manifest is never populated and no preload/preconnect is ever
 // emitted, independent of our source layout (matches vercel/next.js#57008,
 // reproduced with three different module structures during this task).
-// Worked around locally via `patches/next+15.5.23.patch`
-// (patch-package) — see that file and docs/perf-report.md for detail. On
-// Linux (Vercel Preview/production) request strings already use forward
-// slashes, so the plugin's original code works there without the patch;
-// it is a no-op on that platform.
+// the Windows-only Next.js bug (vercel/next.js#57008) prevents font preload
+// emission in local Windows builds only; production (Linux/Vercel) is
+// unaffected; a temporary local patch was tried for measurement and not shipped
+// — see docs/perf-report.md
 import { Inter, JetBrains_Mono, Space_Grotesk } from "next/font/google";
 
 export const heading = Space_Grotesk({
