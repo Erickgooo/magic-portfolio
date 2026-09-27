@@ -27,10 +27,22 @@ test("no source file references a renamed image", () => {
 
 test("every /images path referenced in src exists in public", () => {
   const sources = walk("src").filter((f) => /\.(tsx?|mdx?)$/.test(f));
+  // Matched per quote style rather than one shared character class: some
+  // gallery filenames contain spaces (e.g. "Artesa - Panettone 2x1.webp"), so
+  // a path inside quotes must be allowed to contain spaces, while a path
+  // inside parens (markdown image syntax) still stops at whitespace.
+  const patterns = [
+    /"(\/images\/[^"]+)"/g,
+    /'(\/images\/[^']+)'/g,
+    /\((\/images\/[^)\s]+)\)/g,
+  ];
   const missing: string[] = [];
   for (const file of sources) {
-    for (const m of readFileSync(file, "utf8").matchAll(/["'(](\/images\/[^"')\s]+)["')]/g)) {
-      if (!existsSync(path.join("public", m[1]))) missing.push(`${file}: ${m[1]}`);
+    const text = readFileSync(file, "utf8");
+    for (const pattern of patterns) {
+      for (const m of text.matchAll(pattern)) {
+        if (!existsSync(path.join("public", m[1]))) missing.push(`${file}: ${m[1]}`);
+      }
     }
   }
   expect(missing).toEqual([]);

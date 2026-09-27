@@ -13,6 +13,10 @@ async function seek(page: Page, ms: number) {
 }
 
 test.describe("IntroLoader wordmark font", () => {
+  // Reference snapshots were only ever captured on win32 (see the
+  // `-chromium-win32.png` suffix in tests/e2e/intro-font.spec.ts-snapshots),
+  // so these screenshot comparisons fail by construction on Linux/macOS CI.
+  test.skip(process.platform !== "win32", "reference frames were captured on win32 only");
   test.use({ viewport: { width: 1280, height: 800 } });
   // Forced serial: concurrent headless Chromium workers racing on the same
   // paused-animation screenshot were observed to collapse the 2500ms and

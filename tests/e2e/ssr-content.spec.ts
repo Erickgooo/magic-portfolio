@@ -70,10 +70,12 @@ test("client navigation never flashes NotFound", async ({ page }) => {
       }
     }).observe(document.body, { childList: true, subtree: true });
   });
-  // Header renders a desktop (labelled) and a mobile (icon-only, unlabelled)
-  // ToggleButton for each route; scoping to `header` and matching by
-  // accessible name targets only the labelled desktop link unambiguously,
-  // regardless of which variant CSS happens to show at this viewport.
+  // Header renders a desktop (text-labelled) and a mobile (icon-only, with
+  // an aria-label) ToggleButton for each route, both carrying the same
+  // accessible name; only one is ever in the accessibility tree at a time
+  // (the other is `display: none` at the current breakpoint), so scoping to
+  // `header` and matching by accessible name still targets exactly one link
+  // unambiguously, regardless of which variant CSS happens to show.
   const header = page.locator("header");
   await header.getByRole("link", { name: "Projects" }).click();
   await page.waitForURL("**/work");
