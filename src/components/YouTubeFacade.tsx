@@ -18,13 +18,27 @@ interface YouTubeFacadeProps {
   /** CSS aspect-ratio, e.g. "9 / 16" or "16 / 9". */
   aspectRatio: string;
   className?: string;
+  /**
+   * Set for above-the-fold thumbnails (e.g. the Gallery's first grid row) so
+   * the browser fetches the image immediately instead of lazily — avoids
+   * Lighthouse's `lcp-lazy-loaded` flag when this thumbnail is the LCP
+   * element. Defaults to false (lazy), which is correct for every other
+   * thumbnail.
+   */
+  eager?: boolean;
 }
 
 /**
  * Static thumbnail + play button; the heavy YouTube iframe is mounted only
  * after the user activates it, then starts playing and receives focus.
  */
-export function YouTubeFacade({ videoId, title, aspectRatio, className }: YouTubeFacadeProps) {
+export function YouTubeFacade({
+  videoId,
+  title,
+  aspectRatio,
+  className,
+  eager = false,
+}: YouTubeFacadeProps) {
   const [active, setActive] = useState(false);
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
@@ -56,7 +70,8 @@ export function YouTubeFacade({ videoId, title, aspectRatio, className }: YouTub
             className={styles.thumb}
             src={youTubeThumbnail(videoId)}
             alt=""
-            loading="lazy"
+            loading={eager ? "eager" : "lazy"}
+            fetchPriority={eager ? "high" : undefined}
             decoding="async"
           />
           <span className={styles.play} aria-hidden="true" />

@@ -2,6 +2,7 @@
   "name": "@once-ui-system/magic-portfolio",
   "version": "2.3.0",
   "scripts": {
+    "postinstall": "patch-package",
     "dev": "next dev",
     "export": "next export",
     "build": "next build",
@@ -44,6 +45,7 @@
     "@types/react-dom": "^19.0.0",
     "eslint": "^9.25.0",
     "lighthouse": "12.8.2",
+    "patch-package": "^8.0.1",
     "typescript": "^5.8.3",
     "tzdata": "^1.0.44"
   }

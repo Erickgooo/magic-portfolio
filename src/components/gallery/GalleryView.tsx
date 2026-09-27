@@ -98,12 +98,19 @@ function HoverWrapper({
 }
 
 // ─── YouTube cell ─────────────────────────────────────────────────────────────
-function YouTubeCell({ item }: { item: Extract<GalleryItem, { type: "youtube" }> }) {
+function YouTubeCell({
+  item,
+  eager,
+}: {
+  item: Extract<GalleryItem, { type: "youtube" }>;
+  eager?: boolean;
+}) {
   return (
     <YouTubeFacade
       videoId={item.videoId}
       title={item.image.alt}
       aspectRatio={getAspectRatio(item.image.orientation, true)}
+      eager={eager}
     />
   );
 }
@@ -237,7 +244,7 @@ export default function GalleryView() {
         if (item.type === "youtube")
           return (
             <Flex key={index} fillWidth style={{ breakInside: "avoid" }}>
-              <YouTubeCell item={item} />
+              <YouTubeCell item={item} eager={index < 3} />
             </Flex>
           );
 

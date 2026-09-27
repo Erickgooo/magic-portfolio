@@ -4,10 +4,11 @@ import "@/resources/custom.css";
 
 import classNames from "classnames";
 
+import { body, code, heading } from "@/app/fonts";
 import { FaqChatbot, Footer, Header, IntroLoader, Providers, RouteGuard } from "@/components";
 import { SpotlightBackground } from "@/components/SpotlightBackground";
 import spotlightStyles from "@/components/SpotlightBackground.module.scss";
-import { baseURL, dataStyle, fonts, home, style } from "@/resources";
+import { baseURL, dataStyle, home, style } from "@/resources";
 import { Background, Column, Flex, Meta, RevealFx, SpacingToken } from "@once-ui-system/core";
 import { Analytics } from "@vercel/analytics/next";
 
@@ -32,12 +33,7 @@ export default async function RootLayout({
       as="html"
       lang="en"
       fillWidth
-      className={classNames(
-        fonts.heading.variable,
-        fonts.body.variable,
-        fonts.label.variable,
-        fonts.code.variable,
-      )}
+      className={classNames(heading.variable, body.variable, code.variable)}
     >
       <head>
         <script

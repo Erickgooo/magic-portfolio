@@ -21,6 +21,15 @@ test.describe("server-rendered content", () => {
   }
 });
 
+test("home server HTML preloads a next/font woff2 file", async ({ request }) => {
+  // Task 11b: next/font emits <link rel="preload" as="font" ...> for the
+  // fonts it detects are used on the page. Guards against the Home route
+  // regressing to zero preloads (the root-cause bug this task fixed).
+  const response = await request.get("/");
+  const body = await response.text();
+  expect(body).toMatch(/<link[^>]*rel="preload"[^>]*as="font"[^>]*type="font\/woff2"[^>]*>/);
+});
+
 test("csp is intact outside webkit-localhost", async ({ page, browserName }) => {
   // Proves the fixtures.ts auto fixture is scoped correctly: on every browser
   // other than WebKit (which strips CSP/HSTS against localhost — see
