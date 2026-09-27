@@ -7,6 +7,7 @@ import classNames from "classnames";
 
 import { body, code, heading } from "@/app/fonts";
 import { FaqChatbot, Footer, Header, IntroLoader, Providers, RouteGuard } from "@/components";
+import { MotionRuntime } from "@/components/motion";
 import { motionBoot } from "@/components/motion/motionBoot";
 import { baseURL, dataStyle, home, style } from "@/resources";
 import { Background, Column, Flex, Meta, SpacingToken } from "@once-ui-system/core";
@@ -127,6 +128,7 @@ export default async function RootLayout({
             </Flex>
           </Flex>
           <Footer />
+          <MotionRuntime />
           <Analytics />
           <FaqChatbot />
         </Column>

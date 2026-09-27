@@ -32,3 +32,66 @@
   background-size: 64px 64px;
   opacity: 0.08;
 }
+
+/* ─── Reveal ───────────────────────────────────────────────────────────── */
+@keyframes mo-reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(var(--shift-m));
+    animation-timing-function: var(--ease-out);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes mo-reveal-left {
+  from {
+    opacity: 0;
+    transform: translateX(calc(var(--shift-m) * -1));
+    animation-timing-function: var(--ease-out);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    [data-reveal] {
+      animation: mo-reveal-up linear both;
+      animation-timeline: view();
+      /* Elements already on screen at load finish immediately (spec 6.3 / adj. 5). */
+      animation-range: entry calc(var(--i, 0) * 4%) entry calc(60% + var(--i, 0) * 4%);
+    }
+    [data-reveal="left"] {
+      animation-name: mo-reveal-left;
+    }
+  }
+}
+
+/* Fallback: html.mo-io is set only without view() support and without RM. */
+html.mo-io [data-reveal] {
+  transition: opacity var(--dur-m) var(--ease-out), transform var(--dur-m) var(--ease-out);
+  transition-delay: calc(var(--i, 0) * 60ms);
+}
+html.mo-io [data-reveal]:not(.is-in) {
+  opacity: 0;
+  transform: translateY(var(--shift-m));
+}
+html.mo-io [data-reveal="left"]:not(.is-in) {
+  transform: translateX(calc(var(--shift-m) * -1));
+}
+
+/* ─── Reduced motion: final state, always ─────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal],
+  [data-mo-io],
+  [data-mo-band] {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
