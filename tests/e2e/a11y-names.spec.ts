@@ -32,3 +32,25 @@ test("heading copy-link controls are real buttons with a name", async ({ page })
   );
   expect(await page.locator("div[aria-label='Copy']").count()).toBe(0);
 });
+
+test("heading copy-link button becomes visible on keyboard focus", async ({ page }) => {
+  await page.goto("/blog/my-workspace");
+  const firstCopyButton = page.getByRole("button", { name: /^Copy link to section/ }).first();
+  await firstCopyButton.focus();
+  // The reveal is an opacity transition (200ms); poll past it instead of
+  // reading a single mid-transition frame.
+  await expect.poll(() => firstCopyButton.evaluate((el) => getComputedStyle(el).opacity)).toBe("1");
+});
+
+test("heading copy-link button is visible on touch devices without interaction", async ({
+  page,
+}, testInfo) => {
+  test.skip(
+    testInfo.project.name !== "mobile-chromium",
+    "hover:none behavior is only meaningful on the touch device project",
+  );
+  await page.goto("/blog/my-workspace");
+  const firstCopyButton = page.getByRole("button", { name: /^Copy link to section/ }).first();
+  const opacity = await firstCopyButton.evaluate((el) => getComputedStyle(el).opacity);
+  expect(opacity).toBe("1");
+});

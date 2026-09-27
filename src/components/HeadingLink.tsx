@@ -59,7 +59,7 @@ export const HeadingLink: React.FC<HeadingLinkProps> = ({
       onClick={() => copyURL(id)}
       className={styles.control}
       vertical="center"
-      gap="4"
+      gap="8"
       {...rest}
     >
       <Heading className={styles.text} id={id} variant={variant} as={asTag}>
@@ -67,9 +67,9 @@ export const HeadingLink: React.FC<HeadingLinkProps> = ({
       </Heading>
       <IconButton
         className={styles.visibility}
-        size="s"
-        icon="openLink"
-        variant="ghost"
+        size="m"
+        icon="link"
+        variant="secondary"
         tooltip="Copy"
         tooltipPosition="right"
         aria-label={`Copy link to section: ${typeof children === "string" ? children : id}`}
