@@ -1,6 +1,7 @@
 import { CallToAction, Mailchimp } from "@/components";
 import { Posts } from "@/components/blog/Posts";
 import { DockFrame } from "@/components/home/DockFrame";
+import { FeaturedProject } from "@/components/home/FeaturedProject";
 import styles from "@/components/home/Home.module.scss";
 import { HomeRail } from "@/components/home/HomeRail";
 import { HomeSection } from "@/components/home/HomeSection";
@@ -9,7 +10,6 @@ import { BlueprintFrame } from "@/components/motion/BlueprintFrame";
 import { DecodeText } from "@/components/motion/DecodeText";
 import { KineticText } from "@/components/motion/KineticText";
 import { Reveal } from "@/components/motion/Reveal";
-import { Projects } from "@/components/work/Projects";
 import { about, baseURL, home, person, routes } from "@/resources";
 import { Avatar, Badge, Button, Heading, Meta, Row, Schema, Text } from "@once-ui-system/core";
 
@@ -126,7 +126,7 @@ export default function Home() {
 
       <HomeSection index={idx("featured")} total={total}>
         <Reveal>
-          <Projects range={[1, 1]} />
+          <FeaturedProject />
         </Reveal>
         <Row fillWidth horizontal="center" paddingBottom="24">
           <Button
