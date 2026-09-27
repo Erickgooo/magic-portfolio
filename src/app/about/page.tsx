@@ -1,6 +1,6 @@
 import TableOfContents from "@/components/about/TableOfContents";
 import styles from "@/components/about/about.module.scss";
-import { Reveal } from "@/components/motion";
+import { KineticText, Reveal } from "@/components/motion";
 import { about, baseURL, person, sameAs, social } from "@/resources";
 import {
   Avatar,
@@ -142,7 +142,7 @@ export default function About() {
               </Row>
             )}
             <Heading className={styles.textAlign} variant="display-strong-xl">
-              {person.name}
+              <KineticText text={person.name} />
             </Heading>
             <Text
               className={styles.textAlign}
