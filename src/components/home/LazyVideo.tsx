@@ -13,6 +13,12 @@ interface LazyVideoProps {
   height: number;
   /** Accessible name for the play button, e.g. "Play showreel". */
   label: string;
+  /**
+   * Accessible name for the pause toggle once playing, e.g. "Pause showreel".
+   * Defaults to `label` with a leading "Play" swapped for "Pause" (falling
+   * back to "Pause video" if `label` doesn't start with "Play").
+   */
+  pauseLabel?: string;
   watermark?: boolean;
   className?: string;
   style?: React.CSSProperties;
@@ -63,6 +69,7 @@ export function LazyVideo({
   width,
   height,
   label,
+  pauseLabel,
   watermark = false,
   className,
   style,
@@ -71,6 +78,12 @@ export function LazyVideo({
   const videoRef = useRef<HTMLVideoElement>(null);
   const [needsButton, setNeedsButton] = useState(false);
   const [playing, setPlaying] = useState(false);
+  // Once true, stays true: it gates the corner pause/play toggle, which
+  // should remain available after the first play even if the video is later
+  // paused (by the user or by scrolling out of view).
+  const [started, setStarted] = useState(false);
+  const resolvedPauseLabel =
+    pauseLabel ?? (label.startsWith("Play") ? label.replace(/^Play/, "Pause") : "Pause video");
 
   const ensureSource = useCallback(
     (video: HTMLVideoElement) => {
@@ -115,6 +128,18 @@ export function LazyVideo({
       .catch(() => setNeedsButton(true));
   };
 
+  const togglePlayback = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    if (video.paused) {
+      ensureSource(video);
+      video.muted = true;
+      video.play().catch(() => {});
+    } else {
+      video.pause();
+    }
+  };
+
   return (
     <div
       className={`${styles.root} ${className ?? ""}`}
@@ -131,12 +156,32 @@ export function LazyVideo({
         poster={poster}
         width={width}
         height={height}
-        onPlay={() => setPlaying(true)}
+        onPlay={() => {
+          setPlaying(true);
+          setStarted(true);
+        }}
         onPause={() => setPlaying(false)}
       />
       {needsButton && !playing && (
         <button type="button" className={styles.play} onClick={start} aria-label={label}>
           <span aria-hidden="true" className={styles.playIcon} />
+        </button>
+      )}
+      {started && (
+        <button
+          type="button"
+          className={styles.toggle}
+          onClick={togglePlayback}
+          aria-label={playing ? resolvedPauseLabel : label}
+        >
+          {playing ? (
+            <span aria-hidden="true" className={styles.togglePauseIcon}>
+              <span />
+              <span />
+            </span>
+          ) : (
+            <span aria-hidden="true" className={styles.togglePlayIcon} />
+          )}
         </button>
       )}
       {watermark && (

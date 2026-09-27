@@ -5,6 +5,7 @@ import { gallery } from "@/resources";
 import { extractYouTubeId } from "@/utils/youtube";
 import { Carousel, Dialog, Flex, Icon, MasonryGrid, Media, Text } from "@once-ui-system/core";
 import { useState } from "react";
+import styles from "./GalleryView.module.scss";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 type RawImage = (typeof gallery.images)[number];
@@ -107,6 +108,7 @@ function YouTubeCell({
 }) {
   return (
     <YouTubeFacade
+      className={styles.youtubeHover}
       videoId={item.videoId}
       title={item.image.alt}
       aspectRatio={getAspectRatio(item.image.orientation, true)}

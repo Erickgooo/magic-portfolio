@@ -73,4 +73,30 @@ test.describe("home video", () => {
     const after = await page.locator('[data-testid="home-video"]').boundingBox();
     expect(Math.round(after?.height ?? 0)).toBe(Math.round(before?.height ?? -1));
   });
+
+  test("exposes a pause control once playing, and it pauses the video", async ({
+    page,
+    browserName,
+  }) => {
+    // One browser is enough to cover the toggle button's behaviour; chromium
+    // autoplays reliably here (see the first test above).
+    test.skip(browserName !== "chromium", "one engine is enough for this toggle-button check");
+    await page.goto("/");
+    const wrap = page.locator('[data-testid="home-video"]');
+    const video = wrap.locator("video");
+    await wrap.scrollIntoViewIfNeeded();
+    await expect.poll(() => video.evaluate((v: HTMLVideoElement) => !v.paused)).toBe(true);
+
+    const pauseButton = wrap.getByRole("button", { name: /pause/i });
+    await expect(pauseButton).toBeVisible();
+    await expect(pauseButton).toHaveAccessibleName(/pause/i);
+    await pauseButton.click();
+    await expect.poll(() => video.evaluate((v: HTMLVideoElement) => v.paused)).toBe(true);
+
+    // The same control toggles back to a "Play" accessible name and resumes.
+    const playButton = wrap.getByRole("button", { name: /play/i });
+    await expect(playButton).toBeVisible();
+    await playButton.click();
+    await expect.poll(() => video.evaluate((v: HTMLVideoElement) => !v.paused)).toBe(true);
+  });
 });
