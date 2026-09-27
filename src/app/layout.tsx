@@ -4,18 +4,12 @@ import "@/resources/custom.css";
 
 import classNames from "classnames";
 
-import {
-  Background,
-  Column,
-  Flex,
-  Meta,
-  RevealFx,
-  SpacingToken,
-} from "@once-ui-system/core";
-import { Footer, Header, RouteGuard, Providers, FaqChatbot, IntroLoader } from "@/components";
+import { body, code, heading } from "@/app/fonts";
+import { FaqChatbot, Footer, Header, IntroLoader, Providers, RouteGuard } from "@/components";
 import { SpotlightBackground } from "@/components/SpotlightBackground";
 import spotlightStyles from "@/components/SpotlightBackground.module.scss";
-import { baseURL, fonts, style, dataStyle, home } from "@/resources";
+import { baseURL, dataStyle, home, style } from "@/resources";
+import { Background, Column, Flex, Meta, RevealFx, SpacingToken } from "@once-ui-system/core";
 import { Analytics } from "@vercel/analytics/next";
 
 export async function generateMetadata() {
@@ -39,16 +33,12 @@ export default async function RootLayout({
       as="html"
       lang="en"
       fillWidth
-      className={classNames(
-        fonts.heading.variable,
-        fonts.body.variable,
-        fonts.label.variable,
-        fonts.code.variable,
-      )}
+      className={classNames(heading.variable, body.variable, code.variable)}
     >
       <head>
         <script
           id="theme-init"
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: the theme must be applied before first paint to avoid a light/dark flash; the script body is a static string built from our own config, with no user input
           dangerouslySetInnerHTML={{
             __html: `
               (function() {
@@ -120,7 +110,14 @@ export default async function RootLayout({
           <SpotlightBackground />
           <Flex fillWidth minHeight="16" s={{ hide: true }} />
           <Header />
-          <Flex zIndex={0} fillWidth padding="l" horizontal="center" flex={1} className="main-content-wrapper">
+          <Flex
+            zIndex={0}
+            fillWidth
+            padding="l"
+            horizontal="center"
+            flex={1}
+            className="main-content-wrapper"
+          >
             <Flex horizontal="center" fillWidth minHeight="0">
               <RouteGuard>{children}</RouteGuard>
             </Flex>

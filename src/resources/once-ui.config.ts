@@ -1,4 +1,4 @@
-import {
+import type {
   DataStyleConfig,
   DisplayConfig,
   EffectsConfig,
@@ -34,39 +34,18 @@ const display: DisplayConfig = {
 // Defined in ./protectedRoutes so middleware.ts can import it standalone.
 import { protectedRoutes } from "./protectedRoutes";
 
-// Import and set font for each variant — Manual de Marca, Sección 04:
-// Space Grotesk (titulares), Inter (cuerpo/label), JetBrains Mono (datos).
-import { Space_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
-
-const heading = Space_Grotesk({
-  variable: "--font-heading",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const body = Inter({
-  variable: "--font-body",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const label = Inter({
-  variable: "--font-label",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const code = JetBrains_Mono({
-  variable: "--font-code",
-  subsets: ["latin"],
-  display: "swap",
-});
+// Font instances live in src/app/fonts.ts (Task 11b — see that file for
+// the preload details). Re-exported here for API compatibility; this
+// barrel (@/resources) is imported by client components (e.g.
+// src/components/Header.tsx), so these font instances are not
+// server-only despite living under src/app.
+import { body, code, heading } from "@/app/fonts";
 
 const fonts: FontsConfig = {
-  heading: heading,
-  body: body,
-  label: label,
-  code: code,
+  heading,
+  body,
+  label: body,
+  code,
 };
 
 // default customization applied to the HTML in the main layout.tsx

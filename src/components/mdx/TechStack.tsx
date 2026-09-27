@@ -1,5 +1,5 @@
+import { type IconName, iconLibrary } from "@/resources/icons";
 import { Icon } from "@once-ui-system/core";
-import { iconLibrary, type IconName } from "@/resources/icons";
 import styles from "./TechStack.module.scss";
 
 interface TechStackProps {

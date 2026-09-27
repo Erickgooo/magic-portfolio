@@ -1,25 +1,21 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { Media, MasonryGrid, Flex, Text, Icon, Dialog, Carousel } from "@once-ui-system/core";
+import { YouTubeFacade } from "@/components/YouTubeFacade";
 import { gallery } from "@/resources";
+import { extractYouTubeId } from "@/utils/youtube";
+import { Carousel, Dialog, Flex, Icon, MasonryGrid, Media, Text } from "@once-ui-system/core";
+import { useState } from "react";
+import styles from "./GalleryView.module.scss";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 type RawImage = (typeof gallery.images)[number];
 
 type GalleryItem =
   | { type: "image"; image: RawImage }
-  | { type: "youtube"; image: RawImage; videoId: string; embedUrl: string }
+  | { type: "youtube"; image: RawImage; videoId: string }
   | { type: "carousel"; images: RawImage[]; coverImage: RawImage };
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
-function extractYouTubeId(src: string): string {
-  if (src.includes("youtu.be")) return src.split("/").pop() || "";
-  if (src.includes("shorts/")) return src.split("shorts/")[1].split("?")[0].split("&")[0];
-  if (src.includes("v=")) return src.split("v=")[1].split("&")[0];
-  return "";
-}
-
 function isYouTubeUrl(src: string) {
   return src.includes("youtube.com") || src.includes("youtu.be");
 }
@@ -51,12 +47,7 @@ function buildGalleryItems(images: RawImage[]): GalleryItem[] {
 
     if (isYouTubeUrl(img.src)) {
       const videoId = extractYouTubeId(img.src);
-      items.push({
-        type: "youtube",
-        image: img,
-        videoId,
-        embedUrl: `https://www.youtube.com/embed/${videoId}`,
-      });
+      items.push({ type: "youtube", image: img, videoId });
     } else {
       items.push({ type: "image", image: img });
     }
@@ -86,9 +77,7 @@ function HoverWrapper({
         cursor: onClick ? "pointer" : "default",
         transform: hovered ? "scale(1.025)" : "scale(1)",
         transition: "transform 0.25s ease, box-shadow 0.25s ease",
-        boxShadow: hovered
-          ? "0 8px 32px rgba(0,0,0,0.35)"
-          : "0 2px 8px rgba(0,0,0,0.12)",
+        boxShadow: hovered ? "0 8px 32px rgba(0,0,0,0.35)" : "0 2px 8px rgba(0,0,0,0.12)",
       }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -110,102 +99,21 @@ function HoverWrapper({
 }
 
 // ─── YouTube cell ─────────────────────────────────────────────────────────────
-// The real iframe only mounts once this cell is near the viewport (or the
-// user clicks it) — not immediately on page load. A gallery like this can
-// hold half a dozen+ YouTube embeds; each is a heavy cross-origin context
-// with its own JS runtime and video player, and loading all of them at once
-// is a well-known way to run a mobile browser tab out of memory. Rendering
-// a static thumbnail everywhere else keeps the page light until content is
-// actually about to be seen.
-function YouTubeCell({ item }: { item: Extract<GalleryItem, { type: "youtube" }> }) {
-  const [hovered, setHovered] = useState(false);
-  const [loaded, setLoaded] = useState(false);
-  const cellRef = useRef<HTMLDivElement>(null);
-  const aspectRatio = getAspectRatio(item.image.orientation, true);
-
-  useEffect(() => {
-    const el = cellRef.current;
-    if (!el) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          setLoaded(true);
-          observer.disconnect();
-        }
-      },
-      { rootMargin: "200px" },
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
+function YouTubeCell({
+  item,
+  eager,
+}: {
+  item: Extract<GalleryItem, { type: "youtube" }>;
+  eager?: boolean;
+}) {
   return (
-    <Flex
-      ref={cellRef}
-      fillWidth
-      position="relative"
-      radius="m"
-      overflow="hidden"
-      background="surface"
-      style={{
-        aspectRatio,
-        transform: hovered ? "scale(1.025)" : "scale(1)",
-        transition: "transform 0.25s ease, box-shadow 0.25s ease",
-        boxShadow: hovered
-          ? "0 8px 32px rgba(0,0,0,0.35)"
-          : "0 2px 8px rgba(0,0,0,0.12)",
-      }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
-      {loaded ? (
-        <iframe
-          src={item.embedUrl}
-          title={item.image.alt}
-          style={{ width: "100%", height: "100%", border: "none" }}
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-        />
-      ) : (
-        <Flex
-          fillWidth
-          fillHeight
-          center
-          style={{ position: "relative", cursor: "pointer" }}
-          onClick={() => setLoaded(true)}
-        >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={`https://img.youtube.com/vi/${item.videoId}/hqdefault.jpg`}
-            alt={item.image.alt}
-            style={{ width: "100%", height: "100%", objectFit: "cover" }}
-          />
-          <Flex
-            center
-            style={{
-              position: "absolute",
-              width: "3rem",
-              height: "3rem",
-              borderRadius: "50%",
-              background: "rgba(11,11,15,0.55)",
-              backdropFilter: "blur(4px)",
-            }}
-          >
-            <div
-              style={{
-                width: 0,
-                height: 0,
-                marginLeft: "4px",
-                borderTop: "9px solid transparent",
-                borderBottom: "9px solid transparent",
-                borderLeft: "14px solid #F4F5F7",
-              }}
-            />
-          </Flex>
-        </Flex>
-      )}
-    </Flex>
+    <YouTubeFacade
+      className={styles.youtubeHover}
+      videoId={item.videoId}
+      title={item.image.alt}
+      aspectRatio={getAspectRatio(item.image.orientation, true)}
+      eager={eager}
+    />
   );
 }
 
@@ -230,25 +138,21 @@ function ImageCell({ item }: { item: Extract<GalleryItem, { type: "image" }> }) 
         />
       </HoverWrapper>
 
-      {/* Lightbox — plain <img> so the image ALWAYS renders at its
-          true natural aspect ratio with zero cropping, regardless of
-          the orientation tag assigned in content.tsx */}
+      {/* Lightbox — Media with its default `aspectRatio="original"` renders
+          next/image with automatic height and zero cropping, so the image
+          ALWAYS shows at its true natural aspect ratio regardless of the
+          orientation tag assigned in content.tsx */}
       <Dialog
         isOpen={open}
         onClose={() => setOpen(false)}
         title={<span />}
         style={{ maxWidth: 900 }}
       >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <Media
           src={item.image.src}
           alt={item.image.alt}
-          style={{
-            display: "block",
-            width: "100%",
-            height: "auto",
-            borderRadius: "var(--radius-m, 8px)",
-          }}
+          sizes="(max-width: 900px) 100vw, 900px"
+          radius="m"
         />
       </Dialog>
     </>
@@ -342,7 +246,7 @@ export default function GalleryView() {
         if (item.type === "youtube")
           return (
             <Flex key={index} fillWidth style={{ breakInside: "avoid" }}>
-              <YouTubeCell item={item} />
+              <YouTubeCell item={item} eager={index < 3} />
             </Flex>
           );
 

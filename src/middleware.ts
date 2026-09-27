@@ -1,6 +1,6 @@
-import { NextRequest, NextResponse } from "next/server";
-import { AUTH_COOKIE, verifyAuthToken } from "@/utils/auth";
 import { protectedRoutes } from "@/resources/protectedRoutes";
+import { AUTH_COOKIE, verifyAuthToken } from "@/utils/auth";
+import { type NextRequest, NextResponse } from "next/server";
 
 /**
  * Server-side enforcement for password-protected routes.
@@ -16,9 +16,7 @@ const PROTECTED_PATHS = Object.entries(protectedRoutes)
   .map(([path]) => path);
 
 function isProtected(pathname: string): boolean {
-  return PROTECTED_PATHS.some(
-    (path) => pathname === path || pathname.startsWith(`${path}/`),
-  );
+  return PROTECTED_PATHS.some((path) => pathname === path || pathname.startsWith(`${path}/`));
 }
 
 export async function middleware(request: NextRequest) {

@@ -1,6 +1,6 @@
-import { NextRequest, NextResponse } from "next/server";
 import { AUTH_COOKIE, AUTH_TTL_SECONDS, createAuthToken, timingSafeEqual } from "@/utils/auth";
 import { RateLimiter, getClientIp } from "@/utils/rateLimit";
+import { type NextRequest, NextResponse } from "next/server";
 
 export const runtime = "nodejs";
 

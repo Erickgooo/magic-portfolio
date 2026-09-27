@@ -1,16 +1,17 @@
 "use client";
 
-import { Card, Column, Media, Row, Avatar, Text } from "@once-ui-system/core";
-import { formatDate } from "@/utils/formatDate";
 import { person } from "@/resources";
+import { formatDate } from "@/utils/formatDate";
+import { Avatar, Card, Column, Media, Row, Text } from "@once-ui-system/core";
 
 interface PostProps {
   post: any;
   thumbnail: boolean;
   direction?: "row" | "column";
+  priority?: boolean;
 }
 
-export default function Post({ post, thumbnail, direction }: PostProps) {
+export default function Post({ post, thumbnail, direction, priority = false }: PostProps) {
   return (
     <Card
       fillWidth
@@ -27,13 +28,13 @@ export default function Post({ post, thumbnail, direction }: PostProps) {
     >
       {post.metadata.image && thumbnail && (
         <Media
-          priority
+          priority={priority}
           sizes="(max-width: 768px) 100vw, 640px"
           border="neutral-alpha-weak"
           cursor="interactive"
           radius="l"
           src={post.metadata.image}
-          alt={"Thumbnail of " + post.metadata.title}
+          alt={`Thumbnail of ${post.metadata.title}`}
           aspectRatio="16 / 9"
         />
       )}

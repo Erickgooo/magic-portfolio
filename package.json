@@ -7,7 +7,11 @@
     "build": "next build",
     "biome-write": "npx @biomejs/biome format --write .",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test:unit": "playwright test --project=unit",
+    "test:e2e": "playwright test --project=chromium --project=mobile-chromium --project=firefox --project=webkit",
+    "perf:lh": "node scripts/perf/lighthouse.mjs",
+    "perf:report": "node scripts/perf/report.mjs"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
@@ -33,11 +37,13 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
+    "@playwright/test": "1.63.0",
     "@types/cookie": "^0.6.0",
     "@types/node": "^20.17.30",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "eslint": "^9.25.0",
+    "lighthouse": "12.8.2",
     "typescript": "^5.8.3",
     "tzdata": "^1.0.44"
   }

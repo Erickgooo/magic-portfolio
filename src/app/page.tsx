@@ -1,20 +1,20 @@
+import { CallToAction, Mailchimp, NodeDivider } from "@/components";
+import { Posts } from "@/components/blog/Posts";
+import { LazyVideo } from "@/components/home/LazyVideo";
+import { Projects } from "@/components/work/Projects";
+import { about, baseURL, home, person, routes } from "@/resources";
 import {
-  Heading,
-  Text,
-  Button,
   Avatar,
-  RevealFx,
-  Column,
   Badge,
+  Button,
+  Column,
+  Heading,
+  Meta,
+  RevealFx,
   Row,
   Schema,
-  Meta,
+  Text,
 } from "@once-ui-system/core";
-import { home, about, person, baseURL, routes } from "@/resources";
-import { CallToAction, Mailchimp, NodeDivider } from "@/components";
-import { Projects } from "@/components/work/Projects";
-import { Posts } from "@/components/blog/Posts";
-import { AutoplayVideo } from "@/components/home/AutoplayVideo";
 
 export async function generateMetadata() {
   return Meta.generate({
@@ -131,15 +131,14 @@ export default function Home() {
             </Button>
           </RevealFx>
           <RevealFx translateY="12" delay={0.5} fillWidth horizontal="center" paddingTop="32">
-            <AutoplayVideo
+            <LazyVideo
+              data-testid="home-video"
               src="/videohome.mp4"
-              poster="/images/videohome-poster.jpg"
+              poster="/images/videohome-poster.webp"
+              width={1280}
+              height={720}
+              label="Play showreel"
               watermark
-              style={{
-                maxWidth: "100%",
-                borderRadius: "12px",
-                border: "1px solid rgba(255,255,255,0.1)",
-              }}
             />
           </RevealFx>
         </Column>

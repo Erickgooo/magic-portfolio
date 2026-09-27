@@ -1,18 +1,26 @@
 "use client";
 
-import React, { JSX } from "react";
-import { Heading, Flex, IconButton, useToast } from "@once-ui-system/core";
+import { Flex, Heading, IconButton, useToast } from "@once-ui-system/core";
+import type React from "react";
+import type { JSX } from "react";
 
 import styles from "@/components/HeadingLink.module.scss";
 
-interface HeadingLinkProps {
+interface HeadingLinkProps
+  extends Omit<React.ComponentProps<typeof Flex>, "id" | "children" | "style"> {
   id: string;
   level: 1 | 2 | 3 | 4 | 5 | 6;
   children: React.ReactNode;
   style?: React.CSSProperties;
 }
 
-export const HeadingLink: React.FC<HeadingLinkProps> = ({ id, level, children, style }) => {
+export const HeadingLink: React.FC<HeadingLinkProps> = ({
+  id,
+  level,
+  children,
+  style,
+  ...rest
+}) => {
   const { addToast } = useToast();
 
   const copyURL = (id: string): void => {
@@ -51,18 +59,24 @@ export const HeadingLink: React.FC<HeadingLinkProps> = ({ id, level, children, s
       onClick={() => copyURL(id)}
       className={styles.control}
       vertical="center"
-      gap="4"
+      gap="8"
+      {...rest}
     >
       <Heading className={styles.text} id={id} variant={variant} as={asTag}>
         {children}
       </Heading>
       <IconButton
         className={styles.visibility}
-        size="s"
-        icon="openLink"
-        variant="ghost"
+        size="m"
+        icon="link"
+        variant="secondary"
         tooltip="Copy"
         tooltipPosition="right"
+        aria-label={`Copy link to section: ${typeof children === "string" ? children : id}`}
+        onClick={(event: React.MouseEvent) => {
+          event.stopPropagation();
+          copyURL(id);
+        }}
       />
     </Flex>
   );

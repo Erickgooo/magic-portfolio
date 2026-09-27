@@ -1,25 +1,25 @@
-import { notFound } from "next/navigation";
-import { CustomMDX, ScrollToHash, NodeDivider } from "@/components";
-import {
-  Meta,
-  Schema,
-  Column,
-  Heading,
-  Row,
-  Text,
-  SmartLink,
-  Avatar,
-  Media,
-} from "@once-ui-system/core";
-import { baseURL, about, blog, person } from "@/resources";
+import { CustomMDX, NodeDivider, ScrollToHash } from "@/components";
+import { OnThisPage } from "@/components/blog/OnThisPage";
+import { Posts } from "@/components/blog/Posts";
+import { ShareSection } from "@/components/blog/ShareSection";
+import { about, baseURL, blog, person } from "@/resources";
 import { EMIcon } from "@/resources/EMIcon";
 import { formatDate } from "@/utils/formatDate";
 import { getPosts } from "@/utils/utils";
-import { OnThisPage } from "@/components/blog/OnThisPage";
-import { Metadata } from "next";
+import {
+  Avatar,
+  Column,
+  Heading,
+  Media,
+  Meta,
+  Row,
+  Schema,
+  SmartLink,
+  Text,
+} from "@once-ui-system/core";
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import React from "react";
-import { Posts } from "@/components/blog/Posts";
-import { ShareSection } from "@/components/blog/ShareSection";
 
 export async function generateStaticParams(): Promise<{ slug: string }[]> {
   const posts = getPosts(["src", "app", "blog", "posts"]);
@@ -39,7 +39,7 @@ export async function generateMetadata({
     : routeParams.slug || "";
 
   const posts = getPosts(["src", "app", "blog", "posts"]);
-  let post = posts.find((post) => post.slug === slugPath);
+  const post = posts.find((post) => post.slug === slugPath);
 
   if (!post) return {};
 
@@ -58,7 +58,7 @@ export default async function Blog({ params }: { params: Promise<{ slug: string 
     ? routeParams.slug.join("/")
     : routeParams.slug || "";
 
-  let post = getPosts(["src", "app", "blog", "posts"]).find((post) => post.slug === slugPath);
+  const post = getPosts(["src", "app", "blog", "posts"]).find((post) => post.slug === slugPath);
 
   if (!post) {
     notFound();

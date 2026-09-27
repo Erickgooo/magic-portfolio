@@ -1,5 +1,5 @@
-import { Column } from "@once-ui-system/core";
 import { PasswordPrompt } from "@/components/PasswordPrompt";
+import { Column } from "@once-ui-system/core";
 
 export const metadata = {
   title: "Password required",

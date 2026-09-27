@@ -1,16 +1,9 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
-import { Space_Grotesk } from "next/font/google";
+import { useEffect, useRef, useState } from "react";
 
 import styles from "./IntroLoader.module.scss";
-
-const wordmarkFont = Space_Grotesk({
-  weight: "700",
-  subsets: ["latin"],
-  display: "swap",
-});
 
 // Fase A (0-2s): trazo del monograma. Fase B (2-4s, en paralelo C): resplandor
 // + wordmark. Fase D (4-5s): fade out del overlay. 2000 + 2000 + 1000 = 5000ms.
@@ -104,9 +97,7 @@ export const IntroLoader = () => {
     console.info("[IntroLoader] playing:", { holdMs: HOLD_MS, fadeMs: FADE_MS });
 
     // double rAF so the "entering" class change is picked up as a transition, not the initial state
-    const raf = requestAnimationFrame(() =>
-      requestAnimationFrame(() => setPhase("entering")),
-    );
+    const raf = requestAnimationFrame(() => requestAnimationFrame(() => setPhase("entering")));
 
     // The stroke-draw / glow / wordmark timeline runs via the Web Animations
     // API rather than static CSS keyframes: stroke-dasharray needs the path's
@@ -129,23 +120,21 @@ export const IntroLoader = () => {
 
       // Fase A — trazo del contorno completo (0–2s).
       animations.push(
-        markPath.animate(
-          [{ strokeDashoffset: markLength }, { strokeDashoffset: 0 }],
-          { duration: DRAW_MS, easing: drawEasing, fill: "forwards" },
-        ),
+        markPath.animate([{ strokeDashoffset: markLength }, { strokeDashoffset: 0 }], {
+          duration: DRAW_MS,
+          easing: drawEasing,
+          fill: "forwards",
+        }),
       );
       // The small node traces quickly near the end of the main stroke,
       // as if it's the last thing the pen lands on.
       animations.push(
-        nodePath.animate(
-          [{ strokeDashoffset: nodeLength }, { strokeDashoffset: 0 }],
-          {
-            duration: DRAW_MS * 0.5,
-            delay: DRAW_MS * 0.5,
-            easing: drawEasing,
-            fill: "forwards",
-          },
-        ),
+        nodePath.animate([{ strokeDashoffset: nodeLength }, { strokeDashoffset: 0 }], {
+          duration: DRAW_MS * 0.5,
+          delay: DRAW_MS * 0.5,
+          easing: drawEasing,
+          fill: "forwards",
+        }),
       );
       // Fase B — resplandor Cobalto de baja intensidad (Manual Sección 5.3,
       // "Glow Border"): sube y se asienta, nunca satura. Corre en paralelo
@@ -194,7 +183,12 @@ export const IntroLoader = () => {
             { opacity: 0, transform: "translateY(8px)" },
             { opacity: 1, transform: "translateY(0)" },
           ],
-          { duration: 700, delay: DRAW_MS, easing: "cubic-bezier(0.16, 1, 0.3, 1)", fill: "forwards" },
+          {
+            duration: 700,
+            delay: DRAW_MS,
+            easing: "cubic-bezier(0.16, 1, 0.3, 1)",
+            fill: "forwards",
+          },
         ),
       );
     } else {
@@ -314,10 +308,7 @@ export const IntroLoader = () => {
           </svg>
           <span className={styles.flash} />
         </span>
-        <span
-          ref={wordmarkRef}
-          className={`${styles.wordmark} ${wordmarkFont.className}`}
-        >
+        <span ref={wordmarkRef} className={styles.wordmark}>
           Erick Mahecha
         </span>
       </div>

@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import { chatbotTitle, faqData, initialGreeting } from "@/resources/faqChatbot";
+import { Column, Flex, Heading, Icon, IconButton, Row, Text } from "@once-ui-system/core";
 import Image from "next/image";
-import { Flex, Column, Row, Text, Heading, IconButton, Icon } from "@once-ui-system/core";
-import { faqData, initialGreeting, chatbotTitle } from "@/resources/faqChatbot";
+import type React from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./FaqChatbot.module.scss";
 
 // ── Constants ────────────────────────────────────────────────────────────────
@@ -174,8 +175,9 @@ function parseAnswerText(text: string): React.ReactNode[] {
     const lineParts: React.ReactNode[] = [];
     let idx = 0;
     const regex = /(\*\*.*?\*\*|\[.*?\]\(.*?\))/g;
-    let match;
+    let match: RegExpExecArray | null;
 
+    // biome-ignore lint/suspicious/noAssignInExpressions: idiomatic RegExp.exec loop; kept as-is because this parser was security-hardened and refactoring it is out of scope
     while ((match = regex.exec(line)) !== null) {
       const matchText = match[0];
       const matchIdx = match.index;
@@ -342,9 +344,7 @@ export const FaqChatbot: React.FC = () => {
       if (res.status === 429) {
         setActiveView({
           question,
-          answer:
-            `You've reached the message limit for this session. Feel free to reach out directly!\n\n` +
-            `• [Email](mailto:${EMAIL})\n• [LinkedIn](${LINKEDIN_URL})`,
+          answer: `You've reached the message limit for this session. Feel free to reach out directly!\n\n• [Email](mailto:${EMAIL})\n• [LinkedIn](${LINKEDIN_URL})`,
         });
         setMsgCount(SESSION_LIMIT);
         sessionStorage.setItem("chatbot_msg_count", String(SESSION_LIMIT));
@@ -356,9 +356,7 @@ export const FaqChatbot: React.FC = () => {
       if (data.error || !data.reply) {
         setActiveView({
           question,
-          answer:
-            `Something went wrong on my end. You can reach Erick directly at:\n\n` +
-            `• [Email](mailto:${EMAIL})\n• [LinkedIn](${LINKEDIN_URL})`,
+          answer: `Something went wrong on my end. You can reach Erick directly at:\n\n• [Email](mailto:${EMAIL})\n• [LinkedIn](${LINKEDIN_URL})`,
         });
         return;
       }
@@ -370,9 +368,7 @@ export const FaqChatbot: React.FC = () => {
     } catch {
       setActiveView({
         question,
-        answer:
-          `Something went wrong on my end. You can reach Erick directly at:\n\n` +
-          `• [Email](mailto:${EMAIL})\n• [LinkedIn](${LINKEDIN_URL})`,
+        answer: `Something went wrong on my end. You can reach Erick directly at:\n\n• [Email](mailto:${EMAIL})\n• [LinkedIn](${LINKEDIN_URL})`,
       });
     } finally {
       setIsLoading(false);
@@ -392,17 +388,22 @@ export const FaqChatbot: React.FC = () => {
     <div ref={wrapperRef} className={styles.chatbotWrapper}>
       {/* Chatbot Panel */}
       {isOpen && (
-        <Column ref={containerRef} className={styles.chatbotContainer} padding="16" radius="l" gap="16">
+        <Column
+          ref={containerRef}
+          className={styles.chatbotContainer}
+          padding="16"
+          radius="l"
+          gap="16"
+        >
           {/* Header */}
           <Row fillWidth vertical="center" horizontal="between" className={styles.header}>
             <Row gap="8" vertical="center">
               <Image
-                src="/images/chatbot/chatbot-icon.png"
+                src="/images/chatbot/chatbot-icon.webp"
                 alt="ErickBot"
                 width={32}
                 height={32}
                 className={styles.headerIcon}
-                priority
               />
               <Column vertical="start">
                 <Heading as="h4" variant="heading-strong-s">
@@ -503,6 +504,7 @@ export const FaqChatbot: React.FC = () => {
 
       {/* Proactive Greeting Bubble */}
       {showBubble && (
+        // biome-ignore lint/a11y/useKeyWithClickEvents: pointer shortcut only; the same action (open chat) is reachable via the keyboard-accessible "Toggle ErickBot" button, and the close control inside is a real button
         <div
           className={styles.greetingBubble}
           onClick={() => {
@@ -542,12 +544,11 @@ export const FaqChatbot: React.FC = () => {
             <Icon name="x" size="m" />
           ) : (
             <Image
-              src="/images/chatbot/chatbot-icon.png"
+              src="/images/chatbot/chatbot-icon.webp"
               alt="ErickBot"
               width={64}
               height={64}
               className={styles.avatarIcon}
-              priority
             />
           )}
         </button>

@@ -1,7 +1,7 @@
 "use client";
 
-import { Row, Text, Button, useToast } from "@once-ui-system/core";
 import { socialSharing } from "@/resources";
+import { Button, Row, Text, useToast } from "@once-ui-system/core";
 
 interface ShareSectionProps {
   title: string;
@@ -73,6 +73,9 @@ const socialPlatforms: Record<string, SocialPlatform> = {
   },
 };
 
+const shareLabel = (platform: SocialPlatform) =>
+  platform.name === "email" ? "Share by email" : `Share on ${platform.label}`;
+
 export function ShareSection({ title, url }: ShareSectionProps) {
   const { addToast } = useToast();
   // Don't render if sharing is disabled
@@ -115,11 +118,18 @@ export function ShareSection({ title, url }: ShareSectionProps) {
             size="s"
             href={platform.generateUrl(title, url)}
             prefixIcon={platform.icon}
+            aria-label={shareLabel(platform)}
           />
         ))}
 
         {socialSharing.platforms.copyLink && (
-          <Button variant="secondary" size="s" onClick={handleCopy} prefixIcon="openLink" />
+          <Button
+            variant="secondary"
+            size="s"
+            onClick={handleCopy}
+            prefixIcon="openLink"
+            aria-label="Copy link to this post"
+          />
         )}
       </Row>
     </Row>

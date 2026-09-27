@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from "next/server";
 import { AUTH_COOKIE, verifyAuthToken } from "@/utils/auth";
+import { type NextRequest, NextResponse } from "next/server";
 
 export const runtime = "nodejs";
 
