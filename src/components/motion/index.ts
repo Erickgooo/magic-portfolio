@@ -5,3 +5,5 @@ export { BlueprintFrame } from "./BlueprintFrame";
 export { BlueprintLine } from "./BlueprintLine";
 export { ReadingProgress } from "./ReadingProgress";
 export { DecodeText } from "./DecodeText";
+export { GlowTrack } from "./GlowTrack";
+export { Magnetic } from "./Magnetic";
