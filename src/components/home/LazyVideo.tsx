@@ -25,13 +25,14 @@ interface LazyVideoProps {
   "data-testid"?: string;
 }
 
-type NetworkInformationLike = { saveData?: boolean };
-
-/** Autoplay is skipped for reduced-motion and data-saver users; they get a play button. */
+/**
+ * Autoplay is skipped for reduced-motion users and on the lite device tier
+ * (data-fx="lite", set in <head> by motionBoot: save-data, <=2 GB RAM or <4
+ * cores); they get a play button instead.
+ */
 function canAutoplay(): boolean {
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return false;
-  const connection = (navigator as Navigator & { connection?: NetworkInformationLike }).connection;
-  return !connection?.saveData;
+  return document.documentElement.dataset.fx !== "lite";
 }
 
 /**

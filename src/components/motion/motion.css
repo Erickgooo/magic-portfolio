@@ -1,0 +1,34 @@
+/* ─── Motion system — Blueprint → Live System ──────────────────────────────
+   CSS-first: scroll-driven animations where supported, an IntersectionObserver
+   fallback under html.mo-io, transform/opacity only, and a reduced-motion
+   escape hatch for everything (the IntroLoader is exempt by brand decision). */
+
+:root {
+  --dur-xs: 150ms;
+  --dur-s: 300ms;
+  --dur-m: 500ms;
+  --dur-l: 700ms;
+  --ease-precise: cubic-bezier(0.2, 0, 0, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --shift-s: 8px;
+  --shift-m: 16px;
+  /* Grafito line for blueprint strokes, and the single brand accent. */
+  --line: color-mix(in srgb, #6e7681 55%, transparent);
+  --cobalt: #2d5bff;
+}
+
+/* ─── Blueprint Grid (Manual §5.3.4) — the ONE background pattern, ≤ 8% ──── */
+.blueprint-bg {
+  position: relative;
+}
+.blueprint-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: linear-gradient(to right, #6e7681 1px, transparent 1px),
+    linear-gradient(to bottom, #6e7681 1px, transparent 1px);
+  background-size: 64px 64px;
+  opacity: 0.08;
+}
