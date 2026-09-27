@@ -1,16 +1,9 @@
 "use client";
 
-import { Space_Grotesk } from "next/font/google";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 import styles from "./IntroLoader.module.scss";
-
-const wordmarkFont = Space_Grotesk({
-  weight: "700",
-  subsets: ["latin"],
-  display: "swap",
-});
 
 // Fase A (0-2s): trazo del monograma. Fase B (2-4s, en paralelo C): resplandor
 // + wordmark. Fase D (4-5s): fade out del overlay. 2000 + 2000 + 1000 = 5000ms.
@@ -315,7 +308,7 @@ export const IntroLoader = () => {
           </svg>
           <span className={styles.flash} />
         </span>
-        <span ref={wordmarkRef} className={`${styles.wordmark} ${wordmarkFont.className}`}>
+        <span ref={wordmarkRef} className={styles.wordmark}>
           Erick Mahecha
         </span>
       </div>

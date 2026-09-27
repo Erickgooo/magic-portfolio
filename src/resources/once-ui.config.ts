@@ -50,12 +50,6 @@ const body = Inter({
   display: "swap",
 });
 
-const label = Inter({
-  variable: "--font-label",
-  subsets: ["latin"],
-  display: "swap",
-});
-
 const code = JetBrains_Mono({
   variable: "--font-code",
   subsets: ["latin"],
@@ -65,7 +59,7 @@ const code = JetBrains_Mono({
 const fonts: FontsConfig = {
   heading: heading,
   body: body,
-  label: label,
+  label: body,
   code: code,
 };
 

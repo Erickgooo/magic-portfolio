@@ -101,8 +101,9 @@
 }
 
 .wordmark {
-  font-size: 34px;
+  font-family: var(--font-heading), sans-serif;
   font-weight: 700;
+  font-size: 34px;
   letter-spacing: 0.01em;
   text-transform: uppercase;
   white-space: nowrap;
