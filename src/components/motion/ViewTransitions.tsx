@@ -23,6 +23,7 @@ export function ViewTransitions() {
   const router = useRouter();
   const pathname = usePathname();
   const pending = useRef<Pending | null>(null);
+  const latest = useRef(0);
 
   useEffect(() => {
     const p = pending.current;
@@ -62,26 +63,38 @@ export function ViewTransitions() {
       if (shared && name) shared.style.viewTransitionName = name;
       document.documentElement.classList.add("vt-active");
 
+      const id = ++latest.current;
+
       let timer = 0;
       const transition = document.startViewTransition(
         () =>
           new Promise<void>((resolve) => {
-            pending.current = { pathname: decision.pathname, resolve };
+            // The update callback runs asynchronously, so a second click before
+            // the first navigation lands (double click, slow route) can reach
+            // here while an earlier entry is still pending: settle that one
+            // rather than strand it.
+            pending.current?.resolve();
+            const entry: Pending = { pathname: decision.pathname, resolve };
+            pending.current = entry;
             router.push(decision.href);
             timer = window.setTimeout(() => {
-              if (pending.current) {
+              if (pending.current === entry) {
                 pending.current = null;
-                resolve();
                 transition.skipTransition();
               }
+              resolve(); // idempotent; guarantees this callback always settles
             }, TIMEOUT_MS);
           }),
       );
-      transition.finished.finally(() => {
-        window.clearTimeout(timer);
-        if (shared) shared.style.viewTransitionName = "";
-        document.documentElement.classList.remove("vt-active");
-      });
+      // Skipping rejects `ready`; that is expected, not an error.
+      transition.ready.catch(() => {});
+      transition.finished
+        .catch(() => {})
+        .finally(() => {
+          window.clearTimeout(timer);
+          if (shared) shared.style.viewTransitionName = "";
+          if (id === latest.current) document.documentElement.classList.remove("vt-active");
+        });
     };
 
     document.addEventListener("click", onClick, true);

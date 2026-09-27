@@ -51,6 +51,53 @@ test("slow navigation skips the transition and still navigates", async ({ page, 
     .toBe(false);
 });
 
+test("a double click on a slow route leaves no transition hanging", async ({
+  page,
+  browserName,
+}) => {
+  test.skip(browserName === "firefox", "same-document VT support varies in Firefox");
+  const errors: string[] = [];
+  page.on("pageerror", (e) => errors.push(e.message));
+  // Vercel Analytics' script only exists on Vercel; locally it 404s.
+  page.on("console", (m) => {
+    const text = m.text();
+    if (m.type() !== "error" || /_vercel\/insights|Failed to load resource/.test(text)) return;
+    errors.push(text);
+  });
+  // Installed before goto so the prefetch is slow too and both clicks race.
+  await page.route(/\/work(\?|$)/, async (route) => {
+    await new Promise((r) => setTimeout(r, 900));
+    await route.continue();
+  });
+  await page.goto("/about");
+  await page.evaluate(() => {
+    const w = window as unknown as { __settled: boolean[] };
+    w.__settled = [];
+    const orig = document.startViewTransition?.bind(document);
+    if (!orig) return;
+    document.startViewTransition = ((cb: () => Promise<void>) => {
+      const t = orig(cb);
+      const i = w.__settled.push(false) - 1;
+      const settle = () => {
+        w.__settled[i] = true;
+      };
+      t.updateCallbackDone.then(settle, settle);
+      return t;
+    }) as typeof document.startViewTransition;
+  });
+  await workLink(page).dblclick();
+  await page.waitForURL("**/work", { timeout: 10_000 });
+  await expect
+    .poll(() => page.evaluate(() => (window as unknown as { __settled: boolean[] }).__settled), {
+      timeout: 2000,
+    })
+    .not.toContain(false);
+  await expect
+    .poll(() => page.evaluate(() => document.documentElement.classList.contains("vt-active")))
+    .toBe(false);
+  expect(errors).toEqual([]);
+});
+
 test("back navigation restores scroll without leftover transition names", async ({ page }) => {
   await page.goto("/about");
   await page.evaluate(() => window.scrollTo(0, 1200));
