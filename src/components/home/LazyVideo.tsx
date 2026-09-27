@@ -36,6 +36,14 @@ function canAutoplay(): boolean {
 }
 
 /**
+ * Only a blocked autoplay should surface the big play button. An AbortError just
+ * means a pending play() was interrupted (e.g. the user pressed pause), and
+ * showing the button then would duplicate the toggle's "Play" control.
+ */
+const isBlocked = (error: unknown) =>
+  error instanceof DOMException && error.name === "NotAllowedError";
+
+/**
  * WebKit/Safari's WebM (VP9) support is unreliable — `canPlayType` can claim
  * support it cannot actually deliver, which on some builds (notably
  * WebKit-on-Windows, used by Playwright there) leaves the media element
@@ -106,7 +114,9 @@ export function LazyVideo({
           if (auto) {
             ensureSource(video);
             video.muted = true;
-            video.play().catch(() => setNeedsButton(true));
+            video.play().catch((error) => {
+              if (isBlocked(error)) setNeedsButton(true);
+            });
           }
         } else if (!video.paused) {
           video.pause();
@@ -126,7 +136,9 @@ export function LazyVideo({
     video
       .play()
       .then(() => setNeedsButton(false))
-      .catch(() => setNeedsButton(true));
+      .catch((error) => {
+        if (isBlocked(error)) setNeedsButton(true);
+      });
   };
 
   const togglePlayback = () => {

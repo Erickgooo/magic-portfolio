@@ -65,6 +65,31 @@ test.describe("home video", () => {
       .toBe(true);
   });
 
+  test("an interrupted play() (AbortError) does not surface a second play button", async ({
+    page,
+  }) => {
+    await page.addInitScript(() => {
+      HTMLMediaElement.prototype.play = () =>
+        Promise.reject(new DOMException("The play() request was interrupted", "AbortError"));
+    });
+    await page.goto("/");
+    const wrap = page.locator('[data-testid="home-video"]');
+    await wrap.scrollIntoViewIfNeeded();
+    await page.waitForTimeout(800);
+    await expect(wrap.locator("button[class*='play']")).toHaveCount(0);
+  });
+
+  test("a blocked autoplay (NotAllowedError) offers the play button", async ({ page }) => {
+    await page.addInitScript(() => {
+      HTMLMediaElement.prototype.play = () =>
+        Promise.reject(new DOMException("autoplay blocked", "NotAllowedError"));
+    });
+    await page.goto("/");
+    const wrap = page.locator('[data-testid="home-video"]');
+    await wrap.scrollIntoViewIfNeeded();
+    await expect(wrap.locator("button[class*='play']")).toHaveCount(1);
+  });
+
   test("reserves its box so it causes no layout shift", async ({ page }) => {
     await page.goto("/");
     // Layout height (offsetHeight) — the docking frame scales the video with a
