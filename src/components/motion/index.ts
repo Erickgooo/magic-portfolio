@@ -4,3 +4,4 @@ export { KineticText } from "./KineticText";
 export { BlueprintFrame } from "./BlueprintFrame";
 export { BlueprintLine } from "./BlueprintLine";
 export { ReadingProgress } from "./ReadingProgress";
+export { DecodeText } from "./DecodeText";
