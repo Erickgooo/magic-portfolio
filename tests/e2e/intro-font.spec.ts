@@ -13,7 +13,6 @@ async function seek(page: Page, ms: number) {
 }
 
 test.describe("IntroLoader wordmark font", () => {
-  test.skip(({ browserName }) => browserName !== "chromium", "reference frames are Chromium-only");
   test.use({ viewport: { width: 1280, height: 800 } });
   // Forced serial: concurrent headless Chromium workers racing on the same
   // paused-animation screenshot were observed to collapse the 2500ms and
@@ -23,7 +22,13 @@ test.describe("IntroLoader wordmark font", () => {
   test.describe.configure({ mode: "serial" });
 
   for (const ms of [500, 2500, 3500]) {
-    test(`frame at ${ms}ms is unchanged`, async ({ page }) => {
+    test(`frame at ${ms}ms is unchanged`, async ({ page }, testInfo) => {
+      // Reference frames are captured only for the desktop "chromium"
+      // project. `browserName` is "chromium" for mobile-chromium too (same
+      // engine, different device emulation/DPR), which would require a
+      // second, separately-captured baseline set per screenshot; skip by
+      // project name instead, matching the a11y-names.spec.ts pattern.
+      test.skip(testInfo.project.name !== "chromium", "reference frames are captured for the chromium project only");
       await page.goto("/");
       await page.evaluate(() => document.fonts.ready);
       await seek(page, ms);
